@@ -1,0 +1,302 @@
+
+<!DOCTYPE html>
+<html lang="">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#202020">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+  
+  
+    <meta name="keywords" content="大前端 果糖酱 技术交流">
+  
+
+  
+    <meta name="description" content="源自于节日活动的一个地图点亮需求, 需要根据用户的所在的省份，依次点亮被用户所在的省份。里面涉及到计算用户的位置，移动目标的位置，以及移动轨迹。省份点亮等。由于页面采用大量的动画进行交互，所以第一步主要考虑如何选择合适的动画实现方案。这个需求要同时满足性能和业务的要求，面临不少的挑战：图片多：100多张图片">
+  
+  
+  
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=1.0.1">
+  
+  <title>不会写动画的前端不是好前端 [ 果糖酱的博客 ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css">
+    
+      <link rel="stylesheet" href="/css/xoxo.css">
+    
+  
+</head>
+
+
+<body>
+  <div class="nav-container">
+    <nav class="home-menu pure-menu pure-menu-horizontal">
+  <a class="pure-menu-heading" href="/">
+    <img class="avatar" src="/assets/images/logo.png">
+    <span class="title">果糖酱的博客</span>
+  </a>
+
+  <ul class="pure-menu-list clearfix">
+      
+          
+            <li class="pure-menu-item"><a href="/" class="pure-menu-link">首页</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/archives" class="pure-menu-link">归档</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/about" class="pure-menu-link">关于</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/atom.xml" class="pure-menu-link">订阅</a></li>
+          
+      
+  </ul>
+   
+</nav>
+  </div>
+
+  <div class="container" id="content-outer">
+    <div class="inner" id="content-inner">
+      <div class="post-container">
+  <article class="post" id="post">
+    <header class="post-header text-center">
+      <h1 class="title">
+        不会写动画的前端不是好前端
+      </h1>
+      <span>
+        
+        <time class="time" datetime="2019-11-03T02:47:36.000Z">
+        2019-11-03
+      </time>
+        
+      </span>
+      <span class="slash">/</span>
+      <span class="post-meta">
+      <span class="post-tags">
+        
+      </span>
+    </span>
+      <span class="slash">/</span>
+      <span class="read">
+      <span id="busuanzi_value_page_pv"></span> 点击
+    </span>
+      <span class="slash">/</span>
+      <span class="read">阅读耗时 4 分钟</span>
+    </header>
+
+    <div class="post-content">
+      <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>源自于节日活动的一个地图点亮需求, 需要根据用户的所在的省份，依次点亮被用户所在的省份。里面涉及到计算用户的位置，移动目标的位置，以及移动轨迹。省份点亮等。<br>由于页面采用大量的动画进行交互，所以第一步主要考虑如何选择合适的动画实现方案。</p>
+<h1 id="面临的问题"><a href="#面临的问题" class="headerlink" title="面临的问题"></a>面临的问题</h1><p>这个需求要同时满足性能和业务的要求，面临不少的挑战：</p>
+<p>图片多：100多张图片，包括大的中国地图，省份点亮，以及省份出现光点的图片，还有其他的图片。</p>
+<p>场景多：业务需求是从当前用户帮助的第一个用户所在的省份点亮开始，然后依次点亮其它的省份，这里基本上每个用户的点亮轨迹都不相同。</p>
+<p>动画多，很多的精灵动画： 从用户头像出现到爱心出现在第一个帮助人所在省份，中间的运动轨迹等。</p>
+<h1 id="实现动画的方法"><a href="#实现动画的方法" class="headerlink" title="实现动画的方法"></a>实现动画的方法</h1><p>前端可以使用哪些方式实现动画呢？</p>
+<p>1、最省事的办法就是vedio或gif图片了，优点是，沟通成本低；缺点就是在色彩，透明度表现力不如png, 且交互性差。<br>2、Flash，手机端就别考虑了。不久的未来，也会被淘汰。<br>3、js + CSS3 animation, 应该是目前前端广泛使用的方式了。具有开发成本低、兼容性好、具备互动性，加上 PNG 图片很好的色彩与透明度的表现力基本能满足很多动画需求<br>4、Canvas, 无须插件，浏览器支持良好，可以绘制各种图形以及具备高性能图片渲染能力，缺点是，纯手工编写canvas成本较高，动画实现较为繁琐。<br>5、WebGL 在Canvas的基础上，增加了 OpenGL ES 的 3D 绘制能力，并且能开启硬件 3D 加速渲染，让前端动画的世界充满了更多想象的空间。</p>
+<h1 id="为什么选择Canvas"><a href="#为什么选择Canvas" class="headerlink" title="为什么选择Canvas"></a>为什么选择Canvas</h1><p>vedio或gif的适合与用户数据无关的交互。</p>
+<p>通过JS改变Dom节点的css属性虽然具有开发成本低、兼容性好、具备互动性等优点，但是在复杂场景下，性能会是问题，不是特别流畅。</p>
+<p>Canvas, 无须插件，浏览器支持良好，可以绘制各种图形以及具备高性能图片渲染能力，缺点是，纯手工编写canvas成本较高，动画实现较为繁琐，</p>
+<p>不过可以通过一定的方法封装解决。</p>
+
+    </div>
+
+    <div>全文完。</div>
+  </article>
+  <div class="toc-container">
+    
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#背景"><span class="toc-text">背景</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#面临的问题"><span class="toc-text">面临的问题</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#实现动画的方法"><span class="toc-text">实现动画的方法</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#为什么选择Canvas"><span class="toc-text">为什么选择Canvas</span></a></li></ol>
+  </div>
+
+
+  </div>
+</div>
+<div class="copyright">
+    <span>转载时请注明原文链接。</span>
+</div>
+<!-- <div class="share" style="width: 100%;">
+  <img src="https://kevinofneu-blog-static.oss-cn-beijing.aliyuncs.com/static/2018-12-10-qrcode_for_gh_ffacf5722095_258.jpg" alt="Running Geek" style="margin: auto; display: block;"/>
+
+  <div style="margin: auto; text-align: center; font-size: 0.8em; color: grey;">老铁们关注走一走，不迷路</div>
+  
+</div>
+ -->
+  
+    <div class="post-nav">
+      <div class="post-nav-item post-nav-next">
+        
+          <span>〈 </span>
+          <a href="/2019/10/17/about-redux-thinking/" rel="next" title="对Redux的重新思考">
+          对Redux的重新思考
+          </a>
+        
+      </div>
+  
+      <div class="post-nav-item post-nav-prev">
+          
+          <a href="/2019/12/23/about-vscode-vue-plugin-config/" rel="prev" title="在Vscode中配置Vue相应的插件">
+            在Vscode中配置Vue相应的插件
+          </a>
+          <span>〉</span>
+        
+      </div>
+    </div>
+  
+
+
+    </div>
+
+    
+
+  </div>
+  <footer class="footer text-center">
+    <div id="bottom-inner">
+        <a class="bottom-item" href="https://answer518.github.io">首页</a> |
+        <a class="bottom-item" href="https://answer518.github.io" target="_blank">主站</a> |
+        <a class="bottom-item" href="https://github.com/answer518" target="_blank">GitHub</a> |
+        <a class="bottom-item" href="https://hexo.io" target="_blank">Powered by hexo</a> |
+        <a class="bottom-item" href="https://github.com/KevinOfNeu/hexo-theme-xoxo" target="_blank">Theme xoxo</a>
+    </div>
+</footer>
+  
+
+<script>
+  (function(window, document, undefined) {
+
+    var timer = null;
+
+    function returnTop() {
+      cancelAnimationFrame(timer);
+      timer = requestAnimationFrame(function fn() {
+        var oTop = document.body.scrollTop || document.documentElement.scrollTop;
+        if (oTop > 0) {
+          document.body.scrollTop = document.documentElement.scrollTop = oTop - 50;
+          timer = requestAnimationFrame(fn);
+        } else {
+          cancelAnimationFrame(timer);
+        }
+      });
+    }
+
+    var hearts = [];
+    window.requestAnimationFrame = (function() {
+      return window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function(callback) {
+          setTimeout(callback, 1000 / 60);
+        }
+    })();
+    init();
+
+    function init() {
+      css(".heart{z-index:9999;width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: absolute;}.heart:after{top: -5px;}.heart:before{left: -5px;}");
+      attachEvent();
+      gameloop();
+      addMenuEvent();
+    }
+
+    function gameloop() {
+      for (var i = 0; i < hearts.length; i++) {
+        if (hearts[i].alpha <= 0) {
+          document.body.removeChild(hearts[i].el);
+          hearts.splice(i, 1);
+          continue;
+        }
+        hearts[i].y--;
+        hearts[i].scale += 0.004;
+        hearts[i].alpha -= 0.013;
+        hearts[i].el.style.cssText = "left:" + hearts[i].x + "px;top:" + hearts[i].y + "px;opacity:" + hearts[i].alpha + ";transform:scale(" + hearts[i].scale + "," + hearts[i].scale + ") rotate(45deg);background:" + hearts[i].color;
+      }
+      requestAnimationFrame(gameloop);
+    }
+
+    /**
+     * 给logo设置点击事件
+     * 
+     * - 回到顶部
+     * - 出现爱心
+     */
+    function attachEvent() {
+      var old = typeof window.onclick === "function" && window.onclick;
+      var logo = document.getElementById("logo");
+      if (logo) {
+        logo.onclick = function(event) {
+          returnTop();
+          old && old();
+          createHeart(event);
+        }
+      }
+      
+    }
+
+    function createHeart(event) {
+      var d = document.createElement("div");
+      d.className = "heart";
+      hearts.push({
+        el: d,
+        x: event.clientX - 5,
+        y: event.clientY - 5,
+        scale: 1,
+        alpha: 1,
+        color: randomColor()
+      });
+      document.body.appendChild(d);
+    }
+
+    function css(css) {
+      var style = document.createElement("style");
+      style.type = "text/css";
+      try {
+        style.appendChild(document.createTextNode(css));
+      } catch (ex) {
+        style.styleSheet.cssText = css;
+      }
+      document.getElementsByTagName('head')[0].appendChild(style);
+    }
+
+    function randomColor() {
+      // return "rgb(" + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + ")";
+      return "#F44336";
+    }
+
+    function addMenuEvent() {
+      var menu = document.getElementById('menu-main-post');
+      if (menu) {
+        var toc = document.getElementById('toc');
+        if (toc) {
+          menu.onclick = function() {
+            if (toc) {
+              if (toc.style.display == 'block') {
+                toc.style.display = 'none';
+              } else {
+                toc.style.display = 'block';
+              }
+            }
+          };
+        } else {
+          menu.style.display = 'none';
+        }
+      }
+    }
+
+  })(window, document);
+</script>
+
+  
+
+
+
+</body>
+</html>
