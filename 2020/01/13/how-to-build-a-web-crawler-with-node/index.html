@@ -1,0 +1,345 @@
+
+<!DOCTYPE html>
+<html lang="">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#202020">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+  
+  
+    <meta name="keywords" content="node,">
+  
+
+  
+    <meta name="description" content="网络爬虫通常简称为crawler，有时也被称为spider-bot，是一种按某种固定规则爬取互联网信息的机器人，通常用于网络索引。这些互联网机器人用于提高用户搜索结果的质量。除此之外，还可以用来收集数据(称为web抓取)。">
+  
+  
+  
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=1.0.1">
+  
+  <title>手把手教你用Node开发一个爬虫应用 [ 果糖酱的博客 ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css">
+    
+      <link rel="stylesheet" href="/css/xoxo.css">
+    
+  
+</head>
+
+
+<body>
+  <div class="nav-container">
+    <nav class="home-menu pure-menu pure-menu-horizontal">
+  <a class="pure-menu-heading" href="/">
+    <img class="avatar" src="/assets/images/logo.png">
+    <span class="title">果糖酱的博客</span>
+  </a>
+
+  <ul class="pure-menu-list clearfix">
+      
+          
+            <li class="pure-menu-item"><a href="/" class="pure-menu-link">首页</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/archives" class="pure-menu-link">归档</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/about" class="pure-menu-link">关于</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/atom.xml" class="pure-menu-link">订阅</a></li>
+          
+      
+  </ul>
+   
+</nav>
+  </div>
+
+  <div class="container" id="content-outer">
+    <div class="inner" id="content-inner">
+      <div class="post-container">
+  <article class="post" id="post">
+    <header class="post-header text-center">
+      <h1 class="title">
+        手把手教你用Node开发一个爬虫应用
+      </h1>
+      <span>
+        
+        <time class="time" datetime="2020-01-13T08:02:13.000Z">
+        2020-01-13
+      </time>
+        
+      </span>
+      <span class="slash">/</span>
+      <span class="post-meta">
+      <span class="post-tags">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/node/">node</a></li></ul>
+      </span>
+    </span>
+      <span class="slash">/</span>
+      <span class="read">
+      <span id="busuanzi_value_page_pv"></span> 点击
+    </span>
+      <span class="slash">/</span>
+      <span class="read">阅读耗时 10 分钟</span>
+    </header>
+
+    <div class="post-content">
+      <p><img src="/assets/images/2020-01/nodewebcrawers.png" alt="nodewebcrawers"></p>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>网络爬虫通常简称为 <code>crawler</code>，有时也被称为 <code>spider-bot</code>，是一种按某种固定规则爬取互联网信息的机器人，通常用于网络索引。这些互联网机器人用于提高用户搜索结果的质量。除此之外，还可以用来收集数据(称为web抓取)。</p>
+<p>根据站点的结构和被提取的数据的复杂性，web抓取的过程可能会在CPU上执行很多任务。为了优化和加速这个过程，我们将使用对cpu密集型操作使用的 <code>Node</code> 中的 <code>worker</code>。</p>
+<p>在本文中, 我们将学习如何构建一个网络爬虫, 爬取网站数据并将数据持久化。</p>
+<p>本文的前置知识：</p>
+<ul>
+<li>1、了解Node.js</li>
+<li>2、Yarn 或 npm</li>
+<li>3、Node系统版本最好是大于等于10.5.0</li>
+</ul>
+<h1 id="初始化工程"><a href="#初始化工程" class="headerlink" title="初始化工程"></a>初始化工程</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ mkdir webcrawers</span><br><span class="line">$ <span class="built_in">cd</span> webcrawers</span><br></pre></td></tr></table></figure>
+
+<p>运行以下命令初始化项目:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn init -y</span><br></pre></td></tr></table></figure>
+
+<p>我们需要使用到下面的依赖包：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ yarn add axios cheerio</span><br></pre></td></tr></table></figure>
+
+<h2 id="注册一个workers"><a href="#注册一个workers" class="headerlink" title="注册一个workers"></a>注册一个workers</h2><p>我们先简单了解一下 <code>worker</code> 的用法：Node提供了 <code>worker_threads</code> 模块创建worker。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// hello.js</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> &#123; Worker, isMainThread &#125;  = <span class="built_in">require</span>(<span class="string">'worker_threads'</span>);</span><br><span class="line"><span class="keyword">if</span>(isMainThread)&#123;</span><br><span class="line">    <span class="keyword">new</span> Worker(__filename);</span><br><span class="line">&#125; <span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"Worker says: Hello World"</span>); <span class="comment">// prints 'Worker says: Hello World'</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>worker_threads</code> 模块提供 <code>Worker</code> 和 <code>isMainThread</code> :</p>
+<blockquote>
+<p>isMainThread: <code>false</code> 表示当前为 <code>worker</code> 线程，<code>true</code> 表示为主线程</p>
+</blockquote>
+<p><code>new Worker(__filename)</code> 通过指定的 <code>__filename</code> 来注册worker，在我们的例子中 <code>__filename</code> 就是 <code>hello.js</code></p>
+<h2 id="workers通信"><a href="#workers通信" class="headerlink" title="workers通信"></a>workers通信</h2><p>下面代码演示了线程之间是如何通信的：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// hello.js</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> &#123; Worker, isMainThread, parentPort &#125;  = <span class="built_in">require</span>(<span class="string">'worker_threads'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (isMainThread) &#123;</span><br><span class="line">    <span class="keyword">const</span> worker =  <span class="keyword">new</span> Worker(__filename);</span><br><span class="line">    worker.once(<span class="string">'message'</span>, (message) =&gt; &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(message); <span class="comment">// prints 'Worker thread: Hello!'</span></span><br><span class="line">    &#125;);</span><br><span class="line">    worker.postMessage(<span class="string">'Main Thread: Hi!'</span>);</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    parentPort.once(<span class="string">'message'</span>, (message) =&gt; &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(message) <span class="comment">// prints 'Main Thread: Hi!'</span></span><br><span class="line">        parentPort.postMessage(<span class="string">"Worker thread: Hello!"</span>);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在上面的代码中, 我们初始化一个 <code>worker</code> 线程，使用 <code>parentPort.postMessage()</code> 发一个消息到主线程。然后使用  <code>parentPort.once()</code> 监听主线程传递的消息； 使用 <code>worker.postMessage()</code> 发消息到一个 <code>worker</code> 线程和利用 <code>worker.once()</code> 从 <code>worker</code> 线程中监听消息。</p>
+<p>程序最终的输出结果：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Main Thread: Hi!</span><br><span class="line">Worker thread: Hello!</span><br></pre></td></tr></table></figure>
+
+<h1 id="开发爬虫"><a href="#开发爬虫" class="headerlink" title="开发爬虫"></a>开发爬虫</h1><p>创建一个基本的网络爬虫, 使用Node Worker爬取数据并写入本地文件:</p>
+<p>1、利用 <code>Fetch</code> 爬取网站的 <code>HTML</code> 页面代码。<br>2、接受返回的 <code>response</code>.<br>3、遍历DOM, 从 <code>tbody</code>, <code>tr</code>, 和 <code>td</code>中提取汇率数据。<br>4、汇率值存储在一个对象并使用 <code>worker.postMessage()</code> 将其发送到 <code>worker</code> 线程.<br>5、接受来自主线程的消息在 <code>worker</code> 线程使用 <code>parentPort.on()</code>。<br>6、将数据存储在本地文件。</p>
+<p>在项目中创建两个文件：</p>
+<ul>
+<li>1、main.js – for the main thread</li>
+<li>2、dbWorker.js – for the worker thread</li>
+</ul>
+<h1 id="主线程（main-js）"><a href="#主线程（main-js）" class="headerlink" title="主线程（main.js）"></a>主线程（main.js）</h1><p>使用 <code>axios</code> 发起一个简单的 <code>GET</code> 请求来获取 <code>HTML</code> 代码，使用 <code>cheerio</code> 来遍历 <code>DOM</code> 和并从中提取数据。</p>
+<p><img src="/assets/images/2020-01/devtools.png" alt="devtools"></p>
+<p>如上图所看到的，<code>table</code> 含有以下class类名: <code>table</code> <code>table-bordered</code> <code>table-hover</code> <code>downloads</code>，我们可以像<code>jQuery</code> 的一样操作 <code>dom</code> ：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// main.js</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> axios = <span class="built_in">require</span>(<span class="string">'axios'</span>);</span><br><span class="line"><span class="keyword">const</span> cheerio = <span class="built_in">require</span>(<span class="string">'cheerio'</span>);</span><br><span class="line"><span class="keyword">const</span> url = <span class="string">"https://www.iban.com/exchange-rates"</span>;</span><br><span class="line"></span><br><span class="line">fetchData(url).then( <span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> html = res.data;</span><br><span class="line">    <span class="keyword">const</span> $ = cheerio.load(html);</span><br><span class="line">    <span class="keyword">const</span> statsTable = $(<span class="string">'.table.table-bordered.table-hover.downloads &gt; tbody &gt; tr'</span>);</span><br><span class="line">    statsTable.each(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">let</span> title = $(<span class="keyword">this</span>).find(<span class="string">'td'</span>).text();</span><br><span class="line">        <span class="built_in">console</span>.log(title);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">fetchData</span>(<span class="params">url</span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"Crawling data..."</span>)</span><br><span class="line">    <span class="comment">// make http call to url</span></span><br><span class="line">    <span class="keyword">let</span> response = <span class="keyword">await</span> axios(url).catch(<span class="function">(<span class="params">err</span>) =&gt;</span> <span class="built_in">console</span>.log(err));</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(response.status !== <span class="number">200</span>)&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">"Error occurred while fetching data"</span>);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> response;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面代码的运行结果如下：</p>
+<p><img src="/assets/images/2020-01/runcode.png" alt="runcode"></p>
+<p>后面我们将继续完善 <code>main.js</code>:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// main.js</span></span><br><span class="line">[...]</span><br><span class="line"><span class="keyword">let</span> workDir = __dirname+<span class="string">"/dbWorker.js"</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> mainFunc = <span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> url = <span class="string">"https://www.iban.com/exchange-rates"</span>;</span><br><span class="line">  <span class="comment">// fetch html data from iban website</span></span><br><span class="line">  <span class="keyword">let</span> res = <span class="keyword">await</span> fetchData(url);</span><br><span class="line">  <span class="keyword">if</span>(!res.data)&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"Invalid data Obj"</span>);</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">const</span> html = res.data;</span><br><span class="line">  <span class="keyword">let</span> dataObj = <span class="keyword">new</span> <span class="built_in">Object</span>();</span><br><span class="line">  <span class="comment">// mount html page to the root element</span></span><br><span class="line">  <span class="keyword">const</span> $ = cheerio.load(html);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">let</span> dataObj = <span class="keyword">new</span> <span class="built_in">Object</span>();</span><br><span class="line">  <span class="keyword">const</span> statsTable = $(<span class="string">'.table.table-bordered.table-hover.downloads &gt; tbody &gt; tr'</span>);</span><br><span class="line">  <span class="comment">//loop through all table rows and get table data</span></span><br><span class="line">  statsTable.each(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> title = $(<span class="keyword">this</span>).find(<span class="string">'td'</span>).text(); <span class="comment">// get the text in all the td elements</span></span><br><span class="line">    <span class="keyword">let</span> newStr = title.split(<span class="string">"\t"</span>); <span class="comment">// convert text (string) into an array</span></span><br><span class="line">    newStr.shift(); <span class="comment">// strip off empty array element at index 0</span></span><br><span class="line">    formatStr(newStr, dataObj); <span class="comment">// format array string and store in an object</span></span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> dataObj;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">mainFunc().then(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// start worker</span></span><br><span class="line">    <span class="keyword">const</span> worker = <span class="keyword">new</span> Worker(workDir); </span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"Sending crawled data to dbWorker..."</span>);</span><br><span class="line">    <span class="comment">// send formatted data to worker thread </span></span><br><span class="line">    worker.postMessage(res);</span><br><span class="line">    <span class="comment">// listen to message from worker thread</span></span><br><span class="line">    worker.on(<span class="string">"message"</span>, (message) =&gt; &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(message)</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">[...]</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">formatStr</span>(<span class="params">arr, dataObj</span>)</span>&#123;</span><br><span class="line">    <span class="comment">// regex to match all the words before the first digit</span></span><br><span class="line">    <span class="keyword">let</span> regExp = <span class="regexp">/[^A-Z]*(^\D+)/</span> </span><br><span class="line">    <span class="keyword">let</span> newArr = arr[<span class="number">0</span>].split(regExp); <span class="comment">// split array element 0 using the regExp rule</span></span><br><span class="line">    dataObj[newArr[<span class="number">1</span>]] = newArr[<span class="number">2</span>]; <span class="comment">// store object </span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们对数据进行了格式化, <code>mainFunc()</code> 执行后将格式化后的数据回传给 <code>worker</code> 线程。</p>
+<h1 id="worker线程（dbWorker-js）"><a href="#worker线程（dbWorker-js）" class="headerlink" title="worker线程（dbWorker.js）"></a>worker线程（dbWorker.js）</h1><p>在 <code>worker</code> 线程中, 我们将初始化重火力点和侦听从主线程爬数据。当数据到达时,我们会将其存储在数据库中并将一条消息发送回主线程确认数据存储是成功的。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// dbWorker.js</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> &#123; parentPort &#125; = <span class="built_in">require</span>(<span class="string">'worker_threads'</span>);</span><br><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>);</span><br><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">'path'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// get current data in DD-MM-YYYY format</span></span><br><span class="line"><span class="keyword">let</span> date = <span class="keyword">new</span> <span class="built_in">Date</span>();</span><br><span class="line"><span class="keyword">let</span> currDate = <span class="string">`<span class="subst">$&#123;date.getFullYear()&#125;</span>-<span class="subst">$&#123;date.getMonth()&#125;</span>-<span class="subst">$&#123;date.getDate()&#125;</span>`</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// recieve crawled data from main thread</span></span><br><span class="line">parentPort.once(<span class="string">"message"</span>, (content) =&gt; &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"Recieved data from mainWorker..."</span>);</span><br><span class="line">    fs.writeFile(path.join(__dirname, <span class="string">'../db/'</span> + currDate + <span class="string">'.json'</span>), <span class="built_in">JSON</span>.stringify(content), <span class="string">'utf8'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">err</span>)</span>&#123;</span><br><span class="line">        <span class="comment">//如果err=null，表示文件使用成功，否则，表示希尔文件失败</span></span><br><span class="line">        <span class="keyword">if</span>(err) &#123;</span><br><span class="line">            <span class="built_in">console</span>.log(<span class="string">'写文件出错了，错误是：'</span> + err);</span><br><span class="line">        &#125;  <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">// send data back to main thread if operation was successful</span></span><br><span class="line">            parentPort.postMessage(<span class="string">"Data saved successfully"</span>);</span><br><span class="line">        &#125; </span><br><span class="line">    &#125;)    </span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>尽管爬取数据的过程可能很有趣, 一旦你使用的数据侵犯版权，它就是是违法的。 所以需要事先了解它的数据隐私策略。</p>
+</blockquote>
+<h1 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h1><p>本文中, 我们学习如何创建一个爬虫应用，爬取货币汇率并将它们存到本地文件。另外我们还学习了如何使用<code>worker</code>线程来帮助我们提升爬取速度。</p>
+<p>完整的代码都在这里：<a href="https://github.com/answer518/webcrawers" target="_blank" rel="noopener">GitHub</a></p>
+
+    </div>
+
+    <div>全文完。</div>
+  </article>
+  <div class="toc-container">
+    
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#初始化工程"><span class="toc-text">初始化工程</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#注册一个workers"><span class="toc-text">注册一个workers</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#workers通信"><span class="toc-text">workers通信</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#开发爬虫"><span class="toc-text">开发爬虫</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#主线程（main-js）"><span class="toc-text">主线程（main.js）</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#worker线程（dbWorker-js）"><span class="toc-text">worker线程（dbWorker.js）</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#结论"><span class="toc-text">结论</span></a></li></ol>
+  </div>
+
+
+  </div>
+</div>
+<div class="copyright">
+    <span>转载时请注明原文链接。</span>
+</div>
+<!-- <div class="share" style="width: 100%;">
+  <img src="https://kevinofneu-blog-static.oss-cn-beijing.aliyuncs.com/static/2018-12-10-qrcode_for_gh_ffacf5722095_258.jpg" alt="Running Geek" style="margin: auto; display: block;"/>
+
+  <div style="margin: auto; text-align: center; font-size: 0.8em; color: grey;">老铁们关注走一走，不迷路</div>
+  
+</div>
+ -->
+  
+    <div class="post-nav">
+      <div class="post-nav-item post-nav-next">
+        
+          <span>〈 </span>
+          <a href="/2020/01/12/parseint-mystery-research/" rel="next" title="为什么[&#39;1&#39;, &#39;7&#39;, &#39;11&#39;].map(parseInt)的返回值是[1, NaN, 3]？">
+          为什么[&#39;1&#39;, &#39;7&#39;, &#39;11&#39;].map(parseInt)的返回值是[1, NaN, 3]？
+          </a>
+        
+      </div>
+  
+      <div class="post-nav-item post-nav-prev">
+          
+      </div>
+    </div>
+  
+
+
+    </div>
+
+    
+
+  </div>
+  <footer class="footer text-center">
+    <div id="bottom-inner">
+        <a class="bottom-item" href="https://answer518.github.io">首页</a> |
+        <a class="bottom-item" href="https://juejin.im/user/5b3a28a1e51d45558a3f7255/posts" target="_blank">掘金专栏</a> |
+        <a class="bottom-item" href="https://github.com/answer518" target="_blank">GitHub</a> |
+        <a class="bottom-item" href="https://hexo.io" target="_blank">Powered by hexo</a>
+        <!-- <a class="bottom-item" href="https://github.com/KevinOfNeu/hexo-theme-xoxo" target="_blank">Theme xoxo</a> -->
+    </div>
+</footer>
+  
+
+<script>
+  (function(window, document, undefined) {
+
+    var timer = null;
+
+    function returnTop() {
+      cancelAnimationFrame(timer);
+      timer = requestAnimationFrame(function fn() {
+        var oTop = document.body.scrollTop || document.documentElement.scrollTop;
+        if (oTop > 0) {
+          document.body.scrollTop = document.documentElement.scrollTop = oTop - 50;
+          timer = requestAnimationFrame(fn);
+        } else {
+          cancelAnimationFrame(timer);
+        }
+      });
+    }
+
+    var hearts = [];
+    window.requestAnimationFrame = (function() {
+      return window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function(callback) {
+          setTimeout(callback, 1000 / 60);
+        }
+    })();
+    init();
+
+    function init() {
+      css(".heart{z-index:9999;width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: absolute;}.heart:after{top: -5px;}.heart:before{left: -5px;}");
+      attachEvent();
+      gameloop();
+      addMenuEvent();
+    }
+
+    function gameloop() {
+      for (var i = 0; i < hearts.length; i++) {
+        if (hearts[i].alpha <= 0) {
+          document.body.removeChild(hearts[i].el);
+          hearts.splice(i, 1);
+          continue;
+        }
+        hearts[i].y--;
+        hearts[i].scale += 0.004;
+        hearts[i].alpha -= 0.013;
+        hearts[i].el.style.cssText = "left:" + hearts[i].x + "px;top:" + hearts[i].y + "px;opacity:" + hearts[i].alpha + ";transform:scale(" + hearts[i].scale + "," + hearts[i].scale + ") rotate(45deg);background:" + hearts[i].color;
+      }
+      requestAnimationFrame(gameloop);
+    }
+
+    /**
+     * 给logo设置点击事件
+     * 
+     * - 回到顶部
+     * - 出现爱心
+     */
+    function attachEvent() {
+      var old = typeof window.onclick === "function" && window.onclick;
+      var logo = document.getElementById("logo");
+      if (logo) {
+        logo.onclick = function(event) {
+          returnTop();
+          old && old();
+          createHeart(event);
+        }
+      }
+      
+    }
+
+    function createHeart(event) {
+      var d = document.createElement("div");
+      d.className = "heart";
+      hearts.push({
+        el: d,
+        x: event.clientX - 5,
+        y: event.clientY - 5,
+        scale: 1,
+        alpha: 1,
+        color: randomColor()
+      });
+      document.body.appendChild(d);
+    }
+
+    function css(css) {
+      var style = document.createElement("style");
+      style.type = "text/css";
+      try {
+        style.appendChild(document.createTextNode(css));
+      } catch (ex) {
+        style.styleSheet.cssText = css;
+      }
+      document.getElementsByTagName('head')[0].appendChild(style);
+    }
+
+    function randomColor() {
+      // return "rgb(" + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + ")";
+      return "#F44336";
+    }
+
+    function addMenuEvent() {
+      var menu = document.getElementById('menu-main-post');
+      if (menu) {
+        var toc = document.getElementById('toc');
+        if (toc) {
+          menu.onclick = function() {
+            if (toc) {
+              if (toc.style.display == 'block') {
+                toc.style.display = 'none';
+              } else {
+                toc.style.display = 'block';
+              }
+            }
+          };
+        } else {
+          menu.style.display = 'none';
+        }
+      }
+    }
+
+  })(window, document);
+</script>
+
+  
+
+
+
+</body>
+</html>
