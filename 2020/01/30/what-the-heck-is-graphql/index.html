@@ -15,13 +15,13 @@
   
 
   
-    <meta name="description" content="为什么开始使用GraphQL？">
+    <meta name="description" content="读完本文会告诉你为什么要使用GraphQL，相比于Rest，GraphQL的优势是什么。">
   
   
   
     <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=1.0.1">
   
-  <title>为什么开始使用GraphQL？ [ 果糖酱的博客 ]</title>
+  <title>GraphQL从入门到实践 [ 果糖酱的博客 ]</title>
   
     <!-- stylesheets list from config.yml -->
     
@@ -70,7 +70,7 @@
   <article class="post" id="post">
     <header class="post-header text-center">
       <h1 class="title">
-        为什么开始使用GraphQL？
+        GraphQL从入门到实践
       </h1>
       <span>
         
@@ -108,8 +108,8 @@
 
 <p>整个过程查询了两次数据库。</p>
 <p><strong>还没完，假如前端页面只用到了fname信息呢？</strong></p>
-<p>有人说从接口数据里只取 <code>fname</code> 就好啦。 但是你想过没有，接口返回给我们的是用户的所有信息： id, age, likes等。这些冗余的字段会随着请求量的增大，会消耗网络带宽，给我们的服务器带来压力。</p>
-<p>又有人说，那我重新定义一个接口专用于返回用户的 <code>fname</code>， 如：</p>
+<p>有人说从接口数据里只取 <code>fname</code> 就好啦。 但是你想过没有，接口返回给我们的是用户的所有字段： id, age, likes等。这些字段会随着请求量的增大，会消耗网络带宽，给我们的服务器带来压力。</p>
+<p>又有人会说，那我重新定义一个接口专用于返回用户的 <code>fname</code>， 如：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://localhost:4000/userByfname/:id</span><br></pre></td></tr></table></figure>
 
 <p>这样确实能避免我们上面提到的问题，但是会带来一些新的问题： 第一，我们需要根据user的字段创建分别创建接口。第二，随着应用的变化，user的字段信息肯定会发生变化，我们需要同时维护好这些接口，给开发人员带来心智负担。</p>
@@ -122,13 +122,7 @@
 
 <p>只需保证 user 字段在 <code>GraphQL</code> 的 <code>schema</code> 中都提前定义好就行。</p>
 <p><strong><code>GraphQL</code> 最大的优势就是既不需要新建接口，也无需与后端服务多次通信，就能精确的获取到我们想要的字段信息</strong></p>
-<h1 id="二、GraphQL-核心概念"><a href="#二、GraphQL-核心概念" class="headerlink" title="二、GraphQL 核心概念"></a>二、GraphQL 核心概念</h1><p>为了更好的理解<code>GraphQL</code>, 我们需要了解一些历史</p>
-<p>我们所熟知的 <code>SQL</code> 全称结构化查询语言， 用于与数据库通讯。常见的四种操作类型：<code>SELECT</code>, <code>INSERT</code>, <code>UPDATE</code> 和 <code>DELETE</code>。 其中 <code>SELECT</code> 语句是最常用的</p>
-<p>举例说明： 如果有一张user表，我们想查询用户名为’admin’的用户信息，</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM USERS WHERE FirstName=“admin”</span><br></pre></td></tr></table></figure>
-
-<p>如果使用 <code>REST</code> 的话，一般两种方案：<br>1、定义一个接口返回fname为admin的用户<br>2、定义一个接口能够根据传递的用户名进行条件过滤</p>
-<p>现在让我们先从最基本的 <code>GraphQL</code> 操作类型开始：</p>
+<h1 id="二、GraphQL-基础入门"><a href="#二、GraphQL-基础入门" class="headerlink" title="二、GraphQL 基础入门"></a>二、GraphQL 基础入门</h1><p>先从最基本的 <code>GraphQL</code> 操作类型开始：</p>
 <h2 id="1、Query"><a href="#1、Query" class="headerlink" title="1、Query"></a>1、Query</h2><p>顾名思义，Query用于查询数据。是以字符串的形式通过Post请求中body体中传给服务器。也就是所有的GraphQL类型都是post请求。</p>
 <p>以下Query用于从数据库中取出所有 users 的 fname 和 age信息：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">query &#123;</span><br><span class="line">  users &#123;</span><br><span class="line">    fname</span><br><span class="line">    age</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -151,7 +145,7 @@
 
 <p>假如有一个页面需要实时显示用户 <code>likes</code> 字段的变化，这个特性就变得非常有用。</p>
 <p>以上就是 <code>GraphQL</code> 中最基本的操作类型， 虽然介绍的很简单，但是已经足够了。下面我就利用上面介绍的知识设计并且实现一个<code>GraphQL</code> 案例，来直观感受 <code>GraphQL</code> 的强大。</p>
-<h1 id="三、动手创建GraphQL"><a href="#三、动手创建GraphQL" class="headerlink" title="三、动手创建GraphQL"></a>三、动手创建GraphQL</h1><p>首先创建一个 <code>GraphQL</code> 服务来分别响应 <code>query</code>, <code>mutation</code> 和 <code>subscriptions</code> 这三种操作。 </p>
+<h1 id="三、GraphQL-实战"><a href="#三、GraphQL-实战" class="headerlink" title="三、GraphQL 实战"></a>三、GraphQL 实战</h1><p>首先创建一个 <code>GraphQL</code> 服务来分别响应 <code>query</code>, <code>mutation</code> 和 <code>subscriptions</code> 这三种操作。 </p>
 <h2 id="1、初始化工程"><a href="#1、初始化工程" class="headerlink" title="1、初始化工程"></a>1、初始化工程</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt; mkdir graphql-server-demo</span><br><span class="line">&gt; cd graphql-server-demo</span><br><span class="line">&gt; npm init -y</span><br></pre></td></tr></table></figure>
 
 <p>安装依赖：</p>
@@ -173,11 +167,11 @@
 <h3 id="3-1-TypeDefs"><a href="#3-1-TypeDefs" class="headerlink" title="3.1 TypeDefs"></a>3.1 TypeDefs</h3><p>之前我们学会了GraphQL的操作类型。为了让服务器知道什么类型是可以识别处理的, 而TypeDefs的作用就是定义这些类型：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">const typeDefs = gql`</span><br><span class="line">  type User &#123;</span><br><span class="line">    id: Int</span><br><span class="line">    fname: String</span><br><span class="line">    age: Int</span><br><span class="line">    likes: Int</span><br><span class="line">    posts: [Post]</span><br><span class="line">  &#125;</span><br><span class="line">  type Post &#123;</span><br><span class="line">    id: Int</span><br><span class="line">    user: User</span><br><span class="line">    body: String</span><br><span class="line">  &#125;</span><br><span class="line">  type Query &#123;</span><br><span class="line">    users(id: Int!): User!</span><br><span class="line">    posts(id: Int!): Post!</span><br><span class="line">  &#125;</span><br><span class="line">  type Mutation &#123;</span><br><span class="line">    incrementLike(fname: String!) : [User!]</span><br><span class="line">  &#125;</span><br><span class="line">  type Subscription &#123;</span><br><span class="line">    listenLikes : [User]</span><br><span class="line">  &#125;</span><br><span class="line">`;</span><br></pre></td></tr></table></figure>
 
-<p>首先定义了一个User，包含了 id, fname, age, likes, posts五个属性，同时规定了这些属性的类型要么是String要么是Int。</p>
+<p>首先定义了一个User，包含了 <code>id</code>, <code>fname</code>, <code>age</code>, <code>likes</code>, <code>posts</code> 五个属性，同时规定了这些属性的类型要么是<strong>String</strong>要么是<strong>Int</strong>。</p>
 <blockquote>
-<p>在GraphQL中支持四种基本类型：String, Int, Float, Boolean。<br>加<code>！</code>代表这个字段是非空。</p>
+<p>在GraphQL中支持四种基本类型：<strong>String</strong>, <strong>Int</strong>, <strong>Float</strong>, <strong>Boolean</strong>。<br>加<code>！</code>代表这个字段是非空。</p>
 </blockquote>
-<p>另外我们还定义了Query, Mutation 和 Subscription 等操作.</p>
+<p>另外我们还定义了<code>Query</code>, <code>Mutation</code> 和 <code>Subscription</code> 等操作.</p>
 <ul>
 <li>定义两个query, 其中users 接收一个id参数, 返回类型是User。 另一个query posts 也接收一个id参数，且返回类型是Post</li>
 </ul>
@@ -208,8 +202,14 @@
 <p><img src="/assets/images/2020-02/graphql-server-demo-playground.png" alt="playground"></p>
 <p>Apollo GraphQL 提供了一个可交互的web应用，帮助我们测试query和mutations操作的结果:</p>
 <p><img src="/assets/images/2020-02/graphql-server-demo-testresult.png" alt="testresult"></p>
-<p>我们已经完成了一个简单的GraphQL服务器，并能响应Query, Mutation和Subscription这些操作了。😁是不是很神奇呢？</p>
-<h1 id="四、总结"><a href="#四、总结" class="headerlink" title="四、总结"></a>四、总结</h1><p>记得某位大神曾经说过，GraphQL将会取代Rest。</p>
+<p>至此，我们完成了一个简单的 <code>GraphQL</code> 服务器，并且能响应 <code>Query</code> , <code>Mutation</code> 和 <code>Subscription</code> 这些请求操作。😁是不是感觉很酷呢？</p>
+<h1 id="四、总结"><a href="#四、总结" class="headerlink" title="四、总结"></a>四、总结</h1><p><code>GraphQL</code> 既是一种用于 <code>API</code> 的查询语言也是一个满足你数据查询的运行时。</p>
+<p><code>GraphQL</code> 对你的 <code>API</code> 中的数据提供了一套易于理解的完整描述，使得客户端能够准确地获得它需要的数据，而且没有任何冗余，也让 <code>API</code> 更容易地随着时间推移而演进，还能用于构建强大的开发者工具。</p>
+<p>引用某位大神曾经说过的话：</p>
+<blockquote>
+<p>GraphQL将会取代REST</p>
+</blockquote>
+<p>让我们拭目以待。</p>
 
     </div>
 
@@ -219,7 +219,7 @@
     
   <div id="toc" class="toc-article">
     <strong class="toc-title">目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#一、Why-GraphQL？"><span class="toc-text">一、Why GraphQL？</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1、传统方式的局限性"><span class="toc-text">1、传统方式的局限性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2、GraphQL-的优势"><span class="toc-text">2、GraphQL 的优势</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#二、GraphQL-核心概念"><span class="toc-text">二、GraphQL 核心概念</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1、Query"><span class="toc-text">1、Query</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2、Mutation"><span class="toc-text">2、Mutation</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3、Subscription"><span class="toc-text">3、Subscription</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#三、动手创建GraphQL"><span class="toc-text">三、动手创建GraphQL</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1、初始化工程"><span class="toc-text">1、初始化工程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2、定义数据"><span class="toc-text">2、定义数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3、Schema"><span class="toc-text">3、Schema</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-TypeDefs"><span class="toc-text">3.1 TypeDefs</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-Resolvers"><span class="toc-text">3.2 Resolvers</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#四、总结"><span class="toc-text">四、总结</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#一、Why-GraphQL？"><span class="toc-text">一、Why GraphQL？</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1、传统方式的局限性"><span class="toc-text">1、传统方式的局限性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2、GraphQL-的优势"><span class="toc-text">2、GraphQL 的优势</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#二、GraphQL-基础入门"><span class="toc-text">二、GraphQL 基础入门</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1、Query"><span class="toc-text">1、Query</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2、Mutation"><span class="toc-text">2、Mutation</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3、Subscription"><span class="toc-text">3、Subscription</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#三、GraphQL-实战"><span class="toc-text">三、GraphQL 实战</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1、初始化工程"><span class="toc-text">1、初始化工程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2、定义数据"><span class="toc-text">2、定义数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3、Schema"><span class="toc-text">3、Schema</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-TypeDefs"><span class="toc-text">3.1 TypeDefs</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-Resolvers"><span class="toc-text">3.2 Resolvers</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#四、总结"><span class="toc-text">四、总结</span></a></li></ol>
   </div>
 
 
