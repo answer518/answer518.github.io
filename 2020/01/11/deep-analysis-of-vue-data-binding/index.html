@@ -11,6 +11,7 @@
   <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
   
   
+    <link rel="stylesheet" href="https://unpkg.com/octomments/build/ocs-ui.min.css">
     <meta name="keywords" content="vue.js,">
   
 
@@ -187,6 +188,20 @@
       </div>
     </div>
   
+
+  <script src="https://unpkg.com/octomments/build/ocs.min.js"></script>
+  <div id="octomments"></div>
+  <script>
+  Octomments({
+    github: {
+      owner: 'answer518',
+      repo: 'answer518.github.io',
+    },
+    issueNumber: 1,
+    renderer: [OctommentsRenderer, '#octomments']
+  }).init();
+  </script>
+
 
 
     </div>
