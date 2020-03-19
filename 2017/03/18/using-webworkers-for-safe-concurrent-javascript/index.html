@@ -1,0 +1,352 @@
+
+<!DOCTYPE html>
+<html lang="">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#202020">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+  
+  
+    <link rel="stylesheet" href="https://unpkg.com/octomments/build/ocs-ui.min.css">
+    <meta name="keywords" content="web worker,">
+  
+
+  
+    <meta name="description" content="Web workers提供了一种在浏览器中单线程运行js代码的方法。单线程处理请求显示内容以及通过键盘、鼠标点击,和其他设备产生的用户交互, 以及对AJAX请求的响应。事件处理和AJAX请求虽然是异步的，但是它们仍然在这个单线程中运行，必须要尽可能的快去完成。否则，浏览器中的就会停止响应，直到任务处理完成。">
+  
+  
+  
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=1.0.1">
+  
+  <title>一文读懂web worker究竟能干什么？ [ 果糖酱的博客 ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css">
+    
+      <link rel="stylesheet" href="/css/xoxo.css">
+    
+  
+</head>
+
+
+<body>
+  <div class="nav-container">
+    <nav class="home-menu pure-menu pure-menu-horizontal">
+  <a class="pure-menu-heading" href="/">
+    <img class="avatar" src="/assets/images/logo.png">
+    <span class="title">果糖酱的博客</span>
+  </a>
+
+  <ul class="pure-menu-list clearfix">
+      
+          
+            <li class="pure-menu-item"><a href="/" class="pure-menu-link">首页</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/archives" class="pure-menu-link">归档</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/tags" class="pure-menu-link">标签</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/about" class="pure-menu-link">关于</a></li>
+          
+      
+  </ul>
+   
+</nav>
+  </div>
+
+  <div class="container" id="content-outer">
+    <div class="inner" id="content-inner">
+      <div class="post-container">
+  <article class="post" id="post">
+    <header class="post-header text-center">
+      <h1 class="title">
+        一文读懂web worker究竟能干什么？
+      </h1>
+      <span>
+        
+        <time class="time" datetime="2017-03-18T15:46:52.000Z">
+        2017-03-18
+      </time>
+        
+      </span>
+      <span class="slash">/</span>
+      <span class="post-meta">
+      <span class="post-tags">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web-worker/">web worker</a></li></ul>
+      </span>
+    </span>
+      <span class="slash">/</span>
+      <span class="read">
+      <span id="busuanzi_value_page_pv"></span> 点击
+    </span>
+      <span class="slash">/</span>
+      <span class="read">阅读耗时 8 分钟</span>
+    </header>
+
+    <div class="post-content">
+      <p><img src="/assets/images/2020-03/webworker.png" alt="web worker"></p>
+<p><code>Web workers</code> 提供了一种在浏览器中单线程运行 <code>js</code> 代码的方法。单线程处理请求显示内容以及通过键盘、鼠标点击,和其他设备产生的用户交互, 以及对 <code>AJAX</code> 请求的响应。事件处理和AJAX请求虽然是异步的，但是它们本质仍然在单线程中运行，必须要尽可能的快去完成。否则，浏览器中的就会停止响应，直到任务处理完成。</p>
+<p><code>Web workers</code> 允许 <code>js</code> 代码在单独的线程中运行，完全独立于浏览器线程及其通常的活动。</p>
+<p>今年来关于对 <code>Web workers</code> 的使用有很多的争论，这几年cpu的运算速度是非常快的，几乎所有的个人电脑都有几个G的内存。同样，移动设备已经越来越接近台式机cpu速度和的内存大小。</p>
+<p>曾经被认为是<strong>计算密集型</strong>的应用现在被认为不是那么糟糕了。</p>
+<h1 id="然后真实的情况却是"><a href="#然后真实的情况却是" class="headerlink" title="然后真实的情况却是"></a>然后真实的情况却是</h1><p>但是很多时候，我们只考虑在开发环境中测试的一个应用程序的执行。而在用户侧，可能同时会进行多个应用。</p>
+<p>因此，在隔离状态下运行的应用程序可能不需要使用<code>Web workers</code>，但是有必要使用它们为各种用户提供最佳体验。</p>
+<p>一下代码演示了如何创建一个 <code>Web workers</code>：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> Worker(<span class="string">'my-worker.js'</span>)</span><br></pre></td></tr></table></figure>
+
+<p>一旦创建了 <code>web worker</code>，它就在独立于主浏览器线程的单独线程中运行，执行脚本中给定给它的任何代码。</p>
+<p>在worker和js主线程之间传递数据:</p>
+<ul>
+<li>发送端上的postMessage()函数</li>
+<li>接收端上的消息事件处理程序</li>
+</ul>
+<p>消息事件处理程序接收事件参数，与其他事件处理程序一样;此事件有一个“data”属性，其中包含从另一端传递过来的任何数据。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> worker = <span class="keyword">new</span> Worker(<span class="string">"demo1-hello-world.js"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Receive messages from postMessage() calls in the Worker</span></span><br><span class="line">worker.onmessage = <span class="function">(<span class="params">evt</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"Message posted from webworker: "</span> + evt.data);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Pass data to the WebWorker</span></span><br><span class="line">worker.postMessage(&#123;<span class="attr">data</span>: <span class="string">"123456789"</span>&#125;);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// demo1-hello-world.js</span></span><br><span class="line">postMessage(<span class="string">'Worker running'</span>);</span><br><span class="line">onmessage = <span class="function">(<span class="params">evt</span>) =&gt;</span> &#123;</span><br><span class="line">    postMessage(<span class="string">"Worker received data: "</span> + <span class="built_in">JSON</span>.stringify(evt.data));</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>上面代码的输出结果：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Message posted <span class="keyword">from</span> webworker: Worker running</span><br><span class="line">Message posted <span class="keyword">from</span> webworker: Worker received data: &#123;“data”:”<span class="number">123456789</span><span class="string">"&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="worker是常驻进程存在的"><a href="#worker是常驻进程存在的" class="headerlink" title="worker是常驻进程存在的"></a>worker是常驻进程存在的</h1><p>在一个 <code>worker</code> 的生命周期中，可以在浏览器和 <code>worker</code> 之间发送和接收多个消息。</p>
+<p><code>web workers</code>以两种方式确保代码安全、无冲突的执行:</p>
+<ul>
+<li>工作线程的独立、隔离的全局环境，独立于浏览器环境</li>
+<li>使用postMessage()在主线程和工作线程之间进行消息传递</li>
+</ul>
+<p>每个 <code>worker</code> 线程都有一个独立的全局环境，该环境与浏览器页面的 <code>js</code> 环境不同。<code>worker</code> 线程根本不能访问页面的 <code>js</code> 环境中的任何东西——<code>DOM</code>、<code>window</code> 或 <code>document</code> 对象都不行。</p>
+<p>此外，通过 <code>postMessage()</code> 传递的任何数据在传递之前都会被复制，因此更改主线程中的数据不会导致 <code>worker</code> 线程中的数据发生更改。这提供了固有的保护，避免在主线程和 <code>worker</code> 线程之间传递的数据发生冲突的并发更改。</p>
+<h1 id="web-worker的典型应用场景"><a href="#web-worker的典型应用场景" class="headerlink" title="web worker的典型应用场景"></a>web worker的典型应用场景</h1><p>典型应用：执行运算需要消耗大量的CPU时间或采取一个不可预知的时间来访问数据。</p>
+<p>举例说明：</p>
+<ul>
+<li>预取或缓存数据供以后使用</li>
+<li>轮询和处理来自web服务的数据</li>
+<li>大数据集的处理和显示</li>
+<li>游戏中与移动相关的计算</li>
+<li>图像处理和过滤</li>
+<li>处理文本数据(代码语法、拼写检查、字数)</li>
+</ul>
+<p>CPU时间是最简单的使用，但是对网络资源的请求也非常重要。</p>
+<p>很多时候，internet上的网络通信可以在几毫秒内执行，但有时网络资源变得不可用，直到网络恢复或请求超时才会停止(这可能需要1-2分钟才能清除)。</p>
+<p>而且，有些代码在开发环境中单独测试时可能不需要很长时间就可以运行，但当多个应用同时运行时，它可能成为在用户环境中运行的问题。</p>
+<h1 id="分享几个实际案例"><a href="#分享几个实际案例" class="headerlink" title="分享几个实际案例"></a>分享几个实际案例</h1><h1 id="最终的想法"><a href="#最终的想法" class="headerlink" title="最终的想法"></a>最终的想法</h1><p>针对浏览器的兼容判断，可以通过一个简单的判断 <code>if (typeof Worker !== &quot;undefined&quot;)</code> 来创建和保护的我们的 <code>web worker</code>, 在 <code>web worker</code> 外部执行相同的代码(例如：setTimeout或requestAnimationFrame)</p>
+
+    </div>
+
+    <div>全文完。</div>
+  </article>
+  <div class="toc-container">
+    
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#然后真实的情况却是"><span class="toc-text">然后真实的情况却是</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#worker是常驻进程存在的"><span class="toc-text">worker是常驻进程存在的</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#web-worker的典型应用场景"><span class="toc-text">web worker的典型应用场景</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#分享几个实际案例"><span class="toc-text">分享几个实际案例</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#最终的想法"><span class="toc-text">最终的想法</span></a></li></ol>
+  </div>
+
+
+  </div>
+</div>
+<div class="copyright">
+    <span>转载时请注明原文链接。</span>
+</div>
+<!-- <div class="share" style="width: 100%;">
+  <img src="https://kevinofneu-blog-static.oss-cn-beijing.aliyuncs.com/static/2018-12-10-qrcode_for_gh_ffacf5722095_258.jpg" alt="Running Geek" style="margin: auto; display: block;"/>
+
+  <div style="margin: auto; text-align: center; font-size: 0.8em; color: grey;">老铁们关注走一走，不迷路</div>
+  
+</div>
+ -->
+  
+    <div class="post-nav">
+      <div class="post-nav-item post-nav-next">
+        
+          <span>〈 </span>
+          <a href="/2017/02/24/deep-into-the-vue-reactive-principle/" rel="next" title="深入分析Vue响应式原理">
+          深入分析Vue响应式原理
+          </a>
+        
+      </div>
+  
+      <div class="post-nav-item post-nav-prev">
+          
+          <a href="/2017/10/18/how-to-implement-a-cmd-module-load/" rel="prev" title="如何实现一个CMD规范的模块加载器">
+            如何实现一个CMD规范的模块加载器
+          </a>
+          <span>〉</span>
+        
+      </div>
+    </div>
+  
+
+  <script src="https://unpkg.com/octomments/build/ocs.min.js"></script>
+  <div id="octomments"></div>
+  <script>
+  Octomments({
+    github: {
+      owner: 'answer518',
+      repo: 'answer518.github.io',
+    },
+    issueNumber: 1,
+    renderer: [OctommentsRenderer, '#octomments']
+  }).init();
+  </script>
+
+
+
+    </div>
+
+    
+
+  </div>
+  <footer class="footer text-center">
+    <div id="bottom-inner">
+        <a class="bottom-item" href="https://answer518.github.io">首页</a> |
+        <a class="bottom-item" href="https://juejin.im/user/5b3a28a1e51d45558a3f7255/posts" target="_blank">掘金专栏</a> |
+        <a class="bottom-item" href="https://github.com/answer518" target="_blank">GitHub</a> |
+        <a class="bottom-item" href="https://hexo.io" target="_blank">Powered by hexo</a>
+        <!-- <a class="bottom-item" href="https://github.com/KevinOfNeu/hexo-theme-xoxo" target="_blank">Theme xoxo</a> -->
+    </div>
+</footer>
+  
+
+<script>
+  (function(window, document, undefined) {
+
+    var timer = null;
+
+    function returnTop() {
+      cancelAnimationFrame(timer);
+      timer = requestAnimationFrame(function fn() {
+        var oTop = document.body.scrollTop || document.documentElement.scrollTop;
+        if (oTop > 0) {
+          document.body.scrollTop = document.documentElement.scrollTop = oTop - 50;
+          timer = requestAnimationFrame(fn);
+        } else {
+          cancelAnimationFrame(timer);
+        }
+      });
+    }
+
+    var hearts = [];
+    window.requestAnimationFrame = (function() {
+      return window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function(callback) {
+          setTimeout(callback, 1000 / 60);
+        }
+    })();
+    init();
+
+    function init() {
+      css(".heart{z-index:9999;width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: absolute;}.heart:after{top: -5px;}.heart:before{left: -5px;}");
+      attachEvent();
+      gameloop();
+      addMenuEvent();
+    }
+
+    function gameloop() {
+      for (var i = 0; i < hearts.length; i++) {
+        if (hearts[i].alpha <= 0) {
+          document.body.removeChild(hearts[i].el);
+          hearts.splice(i, 1);
+          continue;
+        }
+        hearts[i].y--;
+        hearts[i].scale += 0.004;
+        hearts[i].alpha -= 0.013;
+        hearts[i].el.style.cssText = "left:" + hearts[i].x + "px;top:" + hearts[i].y + "px;opacity:" + hearts[i].alpha + ";transform:scale(" + hearts[i].scale + "," + hearts[i].scale + ") rotate(45deg);background:" + hearts[i].color;
+      }
+      requestAnimationFrame(gameloop);
+    }
+
+    /**
+     * 给logo设置点击事件
+     * 
+     * - 回到顶部
+     * - 出现爱心
+     */
+    function attachEvent() {
+      var old = typeof window.onclick === "function" && window.onclick;
+      var logo = document.getElementById("logo");
+      if (logo) {
+        logo.onclick = function(event) {
+          returnTop();
+          old && old();
+          createHeart(event);
+        }
+      }
+      
+    }
+
+    function createHeart(event) {
+      var d = document.createElement("div");
+      d.className = "heart";
+      hearts.push({
+        el: d,
+        x: event.clientX - 5,
+        y: event.clientY - 5,
+        scale: 1,
+        alpha: 1,
+        color: randomColor()
+      });
+      document.body.appendChild(d);
+    }
+
+    function css(css) {
+      var style = document.createElement("style");
+      style.type = "text/css";
+      try {
+        style.appendChild(document.createTextNode(css));
+      } catch (ex) {
+        style.styleSheet.cssText = css;
+      }
+      document.getElementsByTagName('head')[0].appendChild(style);
+    }
+
+    function randomColor() {
+      // return "rgb(" + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + ")";
+      return "#F44336";
+    }
+
+    function addMenuEvent() {
+      var menu = document.getElementById('menu-main-post');
+      if (menu) {
+        var toc = document.getElementById('toc');
+        if (toc) {
+          menu.onclick = function() {
+            if (toc) {
+              if (toc.style.display == 'block') {
+                toc.style.display = 'none';
+              } else {
+                toc.style.display = 'block';
+              }
+            }
+          };
+        } else {
+          menu.style.display = 'none';
+        }
+      }
+    }
+
+  })(window, document);
+</script>
+
+  
+
+
+
+</body>
+</html>
