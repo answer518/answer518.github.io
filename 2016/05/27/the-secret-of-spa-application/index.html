@@ -1,0 +1,340 @@
+
+<!DOCTYPE html>
+<html lang="">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#202020">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+  
+  
+    <link rel="stylesheet" href="https://unpkg.com/octomments/build/ocs-ui.min.css">
+    <meta name="keywords" content="javascript,">
+  
+
+  
+    <meta name="description" content="什么是SPA应用，SPA的主要思想是利用js动态地将内容加载到当前页面，而不是从服务器端下载整个页面。会给你一种桌面应用的感觉。所有的HTML、JavaScript和CSS都可以在第一次加载应用程序时从服务器中下载，而不是像传统应用那样每次加载都要重新下载所有的资源文件。">
+  
+  
+  
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=1.0.1">
+  
+  <title> [ 果糖酱的博客 ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css">
+    
+      <link rel="stylesheet" href="/css/xoxo.css">
+    
+  
+</head>
+
+
+<body>
+  <div class="nav-container">
+    <nav class="home-menu pure-menu pure-menu-horizontal">
+  <a class="pure-menu-heading" href="/">
+    <img class="avatar" src="/assets/images/logo.png">
+    <span class="title">果糖酱的博客</span>
+  </a>
+
+  <ul class="pure-menu-list clearfix">
+      
+          
+            <li class="pure-menu-item"><a href="/" class="pure-menu-link">首页</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/archives" class="pure-menu-link">归档</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/tags" class="pure-menu-link">标签</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/about" class="pure-menu-link">关于</a></li>
+          
+      
+  </ul>
+   
+</nav>
+  </div>
+
+  <div class="container" id="content-outer">
+    <div class="inner" id="content-inner">
+      <div class="post-container">
+  <article class="post" id="post">
+    <header class="post-header text-center">
+      <h1 class="title">
+        
+      </h1>
+      <span>
+        
+        <time class="time" datetime="2016-05-27T14:57:44.000Z">
+        2016-05-27
+      </time>
+        
+      </span>
+      <span class="slash">/</span>
+      <span class="post-meta">
+      <span class="post-tags">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/">javascript</a></li></ul>
+      </span>
+    </span>
+      <span class="slash">/</span>
+      <span class="read">
+      <span id="busuanzi_value_page_pv"></span> 点击
+    </span>
+      <span class="slash">/</span>
+      <span class="read">阅读耗时 6 分钟</span>
+    </header>
+
+    <div class="post-content">
+      <h1 id="一、什么是SPA应用"><a href="#一、什么是SPA应用" class="headerlink" title="一、什么是SPA应用"></a>一、什么是SPA应用</h1><p>SPA的主要思想是利用js动态地将内容加载到当前页面，而不需要从服务器加载整个页面。会给你一种桌面应用的感觉。</p>
+<p>所有的 <code>HTML</code>、<code>JavaScript</code> 和 <code>CSS</code> 都可以在第一次加载应用程序时从服务器中下载，而不是像传统应用那样每次加载都要重新下载所有的资源文件。</p>
+<p>另一个要点是，主页或内容永远不会重新加载，但是 <code>hash</code> 或 <code>HTML5</code> <code>history API</code>，您仍然拥有不同的url和浏览器历史记录。</p>
+<h1 id="二、它能带来什么好处"><a href="#二、它能带来什么好处" class="headerlink" title="二、它能带来什么好处"></a>二、它能带来什么好处</h1><p>让我们来说一说SPA应用的优势：</p>
+<ul>
+<li>性能</li>
+</ul>
+<p>SPA只有第一次需要加载所有的资源到本地，后面的请求都只会加载必要的资源，这大大节省了资源下载和页面渲染的时间。</p>
+<ul>
+<li>更好的用户体验</li>
+</ul>
+<p>页面加载资源减少了，页面渲染的速度更快了，用户自然会感觉到更好的交互体验。</p>
+<p>当然，凡事有利就有弊，现在我们来说一下SPA应用的缺点：</p>
+<ul>
+<li><p>首屏渲染会很慢</p>
+</li>
+<li><p>客户端脚本必须启用</p>
+</li>
+<li><p>安全性</p>
+</li>
+</ul>
+<h1 id="三、如何实现一个SPA"><a href="#三、如何实现一个SPA" class="headerlink" title="三、如何实现一个SPA"></a>三、如何实现一个SPA</h1><p>通过 <code>hash</code> 来实现一个SPA应用：</p>
+<h2 id="目录结构"><a href="#目录结构" class="headerlink" title="目录结构"></a>目录结构</h2><p><img src="/assets/images/2020-03/spa-folder.png" alt="SPA-folder"></p>
+<h2 id="index-html"><a href="#index-html" class="headerlink" title="index.html"></a>index.html</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">head</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">title</span>&gt;</span>Single Page Application<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">ul</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"#home"</span>&gt;</span>Home<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"#about"</span>&gt;</span>About<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"app"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"js/route.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"js/router.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"js/app.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Route-JS"><a href="#Route-JS" class="headerlink" title="Route JS"></a>Route JS</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'use stict'</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Route</span>(<span class="params">name, htmlName, defaultRoute</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">if</span>(!name || !htmlName) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="string">'error: name and htmlName params are mandatories'</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">this</span>.constructor(name, htmlName, defaultRoute);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">        <span class="built_in">console</span>.error(e);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Route.prototype = &#123;</span><br><span class="line">    name: <span class="literal">undefined</span>,</span><br><span class="line">    htmlName: <span class="literal">undefined</span>,</span><br><span class="line">    <span class="keyword">default</span>: <span class="literal">undefined</span>,</span><br><span class="line">    <span class="keyword">constructor</span>: function (name, htmlName, defaultRoute) &#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">        <span class="keyword">this</span>.htmlName = htmlName;</span><br><span class="line">        <span class="keyword">this</span>.default = defaultRoute;</span><br><span class="line">    &#125;,</span><br><span class="line">    isActiveRoute: <span class="function"><span class="keyword">function</span> (<span class="params">hashedPath</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> hashedPath.replace(<span class="string">'#'</span>, <span class="string">''</span>) === <span class="keyword">this</span>.name; </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Router-JS"><a href="#Router-JS" class="headerlink" title="Router JS"></a>Router JS</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">'use strict'</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Router</span>(<span class="params">routes</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (!routes) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="string">'error: routes param is mandatory'</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">this</span>.constructor(routes);</span><br><span class="line">        <span class="keyword">this</span>.init();</span><br><span class="line">    &#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">        <span class="built_in">console</span>.error(e);   </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Router.prototype = &#123;</span><br><span class="line">    routes: <span class="literal">undefined</span>,</span><br><span class="line">    rootElem: <span class="literal">undefined</span>,</span><br><span class="line">    <span class="keyword">constructor</span>: function (routes) &#123;</span><br><span class="line">        <span class="keyword">this</span>.routes = routes;</span><br><span class="line">        <span class="keyword">this</span>.rootElem = <span class="built_in">document</span>.getElementById(<span class="string">'app'</span>);</span><br><span class="line">    &#125;,</span><br><span class="line">    init: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> r = <span class="keyword">this</span>.routes;</span><br><span class="line">        (<span class="function"><span class="keyword">function</span>(<span class="params">scope, r</span>) </span>&#123; </span><br><span class="line">            <span class="built_in">window</span>.addEventListener(<span class="string">'hashchange'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">e</span>) </span>&#123;</span><br><span class="line">                scope.hasChanged(scope, r);</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;)(<span class="keyword">this</span>, r);</span><br><span class="line">        <span class="keyword">this</span>.hasChanged(<span class="keyword">this</span>, r);</span><br><span class="line">    &#125;,</span><br><span class="line">    hasChanged: <span class="function"><span class="keyword">function</span>(<span class="params">scope, r</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">window</span>.location.hash.length &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>, length = r.length; i &lt; length; i++) &#123;</span><br><span class="line">                <span class="keyword">var</span> route = r[i];</span><br><span class="line">                <span class="keyword">if</span>(route.isActiveRoute(<span class="built_in">window</span>.location.hash.substr(<span class="number">1</span>))) &#123;</span><br><span class="line">                    scope.goToRoute(route.htmlName);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>, length = r.length; i &lt; length; i++) &#123;</span><br><span class="line">                <span class="keyword">var</span> route = r[i];</span><br><span class="line">                <span class="keyword">if</span>(route.default) &#123;</span><br><span class="line">                    scope.goToRoute(route.htmlName);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    goToRoute: <span class="function"><span class="keyword">function</span> (<span class="params">htmlName</span>) </span>&#123;</span><br><span class="line">        (<span class="function"><span class="keyword">function</span>(<span class="params">scope</span>) </span>&#123; </span><br><span class="line">            <span class="keyword">var</span> url = <span class="string">'views/'</span> + htmlName,</span><br><span class="line">                xhttp = <span class="keyword">new</span> XMLHttpRequest();</span><br><span class="line">            xhttp.onreadystatechange = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">                <span class="keyword">if</span> (<span class="keyword">this</span>.readyState === <span class="number">4</span> &amp;&amp; <span class="keyword">this</span>.status === <span class="number">200</span>) &#123;</span><br><span class="line">                    scope.rootElem.innerHTML = <span class="keyword">this</span>.responseText;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;;</span><br><span class="line">            xhttp.open(<span class="string">'GET'</span>, url, <span class="literal">true</span>);</span><br><span class="line">            xhttp.send();</span><br><span class="line">        &#125;)(<span class="keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="初始化路由"><a href="#初始化路由" class="headerlink" title="初始化路由"></a>初始化路由</h2><p><code>app.js</code> 里面初始化路由：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">'use strict'</span>;</span><br><span class="line"></span><br><span class="line">(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">init</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> router = <span class="keyword">new</span> Router([</span><br><span class="line">            <span class="keyword">new</span> Route(<span class="string">'home'</span>, <span class="string">'home.html'</span>, <span class="literal">true</span>),            </span><br><span class="line">            <span class="keyword">new</span> Route(<span class="string">'about'</span>, <span class="string">'about.html'</span>)</span><br><span class="line">        ]);</span><br><span class="line">    &#125;</span><br><span class="line">    init();</span><br><span class="line">&#125;());</span><br></pre></td></tr></table></figure>
+
+<p>通过调用自执行的 <code>init</code> 函数，定义了两条路由，并且将home设置为默认路由。</p>
+<h1 id="四、总结"><a href="#四、总结" class="headerlink" title="四、总结"></a>四、总结</h1><p>这篇文章展示了实现SPA应用的实践，也希望能帮助你理解现代前端框架在处理SPA单页应用的思想。</p>
+
+    </div>
+
+    <div>全文完。</div>
+  </article>
+  <div class="toc-container">
+    
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#一、什么是SPA应用"><span class="toc-text">一、什么是SPA应用</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#二、它能带来什么好处"><span class="toc-text">二、它能带来什么好处</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#三、如何实现一个SPA"><span class="toc-text">三、如何实现一个SPA</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#目录结构"><span class="toc-text">目录结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#index-html"><span class="toc-text">index.html</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Route-JS"><span class="toc-text">Route JS</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Router-JS"><span class="toc-text">Router JS</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#初始化路由"><span class="toc-text">初始化路由</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#四、总结"><span class="toc-text">四、总结</span></a></li></ol>
+  </div>
+
+
+  </div>
+</div>
+<div class="copyright">
+    <span>转载时请注明原文链接。</span>
+</div>
+<!-- <div class="share" style="width: 100%;">
+  <img src="https://kevinofneu-blog-static.oss-cn-beijing.aliyuncs.com/static/2018-12-10-qrcode_for_gh_ffacf5722095_258.jpg" alt="Running Geek" style="margin: auto; display: block;"/>
+
+  <div style="margin: auto; text-align: center; font-size: 0.8em; color: grey;">老铁们关注走一走，不迷路</div>
+  
+</div>
+ -->
+  
+    <div class="post-nav">
+      <div class="post-nav-item post-nav-next">
+        
+          <span>〈 </span>
+          <a href="/2016/03/20/what-it-is-jsonp/" rel="next" title="揭开JSONP的神秘面纱">
+          揭开JSONP的神秘面纱
+          </a>
+        
+      </div>
+  
+      <div class="post-nav-item post-nav-prev">
+          
+          <a href="/2017/02/24/deep-into-the-vue-reactive-principle/" rel="prev" title="深入分析Vue响应式原理">
+            深入分析Vue响应式原理
+          </a>
+          <span>〉</span>
+        
+      </div>
+    </div>
+  
+
+  <script src="https://unpkg.com/octomments/build/ocs.min.js"></script>
+  <div id="octomments"></div>
+  <script>
+  Octomments({
+    github: {
+      owner: 'answer518',
+      repo: 'answer518.github.io',
+    },
+    issueNumber: 1,
+    renderer: [OctommentsRenderer, '#octomments']
+  }).init();
+  </script>
+
+
+
+    </div>
+
+    
+
+  </div>
+  <footer class="footer text-center">
+    <div id="bottom-inner">
+        <a class="bottom-item" href="https://answer518.github.io">首页</a> |
+        <a class="bottom-item" href="https://juejin.im/user/5b3a28a1e51d45558a3f7255/posts" target="_blank">掘金专栏</a> |
+        <a class="bottom-item" href="https://github.com/answer518" target="_blank">GitHub</a> |
+        <a class="bottom-item" href="https://hexo.io" target="_blank">Powered by hexo</a>
+        <!-- <a class="bottom-item" href="https://github.com/KevinOfNeu/hexo-theme-xoxo" target="_blank">Theme xoxo</a> -->
+    </div>
+</footer>
+  
+
+<script>
+  (function(window, document, undefined) {
+
+    var timer = null;
+
+    function returnTop() {
+      cancelAnimationFrame(timer);
+      timer = requestAnimationFrame(function fn() {
+        var oTop = document.body.scrollTop || document.documentElement.scrollTop;
+        if (oTop > 0) {
+          document.body.scrollTop = document.documentElement.scrollTop = oTop - 50;
+          timer = requestAnimationFrame(fn);
+        } else {
+          cancelAnimationFrame(timer);
+        }
+      });
+    }
+
+    var hearts = [];
+    window.requestAnimationFrame = (function() {
+      return window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function(callback) {
+          setTimeout(callback, 1000 / 60);
+        }
+    })();
+    init();
+
+    function init() {
+      css(".heart{z-index:9999;width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: absolute;}.heart:after{top: -5px;}.heart:before{left: -5px;}");
+      attachEvent();
+      gameloop();
+      addMenuEvent();
+    }
+
+    function gameloop() {
+      for (var i = 0; i < hearts.length; i++) {
+        if (hearts[i].alpha <= 0) {
+          document.body.removeChild(hearts[i].el);
+          hearts.splice(i, 1);
+          continue;
+        }
+        hearts[i].y--;
+        hearts[i].scale += 0.004;
+        hearts[i].alpha -= 0.013;
+        hearts[i].el.style.cssText = "left:" + hearts[i].x + "px;top:" + hearts[i].y + "px;opacity:" + hearts[i].alpha + ";transform:scale(" + hearts[i].scale + "," + hearts[i].scale + ") rotate(45deg);background:" + hearts[i].color;
+      }
+      requestAnimationFrame(gameloop);
+    }
+
+    /**
+     * 给logo设置点击事件
+     * 
+     * - 回到顶部
+     * - 出现爱心
+     */
+    function attachEvent() {
+      var old = typeof window.onclick === "function" && window.onclick;
+      var logo = document.getElementById("logo");
+      if (logo) {
+        logo.onclick = function(event) {
+          returnTop();
+          old && old();
+          createHeart(event);
+        }
+      }
+      
+    }
+
+    function createHeart(event) {
+      var d = document.createElement("div");
+      d.className = "heart";
+      hearts.push({
+        el: d,
+        x: event.clientX - 5,
+        y: event.clientY - 5,
+        scale: 1,
+        alpha: 1,
+        color: randomColor()
+      });
+      document.body.appendChild(d);
+    }
+
+    function css(css) {
+      var style = document.createElement("style");
+      style.type = "text/css";
+      try {
+        style.appendChild(document.createTextNode(css));
+      } catch (ex) {
+        style.styleSheet.cssText = css;
+      }
+      document.getElementsByTagName('head')[0].appendChild(style);
+    }
+
+    function randomColor() {
+      // return "rgb(" + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + ")";
+      return "#F44336";
+    }
+
+    function addMenuEvent() {
+      var menu = document.getElementById('menu-main-post');
+      if (menu) {
+        var toc = document.getElementById('toc');
+        if (toc) {
+          menu.onclick = function() {
+            if (toc) {
+              if (toc.style.display == 'block') {
+                toc.style.display = 'none';
+              } else {
+                toc.style.display = 'block';
+              }
+            }
+          };
+        } else {
+          menu.style.display = 'none';
+        }
+      }
+    }
+
+  })(window, document);
+</script>
+
+  
+
+
+
+</body>
+</html>
