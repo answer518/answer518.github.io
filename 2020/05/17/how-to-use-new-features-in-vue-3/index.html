@@ -1,0 +1,391 @@
+
+<!DOCTYPE html>
+<html lang="">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#202020">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+  
+  
+    <link rel="stylesheet" href="https://unpkg.com/octomments/build/ocs-ui.min.css">
+    <meta name="keywords" content="vue3.0,">
+  
+
+  
+    <meta name="description" content="虽然 `Vue 3` 还没有正式发布，但是 `Alpha` 版本已经发布了，让我们可以提前学习使用 `Vue 3`。虽然还不能在生产环境中直接使用 `Vue 3` ，但是提前学习总是有好处的，这样当正式版发布时，我们就可以直接上手，或者很方便的将现有的 `Vue 2` 迁移到 `3.0` 最新的版本。">
+  
+  
+  
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=1.0.1">
+  
+  <title>vue3.0新特性实战 [ 果糖酱的博客 ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css">
+    
+      <link rel="stylesheet" href="/css/xoxo.css">
+    
+  
+</head>
+
+
+<body>
+  <div class="nav-container">
+    <nav class="home-menu pure-menu pure-menu-horizontal">
+  <a class="pure-menu-heading" href="/">
+    <img class="avatar" src="/assets/images/logo.png">
+    <span class="title">果糖酱的博客</span>
+  </a>
+
+  <ul class="pure-menu-list clearfix">
+      
+          
+            <li class="pure-menu-item"><a href="/" class="pure-menu-link">首页</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/archives" class="pure-menu-link">归档</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/tags" class="pure-menu-link">标签</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/about" class="pure-menu-link">关于</a></li>
+          
+      
+  </ul>
+   
+</nav>
+  </div>
+
+  <div class="container" id="content-outer">
+    <div class="inner" id="content-inner">
+      <div class="post-container">
+  <article class="post" id="post">
+    <header class="post-header text-center">
+      <h1 class="title">
+        vue3.0新特性实战
+      </h1>
+      <span>
+        
+        <time class="time" datetime="2020-05-17T08:36:53.000Z">
+        2020-05-17
+      </time>
+        
+      </span>
+      <span class="slash">/</span>
+      <span class="post-meta">
+      <span class="post-tags">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vue3-0/">vue3.0</a></li></ul>
+      </span>
+    </span>
+      <span class="slash">/</span>
+      <span class="read">
+      <span id="busuanzi_value_page_pv"></span> 点击
+    </span>
+      <span class="slash">/</span>
+      <span class="read">阅读耗时 15 分钟</span>
+    </header>
+
+    <div class="post-content">
+      <p><img src="/assets/images/2020-05/fb35504b584cd26c74590742000a0a45.jpg" alt="poster"></p>
+<p>虽然 <code>Vue 3</code> 还没有正式发布，但是 <code>Alpha</code> 版本已经发布了，让我们可以提前学习使用 <code>Vue 3</code>。</p>
+<p>虽然还不能在生产环境中直接使用 <code>Vue 3</code> ，但是提前学习总是有好处的，这样当正式版发布时，我们就可以直接上手，或者很方便的将现有的 <code>Vue 2</code> 迁移到 <code>3.0</code> 最新的版本。</p>
+<h2 id="创建项目"><a href="#创建项目" class="headerlink" title="创建项目"></a>创建项目</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/vuejs/vue-next-webpack-preview.git vue3-start</span><br><span class="line"><span class="built_in">cd</span> vue3-start</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install or yarn intall</span><br></pre></td></tr></table></figure>
+
+<p>开发环境准备就绪后，启动命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm run dev</span><br></pre></td></tr></table></figure>
+
+<p>在浏览器中打开 <code>http://127.0.0.1:8080</code> ，您可以看到一个简单的计数器页面：</p>
+<p><img src="/assets/images/2020-05/WX20200517-181116@2x.png" alt="langch"></p>
+<blockquote>
+<p>打开 package.json，本文使用的 vue 版本是：<code>3.0.0-beta.2</code></p>
+</blockquote>
+<h1 id="Vue-3-都有哪些新特性"><a href="#Vue-3-都有哪些新特性" class="headerlink" title="Vue 3 都有哪些新特性"></a>Vue 3 都有哪些新特性</h1><p>Vue 3 的设计目标是更快，更小，并更好的支持 <code>TypeScript</code> 。</p>
+<p>我们可以在本文中讨论并学习实现的一些新特性包括:</p>
+<blockquote>
+<p>1、Composition API<br>2、Multiple root elements<br>3、Suspense<br>4、Multiple V-models<br>5、Better Reactivity<br>6、Portals</p>
+</blockquote>
+<h2 id="1-Composition-API"><a href="#1-Composition-API" class="headerlink" title="1.Composition API"></a>1.Composition API</h2><p>Vue 官方发布了 <code>Composition API</code> 的官方插件，使广大用户可以在 <code>Vue2.x</code> 中享受 <code>Function Base</code> 带来的新体验。</p>
+<p>而在 <code>vue 3</code> 中无需单独安装插件，开箱即用。</p>
+<p>打开 <code>App.vue</code>，你会看到 <code>setup()</code>方法:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;img src=<span class="string">"./logo.png"</span>&gt;</span><br><span class="line">  &lt;h1&gt;Hello Vue <span class="number">3</span>!<span class="xml"><span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span></span><br><span class="line">  &lt;button @click=<span class="string">"inc"</span>&gt;Clicked &#123;&#123; count &#125;&#125; times.&lt;<span class="regexp">/button&gt;</span></span><br><span class="line"><span class="regexp">&lt;/</span>template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line"><span class="keyword">import</span> &#123; ref &#125; <span class="keyword">from</span> <span class="string">'vue'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  setup() &#123;</span><br><span class="line">    <span class="keyword">const</span> count = ref(<span class="number">0</span>)</span><br><span class="line">    <span class="keyword">const</span> inc = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">      count.value++</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      count,</span><br><span class="line">      inc</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;<span class="regexp">/script&gt;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">&lt;style scoped&gt;</span></span><br><span class="line"><span class="regexp">img &#123;</span></span><br><span class="line"><span class="regexp">  width: 200px;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp">h1 &#123;</span></span><br><span class="line"><span class="regexp">  font-family: Arial, Helvetica, sans-serif;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp">&lt;/</span>style&gt;</span><br></pre></td></tr></table></figure>
+
+<p><code>Composition API</code> 主要提供两大好处：</p>
+<p>1、清晰的代码结构<br>2、复用重复逻辑</p>
+<p>下面是 Composition API 用法：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">"counter"</span>&gt;</span><br><span class="line">    &lt;p&gt;count: &#123;&#123; count &#125;&#125;&lt;<span class="regexp">/p&gt;</span></span><br><span class="line"><span class="regexp">    &lt;p&gt;NewVal (count + 2): &#123;&#123; countDouble &#125;&#125;&lt;/</span>p&gt;</span><br><span class="line">    &lt;button @click=<span class="string">"inc"</span>&gt;Increment&lt;<span class="regexp">/button&gt;</span></span><br><span class="line"><span class="regexp">    &lt;button @click="dec"&gt;Decrement&lt;/</span>button&gt;</span><br><span class="line">    &lt;p&gt; Message: &#123;&#123; msg &#125;&#125; &lt;<span class="regexp">/p&gt;</span></span><br><span class="line"><span class="regexp">    &lt;button @click="changeMessage()"&gt;Change Message&lt;/</span>button&gt;</span><br><span class="line">  &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">&lt;/</span>template&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line"><span class="keyword">import</span> &#123; ref, computed, watch &#125; <span class="keyword">from</span> <span class="string">'vue'</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  setup() &#123;</span><br><span class="line">    <span class="comment">/* ---------------------------------------------------- */</span></span><br><span class="line">    <span class="keyword">let</span> count = ref(<span class="number">0</span>)</span><br><span class="line">    <span class="keyword">const</span> countDouble = computed(<span class="function"><span class="params">()</span> =&gt;</span> count.value * <span class="number">2</span>)</span><br><span class="line">    watch(count, newVal =&gt; &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">'count changed'</span>, newVal)</span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="keyword">const</span> inc = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">      count.value += <span class="number">1</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">const</span> dec = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">if</span> (count.value !== <span class="number">0</span>) &#123;</span><br><span class="line">        count.value -= <span class="number">1</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/* ---------------------------------------------------- */</span></span><br><span class="line">    <span class="keyword">let</span> msg= ref(<span class="string">'some text'</span>)</span><br><span class="line">    watch(msg, newVal =&gt; &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">'msg changed'</span>, newVal)</span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="keyword">const</span> changeMessage = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">      msg.value = <span class="string">"new Message"</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/* ---------------------------------------------------- */</span></span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      count,</span><br><span class="line">      inc,</span><br><span class="line">      dec,</span><br><span class="line">      countDouble,</span><br><span class="line">      msg,</span><br><span class="line">      changeMessage</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;<span class="regexp">/script&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>如果你不喜欢使用 <code>Composition API</code>, 也可以继续使用 <code>2.x</code> 的传统方法：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">"counter"</span>&gt;</span><br><span class="line">    &lt;p&gt;count: &#123;&#123; count &#125;&#125;&lt;<span class="regexp">/p&gt;</span></span><br><span class="line"><span class="regexp">    &lt;p&gt;NewVal (count + 2): &#123;&#123; countDouble &#125;&#125;&lt;/</span>p&gt;</span><br><span class="line">    &lt;button @click=<span class="string">"inc"</span>&gt;Increment&lt;<span class="regexp">/button&gt;</span></span><br><span class="line"><span class="regexp">    &lt;button @click="dec"&gt;Decrement&lt;/</span>button&gt;</span><br><span class="line">    &lt;p&gt; Message: &#123;&#123; msg &#125;&#125; &lt;<span class="regexp">/p&gt;</span></span><br><span class="line"><span class="regexp">    &lt;button @click="changeMessage()"&gt;Change Message&lt;/</span>button&gt;</span><br><span class="line">  &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">&lt;/</span>template&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  data() &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      count: <span class="number">0</span>,</span><br><span class="line">      msg: <span class="string">'some message'</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  computed: &#123;</span><br><span class="line">    countDouble() &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">this</span>.count*<span class="number">2</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  watch: &#123;</span><br><span class="line">    count(newVal) &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">'count changed'</span>, newVal)</span><br><span class="line">    &#125;,</span><br><span class="line">    msg(newVal) &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">'msg changed'</span>, newVal)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  methods: &#123;</span><br><span class="line">     inc() &#123;</span><br><span class="line">      <span class="keyword">this</span>.count += <span class="number">1</span></span><br><span class="line">    &#125;,</span><br><span class="line">    dec() &#123;</span><br><span class="line">      <span class="keyword">if</span> (<span class="keyword">this</span>.count !== <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">this</span>.count -= <span class="number">1</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    changeMessage() &#123;</span><br><span class="line">      msg = <span class="string">"new Message"</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">&lt;<span class="regexp">/script&gt;</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>上面两段代码在效果上市完全等价的</p>
+</blockquote>
+<p>使用 <code>Composition API</code> 的好处：可以让我们更好地组织代码(<code>state</code>, <code>methods</code>, <code>computed properties</code>, <code>watcher</code> 等)。</p>
+<p>随着组件规模的增长，组织代码成为一个重要的因素。任何新开发人员都可以轻松地理解代码，而不需要花太多时间。</p>
+<p>以前，我们使用 <code>mixin</code> 来复用代码。然而，<code>mixin</code> 最大的痛点是，我们需要跟踪不同组件中的状态和方法，这往往会给开发带来一定的心智负担，一旦我们不小心，<code>mixin</code> 可能会覆盖组件中的现有状态或方法。</p>
+<p>使用 <code>Composition API</code> 让代码复用更加容易。</p>
+<p>我们可以抽取出重复功能的代码，并在多个地方使用:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// message.js</span></span><br><span class="line"><span class="keyword">import</span> &#123; ref, watch &#125; <span class="keyword">from</span> <span class="string">"vue"</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">message</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> msg = ref(<span class="number">123</span>);</span><br><span class="line">  watch(msg, (newVal) =&gt; &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"msg changed"</span>, newVal);</span><br><span class="line">  &#125;);</span><br><span class="line">  <span class="keyword">const</span> changeMessage = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    msg.value = <span class="string">"new Message"</span>;</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="keyword">return</span> &#123; msg, changeMessage &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在其他组件中使用上面组件:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">"counter"</span>&gt;</span><br><span class="line">    &lt;p&gt;count: &#123;&#123; count &#125;&#125;&lt;<span class="regexp">/p&gt;</span></span><br><span class="line"><span class="regexp">    &lt;p&gt;NewVal (count + 2): &#123;&#123; countDouble &#125;&#125;&lt;/</span>p&gt;</span><br><span class="line">    &lt;button @click=<span class="string">"inc"</span>&gt;Increment&lt;<span class="regexp">/button&gt;</span></span><br><span class="line"><span class="regexp">    &lt;button @click="dec"&gt;Decrement&lt;/</span>button&gt;</span><br><span class="line">    &lt;p&gt;Message: &#123;&#123; msg &#125;&#125;&lt;<span class="regexp">/p&gt;</span></span><br><span class="line"><span class="regexp">    &lt;button @click="changeMessage()"&gt;change message&lt;/</span>button&gt;</span><br><span class="line">  &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">&lt;/</span>template&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line"><span class="keyword">import</span> &#123; ref, computed, watch &#125; <span class="keyword">from</span> <span class="string">'vue'</span></span><br><span class="line"><span class="keyword">import</span> &#123; message &#125; <span class="keyword">from</span> <span class="string">'./common/message'</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  setup() &#123;</span><br><span class="line">    <span class="keyword">let</span> count = ref(<span class="number">0</span>)</span><br><span class="line">    <span class="keyword">const</span> countDouble = computed(<span class="function"><span class="params">()</span> =&gt;</span> count.value * <span class="number">2</span>)</span><br><span class="line">    watch(count, newVal =&gt; &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">'count changed'</span>, newVal)</span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="keyword">const</span> inc = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">      count.value += <span class="number">1</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">const</span> dec = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">if</span> (count.value !== <span class="number">0</span>) &#123;</span><br><span class="line">        count.value -= <span class="number">1</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">let</span> &#123; msg, changeMessage &#125; = message()</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      count,</span><br><span class="line">      msg,</span><br><span class="line">      changeMessage,</span><br><span class="line">      inc,</span><br><span class="line">      dec,</span><br><span class="line">      countDouble</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;<span class="regexp">/script&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="2、支持多根节点"><a href="#2、支持多根节点" class="headerlink" title="2、支持多根节点"></a>2、支持多根节点</h2><p>在 <code>Vue 2</code> 中，tempalte 只能取一个根元素。即使我们只有两个 <code>&amp;lt;p&amp;gt;</code> 标记，我们也必须将它们包含在一个 <code>&amp;lt;div&amp;gt;</code> 标记中：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">"counter"</span>&gt;</span><br><span class="line">    &lt;p&gt; Count: &#123;&#123; count &#125;&#125; &lt;<span class="regexp">/p&gt;</span></span><br><span class="line"><span class="regexp">    &lt;button @click="increment"&gt; Increment &lt;/</span>button&gt;</span><br><span class="line">    &lt;button @click=<span class="string">"decrement"</span>&gt; Decrement&lt;<span class="regexp">/button&gt;</span></span><br><span class="line"><span class="regexp">  &lt;/</span>div&gt;</span><br><span class="line">&lt;<span class="regexp">/template&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>这种毫无意义的 <code>html</code> 嵌套，相信很多小伙伴都有同感。</p>
+<p>终于在 Vue 3 中取消了这一限制：</p>
+<p>可以直接在&lt;template&gt;&lt;/template&gt;中使用任意数量的标签:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;p&gt; Count: &#123;&#123; count &#125;&#125; &lt;<span class="regexp">/p&gt;</span></span><br><span class="line"><span class="regexp">  &lt;button @click="increment"&gt; Increment &lt;/</span>button&gt;</span><br><span class="line">  &lt;button @click=<span class="string">"decrement"</span>&gt; Decrement&lt;<span class="regexp">/button&gt;</span></span><br><span class="line"><span class="regexp">&lt;/</span>template&gt;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>当使用 VScode 打开模板时，看到一些 <code>lint</code> 错误，这是因为官方插件 <code>eslint-plugin-vue</code> 还没有支持新的模板语法。</p>
+</blockquote>
+<h2 id="3、Suspense"><a href="#3、Suspense" class="headerlink" title="3、Suspense"></a>3、Suspense</h2><p><code>Suspense</code> 是一个新特性，它根据状态显示一个 <code>default/fallback</code> 组件，直到获取到后端数据为止。</p>
+<p>有时我们使用异步操作从服务器获取数据。与使用 v-if 来处理模板，然后在返回数据时将其设置回去不同，<code>Suspense</code> 的出现大大简化了这个过程。</p>
+<p><code>Suspense</code> 可以用于模板的两个部分，也可以用于整个模板:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;Suspense&gt;</span><br><span class="line">    &lt;template #default&gt;</span><br><span class="line">      &lt;div v-<span class="keyword">for</span>=<span class="string">"item in articleList"</span> :key=<span class="string">"item.id"</span>&gt;</span><br><span class="line">        &lt;article&gt;</span><br><span class="line">          &lt;h2&gt;&#123;&#123; item.title &#125;&#125;&lt;<span class="regexp">/h2&gt;</span></span><br><span class="line"><span class="regexp">          &lt;p&gt;&#123;&#123; item.body &#125;&#125;&lt;/</span>p&gt;</span><br><span class="line">        &lt;<span class="regexp">/article&gt;</span></span><br><span class="line"><span class="regexp">      &lt;/</span>div&gt;</span><br><span class="line">    &lt;<span class="regexp">/template&gt;</span></span><br><span class="line"><span class="regexp">    &lt;template #fallback&gt;</span></span><br><span class="line"><span class="regexp">      Articles loading...</span></span><br><span class="line"><span class="regexp">    &lt;/</span>template&gt;</span><br><span class="line">  &lt;<span class="regexp">/Suspense&gt;</span></span><br><span class="line"><span class="regexp">&lt;/</span>template&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line"><span class="keyword">import</span> axios <span class="keyword">from</span> <span class="string">'axios'</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  <span class="keyword">async</span> setup() &#123;</span><br><span class="line">    <span class="keyword">let</span> articleList = <span class="keyword">await</span> axios</span><br><span class="line">      .get(<span class="string">'https://jsonplaceholder.typicode.com/posts'</span>)</span><br><span class="line">      .then(<span class="function"><span class="params">response</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(response)</span><br><span class="line">        <span class="keyword">return</span> response.data</span><br><span class="line">      &#125;)</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      articleList</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;<span class="regexp">/script&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="4、多-v-models"><a href="#4、多-v-models" class="headerlink" title="4、多 v-models"></a>4、多 v-models</h2><p>我们都知道 <code>v-models</code> 用于双向数据绑定。一般用于与表单元素一起使用。有时我们会在自定义组件中使用它。</p>
+<p><code>Vue 2</code> 只允许在一个组件上使用一个 <code>v-models</code>。在 <code>Vue 3</code> 中，我们可以将任意数量的 <code>v-model</code> 绑定到我们的定制组件上:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;survey-form v-model:name=<span class="string">"name"</span> v-model:age=<span class="string">"age"</span>&gt;</span><br><span class="line">    &#123;<span class="string">" "</span>&#125;</span><br><span class="line">  &lt;<span class="regexp">/survey-form&gt;</span></span><br><span class="line"><span class="regexp">&lt;/</span>template&gt;</span><br></pre></td></tr></table></figure>
+
+<p>SurveyForm.vue:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">        &lt;label&gt;Name: <span class="xml"><span class="tag">&lt;/<span class="name">label</span>&gt;</span></span></span><br><span class="line">        &lt;input :value=<span class="string">"name"</span> @input=<span class="string">"updateName($event.target.value)"</span> /&gt;</span><br><span class="line">        &lt;label&gt;Age: <span class="xml"><span class="tag">&lt;/<span class="name">label</span>&gt;</span></span></span><br><span class="line">        &lt;input :value=<span class="string">"age"</span> @input=<span class="string">"updateAge($event.target.value)"</span> /&gt;</span><br><span class="line">    &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">&lt;/</span>template&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">    <span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">      props: &#123;</span><br><span class="line">        name: <span class="built_in">String</span>,</span><br><span class="line">        age: <span class="built_in">Number</span></span><br><span class="line">      &#125;,</span><br><span class="line">      setup(props, &#123; emit &#125;) &#123;</span><br><span class="line">        <span class="keyword">const</span> updateName = <span class="function"><span class="params">value</span> =&gt;</span> &#123;</span><br><span class="line">          emit(<span class="string">'update:name'</span>, value)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">const</span> updateAge = <span class="function"><span class="params">value</span> =&gt;</span> &#123;</span><br><span class="line">          emit(<span class="string">'update:age'</span>, +value)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> &#123; updateName, updateAge &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&lt;<span class="regexp">/script&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="5、优秀的响应式"><a href="#5、优秀的响应式" class="headerlink" title="5、优秀的响应式"></a>5、优秀的响应式</h2><p><code>Vue 2</code> 已支持很好的响应式，但在少数情况下 <code>Vue 2</code> 存在一些问题：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">"hello"</span> @click=<span class="string">"test"</span>&gt;test &#123;&#123;list &#125;&#125; &#123;&#123; myObj &#125;&#125;&lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">&lt;/</span>template&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  name: <span class="string">"HelloWorld"</span>,</span><br><span class="line">  data() &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      list: [<span class="number">1</span>, <span class="number">2</span>],</span><br><span class="line">      myObj: &#123; <span class="attr">name</span>: <span class="string">"Preetish"</span> &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;,</span><br><span class="line">  watch: &#123;</span><br><span class="line">    list: &#123;</span><br><span class="line">      handler: <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">"watcher triggered"</span>);</span><br><span class="line">      &#125;,</span><br><span class="line">      deep: <span class="literal">true</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  methods: &#123;</span><br><span class="line">    test() &#123;</span><br><span class="line">      <span class="keyword">this</span>.list[<span class="number">2</span>] = <span class="number">4</span>;</span><br><span class="line">      <span class="keyword">this</span>.myObj.last = <span class="string">"HS"</span>;</span><br><span class="line">      <span class="keyword">delete</span> <span class="keyword">this</span>.myObj.name;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line">&lt;<span class="regexp">/script&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>我们发现通过<code>this.list</code>下标来修改元素，并不会触发 <code>wacher</code> 监听函数，为了达到目的，我们不得不使用 <code>vue.set()</code> 或 <code>vue.delete()</code> 这些方法。</p>
+<p>而在 <code>vue 3</code> 中，我们不需要编写任何代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  setup() &#123;</span><br><span class="line">    <span class="keyword">let</span> list = ref([<span class="number">1</span>, <span class="number">2</span>]);</span><br><span class="line">    <span class="keyword">let</span> myObj = ref(&#123; <span class="attr">name</span>: <span class="string">"Preetish"</span> &#125;);</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">myFun</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">      list.value[<span class="number">3</span>] = <span class="number">3</span>;</span><br><span class="line">      myObj.value.last = <span class="string">"HS"</span>;</span><br><span class="line">      <span class="keyword">delete</span> myObj.value.name;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> &#123; myFun, list, myObj &#125;;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="6、Portals"><a href="#6、Portals" class="headerlink" title="6、Portals"></a>6、Portals</h2><p>Portals 的租用：我们可以将一个组件中出现的部分代码呈现到另一个不同 DOM 树中的不同组件中。有一个第三方插件叫做 portal-vue，它在 Vue 2 中实现了这一点。</p>
+<p>在 vue 3 中可以直接使用它：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;Teleport to=<span class="string">"#modal-layer"</span>&gt;</span><br><span class="line">  &lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">"modal"</span>&gt;hello&lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">&lt;/</span>Teleport&gt;</span><br></pre></td></tr></table></figure>
+
+<p>&lt;Teleport&gt; 是 vue3 中</p>
+<p>&lt;Teleport&gt; &lt;/Teleport&gt;中的内容会出现 to 指定的目标容器：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=<span class="string">"modal-target"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>目前为止，&lt;Teleport&gt;在 Alpha 版本中并不能使用</p>
+</blockquote>
+<h1 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h1><p>总之<code>Vue 3</code> 通过提供一种简单的方式来组织和共享代码，并提供强大的 <code>TypeScript</code> 支持，新的代码组织方式会对未来的应用开发产生重大影响。</p>
+<p>同时一些其它的特性，如 <code>Suspense</code>，多个 <code>v-models</code> 等也会给开发带来巨大的便利。</p>
+<p>同时性能更快，体积更小。它是如何做到的请参考我写的另一篇文章：<a href="/2019/10/28/the-story-of-vue3-0/">Vue.js 作者：关于 Vue3.0 背后的故事</a></p>
+
+    </div>
+
+    <div>全文完。</div>
+  </article>
+  <div class="toc-container">
+    
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#创建项目"><span class="toc-text">创建项目</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Vue-3-都有哪些新特性"><span class="toc-text">Vue 3 都有哪些新特性</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-Composition-API"><span class="toc-text">1.Composition API</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2、支持多根节点"><span class="toc-text">2、支持多根节点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3、Suspense"><span class="toc-text">3、Suspense</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4、多-v-models"><span class="toc-text">4、多 v-models</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5、优秀的响应式"><span class="toc-text">5、优秀的响应式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6、Portals"><span class="toc-text">6、Portals</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#结束语"><span class="toc-text">结束语</span></a>
+  </div>
+
+
+  </div>
+</div>
+<div class="copyright">
+    <span>转载时请注明原文链接。</span>
+</div>
+<!-- <div class="share" style="width: 100%;">
+  <img src="https://kevinofneu-blog-static.oss-cn-beijing.aliyuncs.com/static/2018-12-10-qrcode_for_gh_ffacf5722095_258.jpg" alt="Running Geek" style="margin: auto; display: block;"/>
+
+  <div style="margin: auto; text-align: center; font-size: 0.8em; color: grey;">老铁们关注走一走，不迷路</div>
+  
+</div>
+ -->
+  
+    <div class="post-nav">
+      <div class="post-nav-item post-nav-next">
+        
+          <span>〈 </span>
+          <a href="/2020/03/01/quick-sort-algorithm-in-javasript/" rel="next" title="夯实算法-快速排序">
+          夯实算法-快速排序
+          </a>
+        
+      </div>
+  
+      <div class="post-nav-item post-nav-prev">
+          
+      </div>
+    </div>
+  
+
+  <script src="https://unpkg.com/octomments/build/ocs.min.js"></script>
+  <div id="octomments"></div>
+  <script>
+  Octomments({
+    github: {
+      owner: 'answer518',
+      repo: 'answer518.github.io',
+    },
+    issueNumber: 1,
+    renderer: [OctommentsRenderer, '#octomments']
+  }).init();
+  </script>
+
+
+
+    </div>
+
+    
+
+  </div>
+  <footer class="footer text-center">
+    <div id="bottom-inner">
+        <a class="bottom-item" href="https://answer518.github.io">首页</a> |
+        <a class="bottom-item" href="https://juejin.im/user/5b3a28a1e51d45558a3f7255/posts" target="_blank">掘金专栏</a> |
+        <a class="bottom-item" href="https://github.com/answer518" target="_blank">GitHub</a> |
+        <a class="bottom-item" href="https://hexo.io" target="_blank">Powered by hexo</a>
+        <!-- <a class="bottom-item" href="https://github.com/KevinOfNeu/hexo-theme-xoxo" target="_blank">Theme xoxo</a> -->
+    </div>
+</footer>
+  
+
+<script>
+  (function(window, document, undefined) {
+
+    var timer = null;
+
+    function returnTop() {
+      cancelAnimationFrame(timer);
+      timer = requestAnimationFrame(function fn() {
+        var oTop = document.body.scrollTop || document.documentElement.scrollTop;
+        if (oTop > 0) {
+          document.body.scrollTop = document.documentElement.scrollTop = oTop - 50;
+          timer = requestAnimationFrame(fn);
+        } else {
+          cancelAnimationFrame(timer);
+        }
+      });
+    }
+
+    var hearts = [];
+    window.requestAnimationFrame = (function() {
+      return window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function(callback) {
+          setTimeout(callback, 1000 / 60);
+        }
+    })();
+    init();
+
+    function init() {
+      css(".heart{z-index:9999;width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: absolute;}.heart:after{top: -5px;}.heart:before{left: -5px;}");
+      attachEvent();
+      gameloop();
+      addMenuEvent();
+    }
+
+    function gameloop() {
+      for (var i = 0; i < hearts.length; i++) {
+        if (hearts[i].alpha <= 0) {
+          document.body.removeChild(hearts[i].el);
+          hearts.splice(i, 1);
+          continue;
+        }
+        hearts[i].y--;
+        hearts[i].scale += 0.004;
+        hearts[i].alpha -= 0.013;
+        hearts[i].el.style.cssText = "left:" + hearts[i].x + "px;top:" + hearts[i].y + "px;opacity:" + hearts[i].alpha + ";transform:scale(" + hearts[i].scale + "," + hearts[i].scale + ") rotate(45deg);background:" + hearts[i].color;
+      }
+      requestAnimationFrame(gameloop);
+    }
+
+    /**
+     * 给logo设置点击事件
+     * 
+     * - 回到顶部
+     * - 出现爱心
+     */
+    function attachEvent() {
+      var old = typeof window.onclick === "function" && window.onclick;
+      var logo = document.getElementById("logo");
+      if (logo) {
+        logo.onclick = function(event) {
+          returnTop();
+          old && old();
+          createHeart(event);
+        }
+      }
+      
+    }
+
+    function createHeart(event) {
+      var d = document.createElement("div");
+      d.className = "heart";
+      hearts.push({
+        el: d,
+        x: event.clientX - 5,
+        y: event.clientY - 5,
+        scale: 1,
+        alpha: 1,
+        color: randomColor()
+      });
+      document.body.appendChild(d);
+    }
+
+    function css(css) {
+      var style = document.createElement("style");
+      style.type = "text/css";
+      try {
+        style.appendChild(document.createTextNode(css));
+      } catch (ex) {
+        style.styleSheet.cssText = css;
+      }
+      document.getElementsByTagName('head')[0].appendChild(style);
+    }
+
+    function randomColor() {
+      // return "rgb(" + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + ")";
+      return "#F44336";
+    }
+
+    function addMenuEvent() {
+      var menu = document.getElementById('menu-main-post');
+      if (menu) {
+        var toc = document.getElementById('toc');
+        if (toc) {
+          menu.onclick = function() {
+            if (toc) {
+              if (toc.style.display == 'block') {
+                toc.style.display = 'none';
+              } else {
+                toc.style.display = 'block';
+              }
+            }
+          };
+        } else {
+          menu.style.display = 'none';
+        }
+      }
+    }
+
+  })(window, document);
+</script>
+
+  
+
+
+
+</body>
+</html>
