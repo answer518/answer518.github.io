@@ -111,7 +111,7 @@
 
 <p>由于众所周知的浏览器同源策略，请求被阻止，因为网站的起源和服务器不同。</p>
 <p>通过将脚本src属性设置为API的URL，脚本将获取响应并在浏览器上下文中执行它。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script src=<span class="string">"https://www.server.com/api/person/1"</span> <span class="keyword">async</span>=<span class="string">"true"</span>&gt;&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script src=<span class="string">"https://www.server.com/api/person/1"</span> <span class="keyword">async</span>=<span class="string">"true"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
 
 <p>但问题是，脚本元素自动解析并执行返回的代码。在本例中，返回的代码是上面显示的JSON片段。JSON将被解析为JavaScript代码，并因此抛出一个错误，因为它不是有效的JavaScript。</p>
 <p><img src="/assets/images/2020-03/parsing-error.png" alt="parsing-error"></p>

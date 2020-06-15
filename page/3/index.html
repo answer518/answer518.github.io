@@ -1,0 +1,273 @@
+
+<!DOCTYPE html>
+<html lang="">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#202020">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+  
+  
+    <meta name="keywords" content="果糖酱的博客，小程序，PC，WebApp，H5，大前端">
+  
+
+  
+    <meta name="description" content="果糖酱的博客,自律才能自由">
+  
+  
+  
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=1.0.1">
+  
+  <title> [ 果糖酱的博客 ]自律才能自由</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css">
+    
+      <link rel="stylesheet" href="/css/xoxo.css">
+    
+  
+</head>
+
+
+<body>
+  <div class="nav-container">
+    <nav class="home-menu pure-menu pure-menu-horizontal">
+  <a class="pure-menu-heading" href="/">
+    <img class="avatar" src="/assets/images/logo.png">
+    <span class="title">果糖酱的博客</span>
+  </a>
+
+  <ul class="pure-menu-list clearfix">
+      
+          
+            <li class="pure-menu-item actived"><a href="/" class="pure-menu-link">首页</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/archives" class="pure-menu-link">归档</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/tags" class="pure-menu-link">标签</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/about" class="pure-menu-link">关于</a></li>
+          
+      
+  </ul>
+   
+</nav>
+  </div>
+
+  <div class="container" id="content-outer">
+    <div class="inner" id="content-inner">
+      
+
+  <div class="recent-posts">
+    
+
+      <article class="recent-post-item">
+        <a class="title" href="/2016/03/20/what-it-is-jsonp/"><h2>揭开JSONP的神秘面纱</h2></a>
+        <div class="post-meta">
+          
+          <time class="time" datetime="2016-03-20T06:17:47.000Z">
+            2016-03-20
+          </time>
+          
+          <span class="slash">/</span>
+          
+          <ul class="index-tag-list"><li class="index-tag-list-item"><a class="index-tag-list-link" href="/tags/javascript/">javascript</a></li><li class="index-tag-list-item"><a class="index-tag-list-link" href="/tags/jsonp/">jsonp</a></li></ul>
+          
+
+        </div>
+        
+          <div class="post-excerpt">
+            JSON with padding (简称JSONP)是一种允许开发人员绕过(使用脚本元素的性质)浏览器强制执行的同源策略的技术。该政策禁止阅读任何来自不同网站的回复，这些网站的来源与目前使用的不同。顺便说一句，该策略允许发送请求，但不允许读取请求的内容。
+          </div>
+        
+        <a class="more" href="/2016/03/20/what-it-is-jsonp/"> 阅读全文〉</a>
+      </article>
+    
+
+      <article class="recent-post-item">
+        <a class="title" href="/2016/01/05/relearn-http/"><h2>重新学习HTTP协议</h2></a>
+        <div class="post-meta">
+          
+          <time class="time" datetime="2016-01-05T15:36:46.000Z">
+            2016-01-05
+          </time>
+          
+          <span class="slash">/</span>
+          
+          <ul class="index-tag-list"><li class="index-tag-list-item"><a class="index-tag-list-link" href="/tags/http/">http</a></li></ul>
+          
+
+        </div>
+        
+          <div class="post-excerpt">
+            HTTP协议的主要特点 简单 快速灵活 无连接 无状态;HTTP请求采用“请求-应答”模式，当使用普通模式，即非Keep-Alive模式时，每个请求/应答，客户端与服务器都要新建一个连接，完成之后立刻断开
+          </div>
+        
+        <a class="more" href="/2016/01/05/relearn-http/"> 阅读全文〉</a>
+      </article>
+    
+  </div>
+
+
+
+    </div>
+
+    
+      <nav class="page-nav text-center">
+          <a class="extend prev" rel="prev" href="/page/2/">〈</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
+      </nav>
+    
+
+  </div>
+  <footer class="footer text-center">
+    <div id="bottom-inner">
+        <a class="bottom-item" href="https://answer518.github.io">首页</a> |
+        <a class="bottom-item" href="https://juejin.im/user/5b3a28a1e51d45558a3f7255/posts" target="_blank">掘金专栏</a> |
+        <a class="bottom-item" href="https://github.com/answer518" target="_blank">GitHub</a> |
+        <a class="bottom-item" href="https://hexo.io" target="_blank">Powered by hexo</a>
+        <!-- <a class="bottom-item" href="https://github.com/KevinOfNeu/hexo-theme-xoxo" target="_blank">Theme xoxo</a> -->
+    </div>
+</footer>
+  
+
+<script>
+  (function(window, document, undefined) {
+
+    var timer = null;
+
+    function returnTop() {
+      cancelAnimationFrame(timer);
+      timer = requestAnimationFrame(function fn() {
+        var oTop = document.body.scrollTop || document.documentElement.scrollTop;
+        if (oTop > 0) {
+          document.body.scrollTop = document.documentElement.scrollTop = oTop - 50;
+          timer = requestAnimationFrame(fn);
+        } else {
+          cancelAnimationFrame(timer);
+        }
+      });
+    }
+
+    var hearts = [];
+    window.requestAnimationFrame = (function() {
+      return window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function(callback) {
+          setTimeout(callback, 1000 / 60);
+        }
+    })();
+    init();
+
+    function init() {
+      css(".heart{z-index:9999;width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: absolute;}.heart:after{top: -5px;}.heart:before{left: -5px;}");
+      attachEvent();
+      gameloop();
+      addMenuEvent();
+    }
+
+    function gameloop() {
+      for (var i = 0; i < hearts.length; i++) {
+        if (hearts[i].alpha <= 0) {
+          document.body.removeChild(hearts[i].el);
+          hearts.splice(i, 1);
+          continue;
+        }
+        hearts[i].y--;
+        hearts[i].scale += 0.004;
+        hearts[i].alpha -= 0.013;
+        hearts[i].el.style.cssText = "left:" + hearts[i].x + "px;top:" + hearts[i].y + "px;opacity:" + hearts[i].alpha + ";transform:scale(" + hearts[i].scale + "," + hearts[i].scale + ") rotate(45deg);background:" + hearts[i].color;
+      }
+      requestAnimationFrame(gameloop);
+    }
+
+    /**
+     * 给logo设置点击事件
+     * 
+     * - 回到顶部
+     * - 出现爱心
+     */
+    function attachEvent() {
+      var old = typeof window.onclick === "function" && window.onclick;
+      var logo = document.getElementById("logo");
+      if (logo) {
+        logo.onclick = function(event) {
+          returnTop();
+          old && old();
+          createHeart(event);
+        }
+      }
+      
+    }
+
+    function createHeart(event) {
+      var d = document.createElement("div");
+      d.className = "heart";
+      hearts.push({
+        el: d,
+        x: event.clientX - 5,
+        y: event.clientY - 5,
+        scale: 1,
+        alpha: 1,
+        color: randomColor()
+      });
+      document.body.appendChild(d);
+    }
+
+    function css(css) {
+      var style = document.createElement("style");
+      style.type = "text/css";
+      try {
+        style.appendChild(document.createTextNode(css));
+      } catch (ex) {
+        style.styleSheet.cssText = css;
+      }
+      document.getElementsByTagName('head')[0].appendChild(style);
+    }
+
+    function randomColor() {
+      // return "rgb(" + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + ")";
+      return "#F44336";
+    }
+
+    function addMenuEvent() {
+      var menu = document.getElementById('menu-main-post');
+      if (menu) {
+        var toc = document.getElementById('toc');
+        if (toc) {
+          menu.onclick = function() {
+            if (toc) {
+              if (toc.style.display == 'block') {
+                toc.style.display = 'none';
+              } else {
+                toc.style.display = 'block';
+              }
+            }
+          };
+        } else {
+          menu.style.display = 'none';
+        }
+      }
+    }
+
+  })(window, document);
+</script>
+
+  
+
+
+
+</body>
+</html>
