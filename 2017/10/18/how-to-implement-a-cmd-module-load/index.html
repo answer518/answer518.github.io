@@ -1,0 +1,347 @@
+
+<!DOCTYPE html>
+<html lang="">
+
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#202020"/>
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+  
+  
+    <meta name="keywords" content="果糖酱的博客，小程序，PC，WebApp，H5，大前端" />
+  
+
+  
+    <meta name="description" content="最初原因是作为面试准备的主题之一，后来发现研究原理最好的方法就是自己动手实现一个。前端早已进入了模块化开发的时代，Node.js火起来后，CommonJS作为服务端js模块化的标准。与此同时，针对浏览器端的模块化规范AMD, CMD陆续推出，其中最具代表性的就是require.js和sea.js。" />
+  
+  
+  
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=1.0.1" />
+  
+  <title>如何实现一个CMD规范的模块加载器 [ 果糖酱的博客 ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css">
+    
+      <link rel="stylesheet" href="/css/xoxo.css">
+    
+  
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+<body>
+  <div class="nav-container">
+    <nav class="home-menu pure-menu pure-menu-horizontal">
+  <a class="pure-menu-heading" href="/">
+    <img class="avatar" src="/assets/images/logo.png">
+    <span class="title">果糖酱的博客</span>
+  </a>
+
+  <ul class="pure-menu-list clearfix">
+      
+          
+            <li class="pure-menu-item"><a href="/" class="pure-menu-link">首页</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/archives" class="pure-menu-link">归档</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/tags" class="pure-menu-link">标签</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/about" class="pure-menu-link">关于</a></li>
+          
+      
+  </ul>
+   
+</nav>
+  </div>
+
+  <div class="container" id="content-outer">
+    <div class="inner" id="content-inner">
+      <div class="post-container">
+  <article class="post" id="post">
+    <header class="post-header text-center">
+      <h1 class="title">
+        如何实现一个CMD规范的模块加载器
+      </h1>
+      <span>
+        
+        <time class="time" datetime="2017-10-18T02:31:37.000Z">
+        2017-10-18
+      </time>
+        
+      </span>
+      <span class="slash">/</span>
+      <span class="post-meta">
+      <span class="post-tags">
+        
+      </span>
+    </span>
+      <span class="slash">/</span>
+      <span class="read">
+      <span id="busuanzi_value_page_pv"></span> 点击
+    </span>
+      <span class="slash">/</span>
+      <span class="read">阅读耗时 10 分钟</span>
+    </header>
+
+    <div class="post-content">
+      <h1 id="why"><a href="#why" class="headerlink" title="why"></a>why</h1><p>最初原因是作为面试准备的主题之一，后来发现研究原理最好的方法就是自己动手实现一个。</p>
+<h1 id="what"><a href="#what" class="headerlink" title="what"></a>what</h1><p>前端早已进入了模块化开发的时代，Node.js火起来后，CommonJS作为服务端js模块化的标准。与此同时，针对浏览器端的模块化规范AMD, CMD陆续推出，其中最具代表性的就是require.js和sea.js。</p>
+<h1 id="how"><a href="#how" class="headerlink" title="how"></a>how</h1><h2 id="如何定位一个模块"><a href="#如何定位一个模块" class="headerlink" title="如何定位一个模块"></a>如何定位一个模块</h2><p>每个module都有一个ID(一般是模块的相对路径),根据传入的baseURL+模块ID得到该模块的完整路径。</p>
+<h2 id="如何加载一个模块"><a href="#如何加载一个模块" class="headerlink" title="如何加载一个模块"></a>如何加载一个模块</h2><p>得到模块的完整路径后，通过动态创建script脚本来加载模块：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> node = <span class="built_in">document</span>.createElement(<span class="string">'script'</span>);</span><br><span class="line"><span class="keyword">var</span> head = <span class="built_in">document</span>.getElementsByTagName(<span class="string">'head'</span>)[<span class="number">0</span>];</span><br><span class="line"></span><br><span class="line">node.src = url;</span><br><span class="line">node.async = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">node.addEventListener(<span class="string">'load'</span>, callback, <span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line">head.insertBefore(node, head.firstChild);</span><br></pre></td></tr></table></figure>
+
+<h2 id="如何获取一个模块的依赖"><a href="#如何获取一个模块的依赖" class="headerlink" title="如何获取一个模块的依赖"></a>如何获取一个模块的依赖</h2><p>每加载一个模块，都会在内部维护一个模块依赖映射表：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	模块路径<span class="number">1</span>：&#123;</span><br><span class="line">		id: <span class="string">''</span>,</span><br><span class="line">		dep: [], 依赖</span><br><span class="line">		factory: fn  模块方法</span><br><span class="line">	&#125;,</span><br><span class="line">	模块路径<span class="number">2</span>：&#123;</span><br><span class="line">		id: <span class="string">''</span>,</span><br><span class="line">		dep: [], 依赖</span><br><span class="line">		factory: fn  模块方法</span><br><span class="line">	&#125;</span><br><span class="line">	...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样通过模块id很容易得到模块对应的依赖信息，找到依赖后，就可以通过id定位到模块的完整路径，然后通过完整路径去加载这个模块了，也就是重复加载单个模块的过程。</p>
+<h2 id="模块重复加载怎么办"><a href="#模块重复加载怎么办" class="headerlink" title="模块重复加载怎么办"></a>模块重复加载怎么办</h2><p>开发过程中，很容易遇到A模块依赖B模块,C模块也依赖B模块的场景。如果按照上面的模块加载流程，B模块会被加载两次，也就是在分别加载A模块和C模块的时候，都会加载B。很明显这是一种资源上面的浪费，明明已经加载过了，为嘛还要加载一遍。</p>
+<p>解决方法很简单，每次加载依赖模块前先看看依赖映射表是否存在，存在了即已加载过，就不需要重复加载了。</p>
+<h2 id="模块的内部方法是如何导出的"><a href="#模块的内部方法是如何导出的" class="headerlink" title="模块的内部方法是如何导出的"></a>模块的内部方法是如何导出的</h2><p>模块化开发的目的是为了避免污染全局变量，模块内部定义的方法，都是通过内部变量export的形式，提供外部访问句柄的。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">define(<span class="string">'A'</span>, [<span class="string">'B'</span>,<span class="string">'C'</span>], <span class="function"><span class="keyword">function</span>(<span class="params">require, exports</span>) </span>&#123;</span><br><span class="line">	exports.hello = <span class="function"><span class="keyword">function</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">		<span class="built_in">console</span>.log(<span class="string">'hello, '</span> + name)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="built_in">require</span>(<span class="string">'A'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">require</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">var</span> A = <span class="built_in">require</span>(<span class="string">'A'</span>)</span><br><span class="line">	A.hello(<span class="string">'answer'</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>上面代码表示模块A对外提供了一个<code>hello()</code>方法, 在模块D内部通过<code>require(&#39;A&#39;)</code>来取得模块A的内部对象exports,这样就可以使用hello方法啦。</p>
+<p>我们先看下<code>var A = require(&#39;A&#39;)</code>都做了些什么？</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">require</span>(<span class="params">id</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">var</span> mod = getMoulde(id)</span><br><span class="line">	<span class="keyword">var</span> fn = mod.factory;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span>(!mod.exports) &#123;</span><br><span class="line">        <span class="keyword">var</span> exports = &#123;&#125;;</span><br><span class="line">	    <span class="keyword">var</span> ret = factory.call(mod, <span class="keyword">new</span> Require(), exports, mod);</span><br><span class="line">	    <span class="keyword">if</span>(ret) mod.exports = ret;</span><br><span class="line"></span><br><span class="line">	    mod.exports = exports;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> mod.exports</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>利用call调用模块的factory方法,依次将<code>require</code>,<code>exports</code>对象传入,模块内部将hello方法挂在exports对象上,最后将exports对象挂在模块映射表上缓存起来，下次就可以直接使用了。</p>
+<h2 id="如何解决循环依赖"><a href="#如何解决循环依赖" class="headerlink" title="如何解决循环依赖"></a>如何解决循环依赖</h2><p>模块之间互相引用，会导致循环依赖：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// a.js</span></span><br><span class="line">S.declare([<span class="string">'cyclic/b'</span>], <span class="function"><span class="keyword">function</span>(<span class="params">require, exports</span>) </span>&#123;</span><br><span class="line">	</span><br><span class="line">    <span class="keyword">var</span> b = <span class="built_in">require</span>(<span class="string">'cyclic/b'</span>);</span><br><span class="line">    exports.a = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> b;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// b.js</span></span><br><span class="line">S.declare([<span class="string">'cyclic/a'</span>], <span class="function"><span class="keyword">function</span>(<span class="params">require, exports</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> a = <span class="built_in">require</span>(<span class="string">'cyclic/a'</span>);</span><br><span class="line">    exports.b = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> a;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p><strong>备注：这里的循环依赖与重复加载是不同的概念</strong></p>
+<p>重复加载指的是从网络下载模块文件，如何解决上面已经提到过了。<br>循环依赖的问题在于循环触发了模块的factory函数。解决的关键就是<code>require(&#39;xxx&#39;)</code>时需要判断是否factory已经执行过了，如果执行了，直接返回上次的exports对象即可。</p>
+<h1 id="CMD-AMD区别"><a href="#CMD-AMD区别" class="headerlink" title="CMD,AMD区别"></a>CMD,AMD区别</h1><p>CMD推崇依赖就近，可以把依赖写进你的代码中的任意一行:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">define(<span class="function"><span class="keyword">function</span>(<span class="params">require, exports, module</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> a = <span class="built_in">require</span>(<span class="string">'./a'</span>)</span><br><span class="line">  a.doSomething()</span><br><span class="line">  <span class="keyword">var</span> b = <span class="built_in">require</span>(<span class="string">'./b'</span>)</span><br><span class="line">  b.doSomething()</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>代码在运行时，首先是不知道依赖的，需要遍历所有的require关键字，找出后面的依赖。具体做法是将function toString后，用正则匹配出require关键字后面的依赖。显然，这是一种牺牲性能来换取更多开发便利的方法。</p>
+<p>AMD是依赖前置，也就是在解析和执行当前模块之前，模块作者必须指明当前模块所依赖的模块:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">define([<span class="string">'./a'</span>,<span class="string">'./b'</span>],<span class="function"><span class="keyword">function</span>(<span class="params">a,b</span>)</span>&#123;</span><br><span class="line">   a.doSomething()</span><br><span class="line">   b.doSomething()</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>由于提前知道依赖关系，所以不需要遍历整个函数体找它的依赖，所以性能相比CMD有所提升。唯一的缺点就是开发者必须显式得指明依赖——这会使得开发工作量变大</p>
+<blockquote>
+<p>当你写到函数体内部几百上千行的时候，忽然发现需要增加一个依赖，你不得不回到函数顶端来将这个依赖添加进数组。</p>
+</blockquote>
+<h2 id="硬依赖-软依赖"><a href="#硬依赖-软依赖" class="headerlink" title="硬依赖?软依赖"></a>硬依赖?软依赖</h2><p>所谓硬依赖就是肯定要执行的依赖，但有时候偏偏有这样的情况:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 函数体内：</span></span><br><span class="line"><span class="keyword">if</span>(status)&#123;</span><br><span class="line">  a.doSomething()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们把这种既可能依赖a,也可能不依赖a的这种叫做”软依赖”。为了最大化优化，我们需要针对这种情况做特殊处理:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 函数体内：</span></span><br><span class="line"><span class="keyword">if</span>(status)&#123;</span><br><span class="line">  <span class="keyword">async</span>([<span class="string">'a'</span>],<span class="function"><span class="keyword">function</span>(<span class="params">a</span>)</span>&#123;</span><br><span class="line">    a.doSomething()</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这就是依赖前置+回调的方案。</p>
+<ul>
+<li><a href="https://github.com/amdjs/amdjs-api/wiki/AMD" target="_blank" rel="noopener">AMD规范</a></li>
+</ul>
+<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ul>
+<li>非 AMD 演示加载器地址 <a href="https://github.com/dwarfJS/webkit-dwarf" target="_blank" rel="noopener">webkit-dwarf</a></li>
+</ul>
+
+    </div>
+
+    <div>全文完。</div>
+  </article>
+  <div class="toc-container">
+    
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#why"><span class="toc-text">why</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#what"><span class="toc-text">what</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#how"><span class="toc-text">how</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#如何定位一个模块"><span class="toc-text">如何定位一个模块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何加载一个模块"><span class="toc-text">如何加载一个模块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何获取一个模块的依赖"><span class="toc-text">如何获取一个模块的依赖</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#模块重复加载怎么办"><span class="toc-text">模块重复加载怎么办</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#模块的内部方法是如何导出的"><span class="toc-text">模块的内部方法是如何导出的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何解决循环依赖"><span class="toc-text">如何解决循环依赖</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#CMD-AMD区别"><span class="toc-text">CMD,AMD区别</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#硬依赖-软依赖"><span class="toc-text">硬依赖?软依赖</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#参考资料"><span class="toc-text">参考资料</span></a></li></ol></li></ol></li></ol>
+  </div>
+
+
+  </div>
+</div>
+<div class="copyright">
+    <span>转载时请注明原文链接。</span>
+</div>
+<!-- <div class="share" style="width: 100%;">
+  <img src="https://kevinofneu-blog-static.oss-cn-beijing.aliyuncs.com/static/2018-12-10-qrcode_for_gh_ffacf5722095_258.jpg" alt="Running Geek" style="margin: auto; display: block;"/>
+
+  <div style="margin: auto; text-align: center; font-size: 0.8em; color: grey;">老铁们关注走一走，不迷路</div>
+  
+</div>
+ -->
+  
+    <div class="post-nav">
+      <div class="post-nav-item post-nav-next">
+        
+          <span>〈 </span>
+          <a href="/2017/03/18/using-webworkers-for-safe-concurrent-javascript/" rel="next" title="一文读懂web worker究竟能干什么？">
+          一文读懂web worker究竟能干什么？
+          </a>
+        
+      </div>
+  
+      <div class="post-nav-item post-nav-prev">
+          
+          <a href="/2018/06/28/about-redux-thinking/" rel="prev" title="对Redux的重新思考">
+            对Redux的重新思考
+          </a>
+          <span>〉</span>
+        
+      </div>
+    </div>
+  
+
+  <script src="https://unpkg.com/octomments/build/ocs.min.js"></script>
+  <div id="octomments"></div>
+  <script>
+  Octomments({
+    github: {
+      owner: 'answer518',
+      repo: 'answer518.github.io',
+    },
+    issueNumber: 1,
+    renderer: [OctommentsRenderer, '#octomments']
+  }).init();
+  </script>
+
+
+
+    </div>
+
+    
+
+  </div>
+  <footer class="footer text-center">
+    <div id="bottom-inner">
+        <a class="bottom-item" href="https://answer518.github.io">首页</a> |
+        <a class="bottom-item" href="https://juejin.im/user/5b3a28a1e51d45558a3f7255/posts" target="_blank">掘金专栏</a> |
+        <a class="bottom-item" href="https://github.com/answer518" target="_blank">GitHub</a> |
+        <a class="bottom-item" href="https://hexo.io" target="_blank">Powered by hexo</a>
+        <!-- <a class="bottom-item" href="https://github.com/KevinOfNeu/hexo-theme-xoxo" target="_blank">Theme xoxo</a> -->
+    </div>
+</footer>
+  
+
+<script>
+  (function(window, document, undefined) {
+
+    var timer = null;
+
+    function returnTop() {
+      cancelAnimationFrame(timer);
+      timer = requestAnimationFrame(function fn() {
+        var oTop = document.body.scrollTop || document.documentElement.scrollTop;
+        if (oTop > 0) {
+          document.body.scrollTop = document.documentElement.scrollTop = oTop - 50;
+          timer = requestAnimationFrame(fn);
+        } else {
+          cancelAnimationFrame(timer);
+        }
+      });
+    }
+
+    var hearts = [];
+    window.requestAnimationFrame = (function() {
+      return window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function(callback) {
+          setTimeout(callback, 1000 / 60);
+        }
+    })();
+    init();
+
+    function init() {
+      css(".heart{z-index:9999;width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: absolute;}.heart:after{top: -5px;}.heart:before{left: -5px;}");
+      attachEvent();
+      gameloop();
+      addMenuEvent();
+    }
+
+    function gameloop() {
+      for (var i = 0; i < hearts.length; i++) {
+        if (hearts[i].alpha <= 0) {
+          document.body.removeChild(hearts[i].el);
+          hearts.splice(i, 1);
+          continue;
+        }
+        hearts[i].y--;
+        hearts[i].scale += 0.004;
+        hearts[i].alpha -= 0.013;
+        hearts[i].el.style.cssText = "left:" + hearts[i].x + "px;top:" + hearts[i].y + "px;opacity:" + hearts[i].alpha + ";transform:scale(" + hearts[i].scale + "," + hearts[i].scale + ") rotate(45deg);background:" + hearts[i].color;
+      }
+      requestAnimationFrame(gameloop);
+    }
+
+    /**
+     * 给logo设置点击事件
+     * 
+     * - 回到顶部
+     * - 出现爱心
+     */
+    function attachEvent() {
+      var old = typeof window.onclick === "function" && window.onclick;
+      var logo = document.getElementById("logo");
+      if (logo) {
+        logo.onclick = function(event) {
+          returnTop();
+          old && old();
+          createHeart(event);
+        }
+      }
+      
+    }
+
+    function createHeart(event) {
+      var d = document.createElement("div");
+      d.className = "heart";
+      hearts.push({
+        el: d,
+        x: event.clientX - 5,
+        y: event.clientY - 5,
+        scale: 1,
+        alpha: 1,
+        color: randomColor()
+      });
+      document.body.appendChild(d);
+    }
+
+    function css(css) {
+      var style = document.createElement("style");
+      style.type = "text/css";
+      try {
+        style.appendChild(document.createTextNode(css));
+      } catch (ex) {
+        style.styleSheet.cssText = css;
+      }
+      document.getElementsByTagName('head')[0].appendChild(style);
+    }
+
+    function randomColor() {
+      // return "rgb(" + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + ")";
+      return "#F44336";
+    }
+
+    function addMenuEvent() {
+      var menu = document.getElementById('menu-main-post');
+      if (menu) {
+        var toc = document.getElementById('toc');
+        if (toc) {
+          menu.onclick = function() {
+            if (toc) {
+              if (toc.style.display == 'block') {
+                toc.style.display = 'none';
+              } else {
+                toc.style.display = 'block';
+              }
+            }
+          };
+        } else {
+          menu.style.display = 'none';
+        }
+      }
+    }
+
+  })(window, document);
+</script>
+
+  
+
+
+
+</body>
+</html>

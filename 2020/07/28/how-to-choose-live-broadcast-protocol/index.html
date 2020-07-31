@@ -1,0 +1,322 @@
+
+<!DOCTYPE html>
+<html lang="">
+
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#202020"/>
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+  
+  
+    <link rel="stylesheet" href="https://unpkg.com/octomments/build/ocs-ui.min.css" />
+    <meta name="keywords" content="hls.js,flv.js," />
+  
+
+  
+    <meta name="description" content="在直播软件开发过程中，我们可能会遇到一些困惑。像是对于流媒体协议的选择，如 HTTP-FLV、WebRTC，RTMP，HLS 及其它私有协议等，到底哪个比较合适？哪种协议可以用在 PC 平台上？哪种协议在移动设备上效果比较好？接下来小编就先从各项协议的优缺点比较说起。" />
+  
+  
+  
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=1.0.1" />
+  
+  <title>如何选择直播协议？ [ 果糖酱的博客 ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css">
+    
+      <link rel="stylesheet" href="/css/xoxo.css">
+    
+  
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+<body>
+  <div class="nav-container">
+    <nav class="home-menu pure-menu pure-menu-horizontal">
+  <a class="pure-menu-heading" href="/">
+    <img class="avatar" src="/assets/images/logo.png">
+    <span class="title">果糖酱的博客</span>
+  </a>
+
+  <ul class="pure-menu-list clearfix">
+      
+          
+            <li class="pure-menu-item"><a href="/" class="pure-menu-link">首页</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/archives" class="pure-menu-link">归档</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/tags" class="pure-menu-link">标签</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/about" class="pure-menu-link">关于</a></li>
+          
+      
+  </ul>
+   
+</nav>
+  </div>
+
+  <div class="container" id="content-outer">
+    <div class="inner" id="content-inner">
+      <div class="post-container">
+  <article class="post" id="post">
+    <header class="post-header text-center">
+      <h1 class="title">
+        如何选择直播协议？
+      </h1>
+      <span>
+        
+        <time class="time" datetime="2020-07-28T02:05:23.000Z">
+        2020-07-28
+      </time>
+        
+      </span>
+      <span class="slash">/</span>
+      <span class="post-meta">
+      <span class="post-tags">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/flv-js/" rel="tag">flv.js</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hls-js/" rel="tag">hls.js</a></li></ul>
+      </span>
+    </span>
+      <span class="slash">/</span>
+      <span class="read">
+      <span id="busuanzi_value_page_pv"></span> 点击
+    </span>
+      <span class="slash">/</span>
+      <span class="read">阅读耗时 8 分钟</span>
+    </header>
+
+    <div class="post-content">
+      <p>作者：云豹直播产品狗<br>链接：<a href="https://www.imooc.com/article/291396" target="_blank" rel="noopener">https://www.imooc.com/article/291396</a></p>
+<p>在直播软件开发过程中，我们可能会遇到一些困惑。像是对于流媒体协议的选择，如 <code>HTTP-FLV</code>、<code>WebRTC</code>，<code>RTMP</code>，<code>HLS</code> 及其它私有协议等，到底哪个比较合适？哪种协议可以用在 <code>PC</code> 平台上？哪种协议在移动设备上效果比较好？接下来小编就先从各项协议的优缺点比较说起。</p>
+<h2 id="一、-常见的几种流媒体协议的优缺点："><a href="#一、-常见的几种流媒体协议的优缺点：" class="headerlink" title="一、 常见的几种流媒体协议的优缺点："></a>一、 常见的几种流媒体协议的优缺点：</h2><h3 id="1、RTMP："><a href="#1、RTMP：" class="headerlink" title="1、RTMP："></a>1、RTMP：</h3><p><code>Adobe</code> 公司为 <code>Flash/AIR</code> 与服务器之间传输音视频数据而开发的私有协议，也是目前最常用的流媒体传输协议。</p>
+<p>优点：基于 <code>TCP</code> 长连接，不需要多次建连，延时低，通常只有 <code>1~3s</code>；技术成熟，配套完善。</p>
+<p>缺点：在 <code>PC</code> 浏览器中只能通过 <code>Flash</code> 使用，且无法在移动浏览器使用；鉴于 <code>Flash</code> 即将退出舞台，所以在网页播放端基本不会以 <code>RTMP</code> 做拉流。</p>
+<h3 id="2、HLS："><a href="#2、HLS：" class="headerlink" title="2、HLS："></a>2、HLS：</h3><p>苹果公司提出的基于 <code>HTTP</code> 的流媒体网络传输协议。</p>
+<blockquote>
+<p>其工作原理是切片式传输，把直播流切成无数片，用户在观看视频时，每次客户端可以只下载一部分。</p>
+</blockquote>
+<p>优点：基于 <code>HTTP</code> 协议，所以接入 <code>CDN</code> 较为容易，很少被防火墙拦下，且自带多码率自适应；作为苹果提出的协议，在 <code>macOS/iOS</code> 下有极大优势，<code>Android</code> 中也提供了对应的支持；可以说此项协议用在移动设备上是再合适不过了。</p>
+<p>缺点：延时较大，通常不低于 <code>10s</code> 。大量的 <code>TS</code> 片文件，会造成服务器存储和请求的压力。</p>
+<h3 id="3、HTTP-FLV："><a href="#3、HTTP-FLV：" class="headerlink" title="3、HTTP-FLV："></a>3、HTTP-FLV：</h3><p>把音视频数据封装成 <code>FLV</code>，然后通过 <code>HTTP</code> 连接传输，与 <code>RTMP</code> 相比只是传输协议变了。对于网页播放端，本来还是需要 <code>Flash</code> 才能播放，但「flv.js」的出现又弥补了这个缺陷。</p>
+<p>优点：低延时，整体效果与 <code>RTMP</code> 非常接近；相较于 <code>RTMP</code> 协议，能有效避免防火墙和代理的影响。</p>
+<p>缺点：它的传输特性会让流媒体资源缓存在本地客户端，也就是说保密性不怎么样；直到目前仍然不兼容 <code>iOS</code> 的浏览器。</p>
+<h3 id="4、WebRTC："><a href="#4、WebRTC：" class="headerlink" title="4、WebRTC："></a>4、WebRTC：</h3><p>基于 <code>Google</code> 开源技术，在 <code>Web</code> 端上实现流媒体的协议。</p>
+<p>优点：<code>RTMP</code> 和 <code>HLS</code> 都是掌握在大企业手中的协议，而 <code>WebRTC</code> 已被纳入 <code>W3C</code> 标准；无需安装插件，支持的浏览器越来越多。</p>
+<p>缺点：厂商对浏览器或系统的定制可能会导致可用性问题，且缺乏服务器端设计和部署方案；传输质量难以保证，优化手段有限；在安卓设备上的兼容性不好；另外，此项协议主要面向 <code>Web</code> 端，对原生开发支持不足。</p>
+<p><img src="https://img4.sycdn.imooc.com/5d5caacc00011c6208050364.jpg" alt="WX20200611-175400"></p>
+<h2 id="二、在直播软件开发中，在-PC-端用-RTMP、在移动端用-HLS，最稳妥。"><a href="#二、在直播软件开发中，在-PC-端用-RTMP、在移动端用-HLS，最稳妥。" class="headerlink" title="二、在直播软件开发中，在 PC 端用 RTMP、在移动端用 HLS，最稳妥。"></a>二、在直播软件开发中，在 PC 端用 RTMP、在移动端用 HLS，最稳妥。</h2><p>为什么这样说呢？综合以上的优缺点比较，首先从各自的平台适配性上，且实现效果差不多的情况下，<code>RTMP</code>、<code>HLS</code> 要比 <code>HTTP-FLV</code> 和 <code>WebRTC</code> 更优秀。</p>
+<p>其次从市场环境上来说，经过了很多年的发展和磨合，很多的 <code>CDN</code> 大厂已经非常完美的支持 <code>RTMP</code> 和 <code>HLS</code> 了，这个稳定的过程都是多少运维人员熬出来的，<code>CDN</code> 不会对稳定盈利的系统轻易做出变化。同样，越来越多的公司来用 <code>RTMP</code> 和 <code>HLS</code>，那么就造成 <code>CDN</code> 与 <code>RTMP</code>、<code>CDN</code> 与 <code>HLS</code> 之间的优化和兼容更强了。这是一个循环过程，一般 <code>CDN</code> 公司不会轻易去打破。另外补充一点，之前文中没有提到 <code>RTSP</code> 协议，此协议和 <code>RTMP</code> 效果差不多，在技术上只是区别于传输数据上占用多少通道、传输格式流不太一样而已，<code>RTSP</code> 其实也可以用于直播。但依然是因为市场环境，<code>RTSP</code> 目前主要应用在安防监控上，和 <code>RTMP</code> 一样，早已形成了自己的盈利链。</p>
+<p>以上就是在直播软件开发过程中，对于流媒体协议选择的讨论结果。关于这个问题，如果大家还有不明白的，可以直接留言或者找专业的开发商进行详细咨询。</p>
+
+    </div>
+
+    <div>全文完。</div>
+  </article>
+  <div class="toc-container">
+    
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、-常见的几种流媒体协议的优缺点："><span class="toc-text">一、 常见的几种流媒体协议的优缺点：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1、RTMP："><span class="toc-text">1、RTMP：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2、HLS："><span class="toc-text">2、HLS：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3、HTTP-FLV："><span class="toc-text">3、HTTP-FLV：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4、WebRTC："><span class="toc-text">4、WebRTC：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、在直播软件开发中，在-PC-端用-RTMP、在移动端用-HLS，最稳妥。"><span class="toc-text">二、在直播软件开发中，在 PC 端用 RTMP、在移动端用 HLS，最稳妥。</span></a></li></ol>
+  </div>
+
+
+  </div>
+</div>
+<div class="copyright">
+    <span>转载时请注明原文链接。</span>
+</div>
+<!-- <div class="share" style="width: 100%;">
+  <img src="https://kevinofneu-blog-static.oss-cn-beijing.aliyuncs.com/static/2018-12-10-qrcode_for_gh_ffacf5722095_258.jpg" alt="Running Geek" style="margin: auto; display: block;"/>
+
+  <div style="margin: auto; text-align: center; font-size: 0.8em; color: grey;">老铁们关注走一走，不迷路</div>
+  
+</div>
+ -->
+  
+    <div class="post-nav">
+      <div class="post-nav-item post-nav-next">
+        
+          <span>〈 </span>
+          <a href="/2020/06/11/deno-tutorial/" rel="next" title="让你玩转Deno">
+          让你玩转Deno
+          </a>
+        
+      </div>
+  
+      <div class="post-nav-item post-nav-prev">
+          
+      </div>
+    </div>
+  
+
+  <script src="https://unpkg.com/octomments/build/ocs.min.js"></script>
+  <div id="octomments"></div>
+  <script>
+  Octomments({
+    github: {
+      owner: 'answer518',
+      repo: 'answer518.github.io',
+    },
+    issueNumber: 1,
+    renderer: [OctommentsRenderer, '#octomments']
+  }).init();
+  </script>
+
+
+
+    </div>
+
+    
+
+  </div>
+  <footer class="footer text-center">
+    <div id="bottom-inner">
+        <a class="bottom-item" href="https://answer518.github.io">首页</a> |
+        <a class="bottom-item" href="https://juejin.im/user/5b3a28a1e51d45558a3f7255/posts" target="_blank">掘金专栏</a> |
+        <a class="bottom-item" href="https://github.com/answer518" target="_blank">GitHub</a> |
+        <a class="bottom-item" href="https://hexo.io" target="_blank">Powered by hexo</a>
+        <!-- <a class="bottom-item" href="https://github.com/KevinOfNeu/hexo-theme-xoxo" target="_blank">Theme xoxo</a> -->
+    </div>
+</footer>
+  
+
+<script>
+  (function(window, document, undefined) {
+
+    var timer = null;
+
+    function returnTop() {
+      cancelAnimationFrame(timer);
+      timer = requestAnimationFrame(function fn() {
+        var oTop = document.body.scrollTop || document.documentElement.scrollTop;
+        if (oTop > 0) {
+          document.body.scrollTop = document.documentElement.scrollTop = oTop - 50;
+          timer = requestAnimationFrame(fn);
+        } else {
+          cancelAnimationFrame(timer);
+        }
+      });
+    }
+
+    var hearts = [];
+    window.requestAnimationFrame = (function() {
+      return window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function(callback) {
+          setTimeout(callback, 1000 / 60);
+        }
+    })();
+    init();
+
+    function init() {
+      css(".heart{z-index:9999;width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: absolute;}.heart:after{top: -5px;}.heart:before{left: -5px;}");
+      attachEvent();
+      gameloop();
+      addMenuEvent();
+    }
+
+    function gameloop() {
+      for (var i = 0; i < hearts.length; i++) {
+        if (hearts[i].alpha <= 0) {
+          document.body.removeChild(hearts[i].el);
+          hearts.splice(i, 1);
+          continue;
+        }
+        hearts[i].y--;
+        hearts[i].scale += 0.004;
+        hearts[i].alpha -= 0.013;
+        hearts[i].el.style.cssText = "left:" + hearts[i].x + "px;top:" + hearts[i].y + "px;opacity:" + hearts[i].alpha + ";transform:scale(" + hearts[i].scale + "," + hearts[i].scale + ") rotate(45deg);background:" + hearts[i].color;
+      }
+      requestAnimationFrame(gameloop);
+    }
+
+    /**
+     * 给logo设置点击事件
+     * 
+     * - 回到顶部
+     * - 出现爱心
+     */
+    function attachEvent() {
+      var old = typeof window.onclick === "function" && window.onclick;
+      var logo = document.getElementById("logo");
+      if (logo) {
+        logo.onclick = function(event) {
+          returnTop();
+          old && old();
+          createHeart(event);
+        }
+      }
+      
+    }
+
+    function createHeart(event) {
+      var d = document.createElement("div");
+      d.className = "heart";
+      hearts.push({
+        el: d,
+        x: event.clientX - 5,
+        y: event.clientY - 5,
+        scale: 1,
+        alpha: 1,
+        color: randomColor()
+      });
+      document.body.appendChild(d);
+    }
+
+    function css(css) {
+      var style = document.createElement("style");
+      style.type = "text/css";
+      try {
+        style.appendChild(document.createTextNode(css));
+      } catch (ex) {
+        style.styleSheet.cssText = css;
+      }
+      document.getElementsByTagName('head')[0].appendChild(style);
+    }
+
+    function randomColor() {
+      // return "rgb(" + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + ")";
+      return "#F44336";
+    }
+
+    function addMenuEvent() {
+      var menu = document.getElementById('menu-main-post');
+      if (menu) {
+        var toc = document.getElementById('toc');
+        if (toc) {
+          menu.onclick = function() {
+            if (toc) {
+              if (toc.style.display == 'block') {
+                toc.style.display = 'none';
+              } else {
+                toc.style.display = 'block';
+              }
+            }
+          };
+        } else {
+          menu.style.display = 'none';
+        }
+      }
+    }
+
+  })(window, document);
+</script>
+
+  
+
+
+
+</body>
+</html>

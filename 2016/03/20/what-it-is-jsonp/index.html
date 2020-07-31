@@ -1,0 +1,361 @@
+
+<!DOCTYPE html>
+<html lang="">
+
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#202020"/>
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+  
+  
+    <link rel="stylesheet" href="https://unpkg.com/octomments/build/ocs-ui.min.css" />
+    <meta name="keywords" content="javascript,jsonp," />
+  
+
+  
+    <meta name="description" content="JSON with padding (简称JSONP)是一种允许开发人员绕过(使用脚本元素的性质)浏览器强制执行的同源策略的技术。该政策禁止阅读任何来自不同网站的回复，这些网站的来源与目前使用的不同。顺便说一句，该策略允许发送请求，但不允许读取请求的内容。" />
+  
+  
+  
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=1.0.1" />
+  
+  <title>揭开JSONP的神秘面纱 [ 果糖酱的博客 ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css">
+    
+      <link rel="stylesheet" href="/css/xoxo.css">
+    
+  
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+<body>
+  <div class="nav-container">
+    <nav class="home-menu pure-menu pure-menu-horizontal">
+  <a class="pure-menu-heading" href="/">
+    <img class="avatar" src="/assets/images/logo.png">
+    <span class="title">果糖酱的博客</span>
+  </a>
+
+  <ul class="pure-menu-list clearfix">
+      
+          
+            <li class="pure-menu-item"><a href="/" class="pure-menu-link">首页</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/archives" class="pure-menu-link">归档</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/tags" class="pure-menu-link">标签</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/about" class="pure-menu-link">关于</a></li>
+          
+      
+  </ul>
+   
+</nav>
+  </div>
+
+  <div class="container" id="content-outer">
+    <div class="inner" id="content-inner">
+      <div class="post-container">
+  <article class="post" id="post">
+    <header class="post-header text-center">
+      <h1 class="title">
+        揭开JSONP的神秘面纱
+      </h1>
+      <span>
+        
+        <time class="time" datetime="2016-03-20T06:17:47.000Z">
+        2016-03-20
+      </time>
+        
+      </span>
+      <span class="slash">/</span>
+      <span class="post-meta">
+      <span class="post-tags">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jsonp/" rel="tag">jsonp</a></li></ul>
+      </span>
+    </span>
+      <span class="slash">/</span>
+      <span class="read">
+      <span id="busuanzi_value_page_pv"></span> 点击
+    </span>
+      <span class="slash">/</span>
+      <span class="read">阅读耗时 10 分钟</span>
+    </header>
+
+    <div class="post-content">
+      <p><img src="/assets/images/2020-03/full.jpg" alt="full"></p>
+<h1 id="JSONP"><a href="#JSONP" class="headerlink" title="JSONP"></a>JSONP</h1><p>JSON with padding (简称JSONP)是一种允许开发人员绕过(使用脚本元素的性质)浏览器强制执行的同源策略的技术。该政策禁止阅读任何来自不同网站的回复，这些网站的来源与目前使用的不同。</p>
+<blockquote>
+<p>顺便说一句，该策略允许发送请求，但不允许读取请求的内容。</p>
+</blockquote>
+<p>一个网站的来源由三个部分组成。首先, URI方案(https://), 主机名: 例如 <a href="http://www.baidu.com" target="_blank" rel="noopener">www.baidu.com</a>, 端口号： 80 或 443。 </p>
+<p>只要有其中任一部分不同，浏览器就认为是不同源。</p>
+<p>如果想学习浏览器同源策略的更多内容，请点击<a href="https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy" target="_blank" rel="noopener">这里</a></p>
+<h1 id="工作原理"><a href="#工作原理" class="headerlink" title="工作原理"></a>工作原理</h1><p>假设我们在localhost:8000上，向JSON API的服务器发送请求。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https:<span class="comment">//www.server.com/api/person/1</span></span><br></pre></td></tr></table></figure>
+
+<p>服务端响应是这样的：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">"firstName"</span>: <span class="string">"Maciej"</span>,</span><br><span class="line">  <span class="string">"lastName"</span>: <span class="string">"Cieslar"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>由于众所周知的浏览器同源策略，请求被阻止，因为网站的起源和服务器不同。</p>
+<p>通过将脚本src属性设置为API的URL，脚本将获取响应并在浏览器上下文中执行它。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script src=<span class="string">"https://www.server.com/api/person/1"</span> <span class="keyword">async</span>=<span class="string">"true"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
+
+<p>但问题是，脚本元素自动解析并执行返回的代码。在本例中，返回的代码是上面显示的JSON片段。JSON将被解析为JavaScript代码，并因此抛出一个错误，因为它不是有效的JavaScript。</p>
+<p><img src="/assets/images/2020-03/parsing-error.png" alt="parsing-error"></p>
+<p>必须返回一段可运行的JavaScript脚本，以便浏览器能正确地解析和执行。如果我们将JSON代码分配给一个变量或将其作为参数传递给一个函数，JSON代码就可以正常工作—毕竟，JSON格式只是一个JavaScript对象。</p>
+<p>因此，服务器可以返回JavaScript代码，而不是返回纯JSON格式。在返回的代码中，一个函数包装在JSON对象外面。函数名必须由客户机传递，因为代码将在浏览器中执行。通过查询参数中<code>callback</code>作为包裹函数名。</p>
+<p>同时，我们在全局(window对象上)上下文中创建一个函数，一旦解析并执行响应，就会调用这个函数。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https:<span class="comment">//www.server.com/api/person/1?callback=callbackName</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">callbackName(&#123;</span><br><span class="line">  firstName: <span class="string">'Maciej'</span>,</span><br><span class="line">  lastName: <span class="string">'Cieslar'</span>,</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>等价于如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">window</span>.callbackName(&#123;</span><br><span class="line">  firstName: <span class="string">'Maciej'</span>,</span><br><span class="line">  lastName: <span class="string">'Cieslar'</span>,</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>代码在浏览器的上下文中执行。函数将在全局作用域从脚本中下载的代码中执行。</p>
+<p>为了让JSONP工作，客户机和服务器都必须支持它。虽然定义函数名称的参数没有标准名称，但是客户端通常会通过 <code>callback</code> 参数来传递这个函数名。</p>
+<h1 id="动手实现JSONP"><a href="#动手实现JSONP" class="headerlink" title="动手实现JSONP"></a>动手实现JSONP</h1><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> jsonpID = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">jsonp</span>(<span class="params">url, timeout = <span class="number">7500</span></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> head = <span class="built_in">document</span>.querySelector(<span class="string">'head'</span>);</span><br><span class="line">  jsonpID += <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> script = <span class="built_in">document</span>.createElement(<span class="string">'script'</span>);</span><br><span class="line">    <span class="keyword">const</span> callbackName = <span class="string">`jsonpCallback<span class="subst">$&#123;jsonpID&#125;</span>`</span>;</span><br><span class="line"></span><br><span class="line">    script.src = <span class="built_in">encodeURI</span>(<span class="string">`<span class="subst">$&#123;url&#125;</span>?callback=<span class="subst">$&#123;callbackName&#125;</span>`</span>);</span><br><span class="line">    script.async = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> timeoutId = <span class="built_in">window</span>.setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">      cleanUp();</span><br><span class="line"></span><br><span class="line">      <span class="keyword">return</span> reject(<span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'Timeout'</span>));</span><br><span class="line">    &#125;, timeout);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">window</span>[callbackName] = <span class="function">(<span class="params">data</span>) =&gt;</span> &#123;</span><br><span class="line">      cleanUp();</span><br><span class="line"></span><br><span class="line">      <span class="keyword">return</span> resolve(data);</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    script.addEventListener(<span class="string">'error'</span>, (error) =&gt; &#123;</span><br><span class="line">      cleanUp();</span><br><span class="line"></span><br><span class="line">      <span class="keyword">return</span> reject(error);</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">cleanUp</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">      <span class="built_in">window</span>[callbackName] = <span class="literal">undefined</span>;</span><br><span class="line">      head.removeChild(script);</span><br><span class="line">      <span class="built_in">window</span>.clearTimeout(timeoutId);</span><br><span class="line">      script = <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    head.appendChild(script);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面代码中，声明了一个名为 <code>jsonpID</code> 的变量—它将用于确保每个请求都有惟一的函数名。</p>
+<p>首先，我们将对对象的引用保存在一个名为 <code>head</code> 的变量中。然后增加 <code>jsonpID</code> 以确保函数名是惟一的。函数返回一个 <code>Promise</code> 实例，通过创建一个 <code>&lt;script&gt;</code> , <code>jsonpCallback</code> 和 <code>jsonpID</code> 组成的<code>callbackName</code>。</p>
+<p>然后，我们将脚本元素的 <code>src</code> 属性设置为指定的<code>URL</code>。在服务端，我们将 <code>callback</code> 参数设置为<code>callbackName</code>。</p>
+<blockquote>
+<p>请注意，这个简化的实现不支持具有预定义查询参数的url，因此它不适用于<a href="https://logrocket.com/?param=true，因为我们要追加?最后再一次。" target="_blank" rel="noopener">https://logrocket.com/?param=true，因为我们要追加?最后再一次。</a></p>
+</blockquote>
+<p>我们还将script 的 <code>async</code> 属性设置为 <code>true</code>，确保不会阻塞页面的渲染。</p>
+<p>最终会有三种可能的情况：</p>
+<p>1、请求成功，并且执行<code>window[callbackName]</code>，执行的 <code>Promise</code> 的 <code>resolve</code> 传入data.<br>2、<code>script</code> 标签发生异常，执行 <code>Promise</code> 的 <code>reject</code>。<br>3、请求花费的时间超过预期时间，直接抛出超时错误。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> timeoutId = <span class="built_in">window</span>.setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  cleanUp();</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> reject(<span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'Timeout'</span>));</span><br><span class="line">&#125;, timeout);</span><br><span class="line"></span><br><span class="line"><span class="built_in">window</span>[callbackName] = <span class="function">(<span class="params">data</span>) =&gt;</span> &#123;</span><br><span class="line">  cleanUp();</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> resolve(data);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">script.addEventListener(<span class="string">'error'</span>, (error) =&gt; &#123;</span><br><span class="line">  cleanUp();</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> reject(error);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>回调函数必须注册在 <code>window</code>对象上，才能全局使用。在全局范围内执行一个名为<code>callback()</code>的函数相当于调用<code>window.callback()</code>。</p>
+<p>通过在<code>cleanup</code>函数中抽象清理过程，三个回调—超时、成功和错误侦听器—看起来完全相同。唯一的区别是他们是否解决或拒绝承诺。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">cleanUp</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">window</span>[callbackName] = <span class="literal">undefined</span>;</span><br><span class="line">  head.removeChild(script);</span><br><span class="line">  <span class="built_in">window</span>.clearTimeout(timeoutId);</span><br><span class="line">  script = <span class="literal">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>cleanUp</code>函数是为了在请求完成之后清理请求过程中产生的对象：该函数首先删除注册在窗口上的回调，该回调在成功响应时调用。然后从head中删除脚本元素并清除定时器对象。另外，只是为了确定，它将脚本引用设置为null，以便对其进行垃圾收集。</p>
+<p>最后，我们将 <code>&lt;script&gt;</code> 标签添加到 <code>head</code>, 会自动触发请求。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">jsonp(<span class="string">'https://gist.github.com/maciejcieslar/1c1f79d5778af4c2ee17927de769cea3.json'</span>)</span><br><span class="line">  .then(<span class="built_in">console</span>.log)</span><br><span class="line">  .catch(<span class="built_in">console</span>.error);</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结结论"><a href="#总结结论" class="headerlink" title="总结结论"></a>总结结论</h1><p>JSONP的原理很简单，只有有创造力的程序员才能想出来这种绕过限制的方法。JSONP是历史的用法，使用上存在一些限制条件，比如只能发送get请求和许多安全问题。</p>
+<p>我们应该依赖于跨源资源共享(CORS)机制来提供安全的跨源请求。</p>
+
+    </div>
+
+    <div>全文完。</div>
+  </article>
+  <div class="toc-container">
+    
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#JSONP"><span class="toc-text">JSONP</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#工作原理"><span class="toc-text">工作原理</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#动手实现JSONP"><span class="toc-text">动手实现JSONP</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#总结结论"><span class="toc-text">总结结论</span></a></li></ol>
+  </div>
+
+
+  </div>
+</div>
+<div class="copyright">
+    <span>转载时请注明原文链接。</span>
+</div>
+<!-- <div class="share" style="width: 100%;">
+  <img src="https://kevinofneu-blog-static.oss-cn-beijing.aliyuncs.com/static/2018-12-10-qrcode_for_gh_ffacf5722095_258.jpg" alt="Running Geek" style="margin: auto; display: block;"/>
+
+  <div style="margin: auto; text-align: center; font-size: 0.8em; color: grey;">老铁们关注走一走，不迷路</div>
+  
+</div>
+ -->
+  
+    <div class="post-nav">
+      <div class="post-nav-item post-nav-next">
+        
+          <span>〈 </span>
+          <a href="/2016/01/05/relearn-http/" rel="next" title="重新学习HTTP协议">
+          重新学习HTTP协议
+          </a>
+        
+      </div>
+  
+      <div class="post-nav-item post-nav-prev">
+          
+          <a href="/2016/05/27/the-secret-of-spa-application/" rel="prev" title="不用框架也能实现SPA应用">
+            不用框架也能实现SPA应用
+          </a>
+          <span>〉</span>
+        
+      </div>
+    </div>
+  
+
+  <script src="https://unpkg.com/octomments/build/ocs.min.js"></script>
+  <div id="octomments"></div>
+  <script>
+  Octomments({
+    github: {
+      owner: 'answer518',
+      repo: 'answer518.github.io',
+    },
+    issueNumber: 1,
+    renderer: [OctommentsRenderer, '#octomments']
+  }).init();
+  </script>
+
+
+
+    </div>
+
+    
+
+  </div>
+  <footer class="footer text-center">
+    <div id="bottom-inner">
+        <a class="bottom-item" href="https://answer518.github.io">首页</a> |
+        <a class="bottom-item" href="https://juejin.im/user/5b3a28a1e51d45558a3f7255/posts" target="_blank">掘金专栏</a> |
+        <a class="bottom-item" href="https://github.com/answer518" target="_blank">GitHub</a> |
+        <a class="bottom-item" href="https://hexo.io" target="_blank">Powered by hexo</a>
+        <!-- <a class="bottom-item" href="https://github.com/KevinOfNeu/hexo-theme-xoxo" target="_blank">Theme xoxo</a> -->
+    </div>
+</footer>
+  
+
+<script>
+  (function(window, document, undefined) {
+
+    var timer = null;
+
+    function returnTop() {
+      cancelAnimationFrame(timer);
+      timer = requestAnimationFrame(function fn() {
+        var oTop = document.body.scrollTop || document.documentElement.scrollTop;
+        if (oTop > 0) {
+          document.body.scrollTop = document.documentElement.scrollTop = oTop - 50;
+          timer = requestAnimationFrame(fn);
+        } else {
+          cancelAnimationFrame(timer);
+        }
+      });
+    }
+
+    var hearts = [];
+    window.requestAnimationFrame = (function() {
+      return window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function(callback) {
+          setTimeout(callback, 1000 / 60);
+        }
+    })();
+    init();
+
+    function init() {
+      css(".heart{z-index:9999;width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: absolute;}.heart:after{top: -5px;}.heart:before{left: -5px;}");
+      attachEvent();
+      gameloop();
+      addMenuEvent();
+    }
+
+    function gameloop() {
+      for (var i = 0; i < hearts.length; i++) {
+        if (hearts[i].alpha <= 0) {
+          document.body.removeChild(hearts[i].el);
+          hearts.splice(i, 1);
+          continue;
+        }
+        hearts[i].y--;
+        hearts[i].scale += 0.004;
+        hearts[i].alpha -= 0.013;
+        hearts[i].el.style.cssText = "left:" + hearts[i].x + "px;top:" + hearts[i].y + "px;opacity:" + hearts[i].alpha + ";transform:scale(" + hearts[i].scale + "," + hearts[i].scale + ") rotate(45deg);background:" + hearts[i].color;
+      }
+      requestAnimationFrame(gameloop);
+    }
+
+    /**
+     * 给logo设置点击事件
+     * 
+     * - 回到顶部
+     * - 出现爱心
+     */
+    function attachEvent() {
+      var old = typeof window.onclick === "function" && window.onclick;
+      var logo = document.getElementById("logo");
+      if (logo) {
+        logo.onclick = function(event) {
+          returnTop();
+          old && old();
+          createHeart(event);
+        }
+      }
+      
+    }
+
+    function createHeart(event) {
+      var d = document.createElement("div");
+      d.className = "heart";
+      hearts.push({
+        el: d,
+        x: event.clientX - 5,
+        y: event.clientY - 5,
+        scale: 1,
+        alpha: 1,
+        color: randomColor()
+      });
+      document.body.appendChild(d);
+    }
+
+    function css(css) {
+      var style = document.createElement("style");
+      style.type = "text/css";
+      try {
+        style.appendChild(document.createTextNode(css));
+      } catch (ex) {
+        style.styleSheet.cssText = css;
+      }
+      document.getElementsByTagName('head')[0].appendChild(style);
+    }
+
+    function randomColor() {
+      // return "rgb(" + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + ")";
+      return "#F44336";
+    }
+
+    function addMenuEvent() {
+      var menu = document.getElementById('menu-main-post');
+      if (menu) {
+        var toc = document.getElementById('toc');
+        if (toc) {
+          menu.onclick = function() {
+            if (toc) {
+              if (toc.style.display == 'block') {
+                toc.style.display = 'none';
+              } else {
+                toc.style.display = 'block';
+              }
+            }
+          };
+        } else {
+          menu.style.display = 'none';
+        }
+      }
+    }
+
+  })(window, document);
+</script>
+
+  
+
+
+
+</body>
+</html>

@@ -1,0 +1,409 @@
+
+<!DOCTYPE html>
+<html lang="">
+
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#202020"/>
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+  
+  
+    <link rel="stylesheet" href="https://unpkg.com/octomments/build/ocs-ui.min.css" />
+    <meta name="keywords" content="deno," />
+  
+
+  
+    <meta name="description" content="Deno 的目标是为现代程序员提供一个高效、安全的脚本环境。类似于 Node.js，Deno 也是运行在服务器端的 JavaScript。 它更像是改良版的 Node.js，可以认为是 Node.js 2.0 版。" />
+  
+  
+  
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=1.0.1" />
+  
+  <title>让你玩转Deno [ 果糖酱的博客 ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css">
+    
+      <link rel="stylesheet" href="/css/xoxo.css">
+    
+  
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+<body>
+  <div class="nav-container">
+    <nav class="home-menu pure-menu pure-menu-horizontal">
+  <a class="pure-menu-heading" href="/">
+    <img class="avatar" src="/assets/images/logo.png">
+    <span class="title">果糖酱的博客</span>
+  </a>
+
+  <ul class="pure-menu-list clearfix">
+      
+          
+            <li class="pure-menu-item"><a href="/" class="pure-menu-link">首页</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/archives" class="pure-menu-link">归档</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/tags" class="pure-menu-link">标签</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/about" class="pure-menu-link">关于</a></li>
+          
+      
+  </ul>
+   
+</nav>
+  </div>
+
+  <div class="container" id="content-outer">
+    <div class="inner" id="content-inner">
+      <div class="post-container">
+  <article class="post" id="post">
+    <header class="post-header text-center">
+      <h1 class="title">
+        让你玩转Deno
+      </h1>
+      <span>
+        
+        <time class="time" datetime="2020-06-11T06:14:30.000Z">
+        2020-06-11
+      </time>
+        
+      </span>
+      <span class="slash">/</span>
+      <span class="post-meta">
+      <span class="post-tags">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/deno/" rel="tag">deno</a></li></ul>
+      </span>
+    </span>
+      <span class="slash">/</span>
+      <span class="read">
+      <span id="busuanzi_value_page_pv"></span> 点击
+    </span>
+      <span class="slash">/</span>
+      <span class="read">阅读耗时 13 分钟</span>
+    </header>
+
+    <div class="post-content">
+      <p><img src="/assets/images/2020-06/node-vs-deno.jpeg" alt="WX20200611-175400"></p>
+<blockquote>
+<p>Deno 的目标是为现代程序员提供一个高效、安全的脚本环境。</p>
+</blockquote>
+<p>与 <code>Node.js</code> 类似，<code>Deno</code> 也是运行在服务器端的 <code>JavaScript</code>。 它更像是升级版的 <code>Node.js</code>，可以认为是 <code>Node 2.0</code> 版。</p>
+<h1 id="Why-Deno"><a href="#Why-Deno" class="headerlink" title="Why Deno?"></a>Why Deno?</h1><p><code>Node.js</code> 已经成为 <code>JavaScript</code> 生态系统中重要的一部分，被广泛的应用。然后 <code>Node.js</code> 之父 <code>Ryan Dahl</code> 不满意它的设计，想通过一个全新的设计来弥补<code>Node</code>的缺陷。这就是<code>Deno</code> 产生的原因。</p>
+<p><code>Deno</code> 是一个全新的 <code>JavaScript</code> 和 <code>TypeScript</code> 运行时，由 <code>V8 JavaScript</code> 引擎 <code>Rust</code> 和 <code>TypeScript</code> 实现来：</p>
+<ul>
+<li>1、语言优势</li>
+</ul>
+<p><code>Deno</code> 天生就支持 <code>JavaScript</code> 和 <code>TypeScript</code>。 尤其是在前端逐渐在 <code>ts</code> 化的路上，<code>Deno</code> 的优势会越来越明显。</p>
+<ul>
+<li>2、兼容性</li>
+</ul>
+<p><code>Deno</code> 设计之初就尝试同时运行在浏览器端和服务端，它会尽可能的支持最新的 <code>ES</code> 特性。</p>
+<ul>
+<li>3、安全性</li>
+</ul>
+<p><code>Deno</code> 默认是安全的，除非设置允许，否则不能读写文件、发起网络请求或访问环境变量。这可以防止 <code>Deno</code> 的恶意使用。这块是 <code>Node</code> 不如 <code>Deno</code> 的地方。</p>
+<ul>
+<li>4、标准库</li>
+</ul>
+<p><code>Deno</code> 在 <code>JavaScript</code> 之上提供了许多内部实用函数。此外，<code>Deno</code> 还提供了几个内置的工具来改善开发体验。</p>
+<p>下面我们从头开始一步一步实现一个微型 <code>Deno</code> 应用程序:</p>
+<h1 id="安装-Deno"><a href="#安装-Deno" class="headerlink" title="安装 Deno"></a>安装 Deno</h1><p>限于篇幅仅介绍 <code>mac</code> 平台下的安装：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Shell (Mac, Linux):</span><br><span class="line">curl -fsSL https://deno.land/x/install/install.sh | sh</span><br><span class="line"></span><br><span class="line">Homebrew (Mac):</span><br><span class="line">brew install deno</span><br></pre></td></tr></table></figure>
+
+<p>查看安装是否成功：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deno --version</span><br><span class="line">-&gt; deno 1.0.5</span><br><span class="line">-&gt; v8 8.4.300</span><br><span class="line">-&gt; typescript 3.9.2</span><br></pre></td></tr></table></figure>
+
+<p>想更新 <code>Deno</code> 版本可使用 <code>upgrade</code> 命令。</p>
+<p>也可以执行以下远程脚本验证 <code>Deno</code> 是否安装成功：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">deno run https://deno.land/std/examples/welcome.ts</span><br><span class="line">-&gt; Welcome to Deno</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>仅仅输出一段文本。演示了 deno 通过动态下载和编译从远程源代码执行应用。</p>
+</blockquote>
+<p>如果安装过程中出现问题，可以给我留言，或参考<a href="https://deno.land/" target="_blank" rel="noopener">官网</a></p>
+<h1 id="从-Hello-Deno-开始"><a href="#从-Hello-Deno-开始" class="headerlink" title="从 Hello Deno 开始"></a>从 Hello Deno 开始</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir deno-example</span><br><span class="line"><span class="built_in">cd</span> deno-example</span><br><span class="line">touch index.js</span><br></pre></td></tr></table></figure>
+
+<p>index.js 中输入:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="string">"Hello Deno"</span>);</span><br></pre></td></tr></table></figure>
+
+<p><code>deno run xxx.js</code> 执行指定文件：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">deno run index.js</span><br><span class="line">-&gt; Hello Deno</span><br></pre></td></tr></table></figure>
+
+<p>恭喜你，完成了第一个 <code>Deno</code> 应用， ^_^</p>
+<h1 id="deno-的权限机制"><a href="#deno-的权限机制" class="headerlink" title="deno 的权限机制"></a>deno 的权限机制</h1><p>前面我提到说 <code>Deno</code> 默认是安全的:</p>
+<p><img src="/assets/images/2020-06/WX20200611-175400.png" alt="WX20200611-175400"></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> url = <span class="string">"https://api.github.com/users/answer518"</span>;</span><br><span class="line"></span><br><span class="line">fetch(url)</span><br><span class="line">  .then(<span class="function">(<span class="params">result</span>) =&gt;</span> result.json())</span><br><span class="line">  .then(<span class="function">(<span class="params">result</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(result);</span><br><span class="line">  &#125;);</span><br></pre></td></tr></table></figure>
+
+<p>当你像执行 <code>hello deno</code> 一样运行 <code>deno run request.js</code>:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">error: Uncaught PermissionDenied: network access to <span class="string">"https://api.github.com/users/answer518"</span>, run again with the --allow-net flag</span><br><span class="line">    at unwrapResponse (<span class="variable">$deno</span>$/ops/dispatch_json.ts:43:11)</span><br><span class="line">    at Object.sendAsync (<span class="variable">$deno</span>$/ops/dispatch_json.ts:98:10)</span><br><span class="line">    at async fetch (<span class="variable">$deno</span>$/web/fetch.ts:296:27)</span><br><span class="line">    at async file:///Users/guotingjie/research/deno-project/request.js:3:16</span><br></pre></td></tr></table></figure>
+
+<p>在 <code>Deno</code> 中执行以下操作：网络请求，读写文件, 这些都需要得到 <code>Deno</code> 的许可：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"> deno-example  deno run --allow-net request.js</span><br><span class="line">&#123;</span><br><span class="line">  login: <span class="string">"answer518"</span>,</span><br><span class="line">  id: 17827860,</span><br><span class="line">  node_id: <span class="string">"MDQ6VXNlcjE3ODI3ODYw"</span>,</span><br><span class="line">  avatar_url: <span class="string">"https://avatars1.githubusercontent.com/u/17827860?v=4"</span>,</span><br><span class="line">  gravatar_id: <span class="string">""</span>,</span><br><span class="line">  url: <span class="string">"https://api.github.com/users/answer518"</span>,</span><br><span class="line">  html_url: <span class="string">"https://github.com/answer518"</span>,</span><br><span class="line">  followers_url: <span class="string">"https://api.github.com/users/answer518/followers"</span>,</span><br><span class="line">  following_url: <span class="string">"https://api.github.com/users/answer518/following&#123;/other_user&#125;"</span>,</span><br><span class="line">  gists_url: <span class="string">"https://api.github.com/users/answer518/gists&#123;/gist_id&#125;"</span>,</span><br><span class="line">  starred_url: <span class="string">"https://api.github.com/users/answer518/starred&#123;/owner&#125;&#123;/repo&#125;"</span>,</span><br><span class="line">  subscriptions_url: <span class="string">"https://api.github.com/users/answer518/subscriptions"</span>,</span><br><span class="line">  organizations_url: <span class="string">"https://api.github.com/users/answer518/orgs"</span>,</span><br><span class="line">  repos_url: <span class="string">"https://api.github.com/users/answer518/repos"</span>,</span><br><span class="line">  events_url: <span class="string">"https://api.github.com/users/answer518/events&#123;/privacy&#125;"</span>,</span><br><span class="line">  received_events_url: <span class="string">"https://api.github.com/users/answer518/received_events"</span>,</span><br><span class="line">  <span class="built_in">type</span>: <span class="string">"User"</span>,</span><br><span class="line">  site_admin: <span class="literal">false</span>,</span><br><span class="line">  name: <span class="string">"果糖酱"</span>,</span><br><span class="line">  company: <span class="string">"undefined"</span>,</span><br><span class="line">  blog: <span class="string">"https://answer518.github.io/"</span>,</span><br><span class="line">  location: <span class="string">"China Beijing"</span>,</span><br><span class="line">  email: null,</span><br><span class="line">  hireable: null,</span><br><span class="line">  bio: null,</span><br><span class="line">  twitter_username: null,</span><br><span class="line">  public_repos: 53,</span><br><span class="line">  public_gists: 0,</span><br><span class="line">  followers: 2,</span><br><span class="line">  following: 31,</span><br><span class="line">  created_at: <span class="string">"2016-03-14T12:27:14Z"</span>,</span><br><span class="line">  updated_at: <span class="string">"2020-03-31T12:08:12Z"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="兼容性"><a href="#兼容性" class="headerlink" title="兼容性"></a>兼容性</h1><p>在上面的例子中 <code>fetch API</code> 用于发起网络请求，这属于 <code>es</code> 标准 <code>API</code>，而这方面 <code>Deno</code> 尝试与 <code>es</code> 最新特性保持一致。</p>
+<p>另外像 <code>async/await</code>，<code>node 6.x</code> 版本开始支持， 在 <code>Deno</code> 中是默认支持的：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> url = <span class="string">"https://api.github.com/users/answer518"</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> result = <span class="keyword">await</span> fetch(url).then(<span class="function">(<span class="params">result</span>) =&gt;</span> result.json());</span><br><span class="line"><span class="built_in">console</span>.log(result);</span><br></pre></td></tr></table></figure>
+
+<h1 id="标准库"><a href="#标准库" class="headerlink" title="标准库"></a>标准库</h1><p>Deno 附带了一组实用函数，称为 Deno 的标准库。</p>
+<p>下面演示一个利用 Deno 标准库实现一个 web server:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; serve &#125; <span class="keyword">from</span> <span class="string">"https://deno.land/std/http/server.ts"</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> server = serve(&#123; <span class="attr">port</span>: <span class="number">8080</span> &#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> <span class="keyword">await</span> (<span class="keyword">const</span> req <span class="keyword">of</span> server) &#123;</span><br><span class="line">  req.respond(&#123; <span class="attr">body</span>: <span class="string">"Hello Deno"</span> &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>浏览器打开 <code>http://localhost:8000/</code>，就会向 <code>Deno</code> 应用程序发出一个 <code>HTTP GET</code> 请求，该请求返回一个带有 <code>“Hello Deno”</code> 正文的 <code>HTTP</code> 响应，随后将在浏览器中显示。</p>
+<p>没问可以扩展一下上面这个案例：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; serve &#125; <span class="keyword">from</span> <span class="string">"https://deno.land/std/http/server.ts"</span>;</span><br><span class="line"><span class="keyword">const</span> url = <span class="string">"https://api.github.com/users/answer518"</span>;</span><br><span class="line"><span class="keyword">const</span> server = serve(&#123; <span class="attr">port</span>: <span class="number">8000</span> &#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> <span class="keyword">await</span> (<span class="keyword">const</span> req <span class="keyword">of</span> server) &#123;</span><br><span class="line">  <span class="keyword">const</span> result = <span class="keyword">await</span> fetch(url).then(<span class="function">(<span class="params">result</span>) =&gt;</span> result.json());</span><br><span class="line">  req.respond(&#123; <span class="attr">body</span>: <span class="built_in">JSON</span>.stringify(result) &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>前面我们是在控制台中看到结果，现在可以直接通过浏览器中直接看到 <code>fetch</code> 得到的结果。</p>
+<h1 id="单元测试"><a href="#单元测试" class="headerlink" title="单元测试"></a>单元测试</h1><p>首先看一个在 Deno 中单元测试的例子：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; mapStory &#125; <span class="keyword">from</span> <span class="string">"./stories.js"</span>;</span><br><span class="line"></span><br><span class="line">Deno.test(<span class="string">"maps to a smaller story with formatted date"</span>, () =&gt; &#123;&#125;);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; assertEquals &#125; <span class="keyword">from</span> <span class="string">"https://deno.land/std/testing/asserts.ts"</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> &#123; mapStory &#125; <span class="keyword">from</span> <span class="string">"./stories.js"</span>;</span><br><span class="line"></span><br><span class="line">Deno.test(<span class="string">"maps to a smaller story with formatted date"</span>, () =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> stories = [</span><br><span class="line">    &#123;</span><br><span class="line">      id: <span class="string">"1"</span>,</span><br><span class="line">      title: <span class="string">"title1"</span>,</span><br><span class="line">      url: <span class="string">"url1"</span>,</span><br><span class="line">      created_at_i: <span class="number">1476198038</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">  ];</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> expectedStories = [</span><br><span class="line">    &#123;</span><br><span class="line">      title: <span class="string">"title1"</span>,</span><br><span class="line">      url: <span class="string">"url1"</span>,</span><br><span class="line">      createdAt: <span class="string">"2016-10-11"</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">  ];</span><br><span class="line"></span><br><span class="line">  assertEquals(stories.map(mapStory), expectedStories);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p><code>assertEquals</code> 函数接收两个参数：第一个是我们要测试的对象，第二个是我们期望的值:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">deno <span class="built_in">test</span></span><br><span class="line"></span><br><span class="line">-&gt; running 1 tests</span><br><span class="line">-&gt; <span class="built_in">test</span> maps to a smaller story with formatted date ... ok (9ms)</span><br><span class="line"></span><br><span class="line">-&gt; <span class="built_in">test</span> result: ok. (10ms)</span><br><span class="line">-&gt; 1 passed;</span><br><span class="line">-&gt; 0 failed;</span><br><span class="line">-&gt; 0 ignored;</span><br><span class="line">-&gt; 0 measured;</span><br><span class="line">-&gt; 0 filtered out</span><br></pre></td></tr></table></figure>
+
+<h1 id="typescript"><a href="#typescript" class="headerlink" title="typescript"></a>typescript</h1><p>Deno 同时支持 <code>JavaScript</code> 和 <code>TypeScript</code> 两种语言。无论导入的是 <code>Deno</code> 标准库还是本地项目文件，都需要加上文件扩展名：</p>
+<p>假设我们将 <code>index.js</code> 改为 <code>index.ts</code> , 那么我们需要调整所有引用 <code>index</code> 文件的地方： <code>.js</code> 改为 <code>.ts</code>。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; format &#125; <span class="keyword">from</span> <span class="string">"https://deno.land/x/date_fns/index.js"</span>;</span><br><span class="line"></span><br><span class="line">interface Story &#123;</span><br><span class="line">  title: string;</span><br><span class="line">  url: string;</span><br><span class="line">  created_at_i: number;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">interface FormattedStory &#123;</span><br><span class="line">  title: string;</span><br><span class="line">  url: string;</span><br><span class="line">  createdAt: string;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> mapStory = (story: Story): <span class="function"><span class="params">FormattedStory</span> =&gt;</span> (&#123;</span><br><span class="line">  title: story.title,</span><br><span class="line">  url: story.url,</span><br><span class="line">  createdAt: format(<span class="keyword">new</span> <span class="built_in">Date</span>(story.created_at_i * <span class="number">1000</span>), <span class="string">"yyyy-MM-dd"</span>),</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>想要启动你的 <code>Deno</code> 应用，必须指定 <code>.ts</code> 后缀的文件名:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">deno run --allow-net index.ts</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>可以通过修改 <code>.tsconfig</code> 文件来修改默认的 <code>typescript</code> 配置</p>
+</blockquote>
+<h1 id="Deno-中的环境变量"><a href="#Deno-中的环境变量" class="headerlink" title="Deno 中的环境变量"></a>Deno 中的环境变量</h1><p>创建一个 <code>.env</code> 文件</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PORT = <span class="number">8000</span>;</span><br></pre></td></tr></table></figure>
+
+<p><code>index.ts</code> 演示了如何从 <code>.env</code> 文件中读取配置变量:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; serve &#125; <span class="keyword">from</span> <span class="string">"https://deno.land/std/http/server.ts"</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; config &#125; <span class="keyword">from</span> <span class="string">"https://deno.land/x/dotenv/mod.ts"</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> &#123; mapStory &#125; <span class="keyword">from</span> <span class="string">"./stories.ts"</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> url = <span class="string">"http://hn.algolia.com/api/v1/search?query=javascript"</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> server = serve(&#123;</span><br><span class="line">  port: <span class="built_in">parseInt</span>(config()[<span class="string">"PORT"</span>]),</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> <span class="keyword">await</span> (<span class="keyword">const</span> req <span class="keyword">of</span> server) &#123;</span><br><span class="line">  <span class="keyword">const</span> result = <span class="keyword">await</span> fetch(url).then(<span class="function">(<span class="params">result</span>) =&gt;</span> result.json());</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> stories = result.hits.map(mapStory);</span><br><span class="line"></span><br><span class="line">  req.respond(&#123; <span class="attr">body</span>: <span class="built_in">JSON</span>.stringify(stories) &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>.env 中属性以键值对形式存在，之所以对 port 进行类型转换，因为属性值是以字符串类型存在的。</p>
+</blockquote>
+<p>默认读取文件需要显式允许才可以：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">deno run --allow-net --allow-read index.ts</span><br></pre></td></tr></table></figure>
+
+<p><strong>重要：.env 涉及到敏感信息，不应该被提交到 git 仓库，记得加入.gitignore 文件中</strong></p>
+<h1 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h1><p>这就是有关 <code>Deno</code> 使用的基础知识。是不是感觉和 <code>Node</code> 差不多，适用场景多么的相似，相比 <code>Node</code>，它有很多的优点，比如支持 <code>typescript</code>，默认更安全等等。</p>
+<p>至于将来 <code>Deno</code> 会不会替代 <code>Node</code>， 个人感觉短期内很难，至少等到 <code>5</code> 年以后。不过本人很看好 <code>Deno</code> 的未来。</p>
+
+    </div>
+
+    <div>全文完。</div>
+  </article>
+  <div class="toc-container">
+    
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Why-Deno"><span class="toc-text">Why Deno?</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#安装-Deno"><span class="toc-text">安装 Deno</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#从-Hello-Deno-开始"><span class="toc-text">从 Hello Deno 开始</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#deno-的权限机制"><span class="toc-text">deno 的权限机制</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#兼容性"><span class="toc-text">兼容性</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#标准库"><span class="toc-text">标准库</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#单元测试"><span class="toc-text">单元测试</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#typescript"><span class="toc-text">typescript</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Deno-中的环境变量"><span class="toc-text">Deno 中的环境变量</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#结束"><span class="toc-text">结束</span></a></li></ol>
+  </div>
+
+
+  </div>
+</div>
+<div class="copyright">
+    <span>转载时请注明原文链接。</span>
+</div>
+<!-- <div class="share" style="width: 100%;">
+  <img src="https://kevinofneu-blog-static.oss-cn-beijing.aliyuncs.com/static/2018-12-10-qrcode_for_gh_ffacf5722095_258.jpg" alt="Running Geek" style="margin: auto; display: block;"/>
+
+  <div style="margin: auto; text-align: center; font-size: 0.8em; color: grey;">老铁们关注走一走，不迷路</div>
+  
+</div>
+ -->
+  
+    <div class="post-nav">
+      <div class="post-nav-item post-nav-next">
+        
+          <span>〈 </span>
+          <a href="/2020/05/18/guide-performance-optimization-webpack/" rel="next" title="webpack优化指南">
+          webpack优化指南
+          </a>
+        
+      </div>
+  
+      <div class="post-nav-item post-nav-prev">
+          
+          <a href="/2020/07/28/how-to-choose-live-broadcast-protocol/" rel="prev" title="如何选择直播协议？">
+            如何选择直播协议？
+          </a>
+          <span>〉</span>
+        
+      </div>
+    </div>
+  
+
+  <script src="https://unpkg.com/octomments/build/ocs.min.js"></script>
+  <div id="octomments"></div>
+  <script>
+  Octomments({
+    github: {
+      owner: 'answer518',
+      repo: 'answer518.github.io',
+    },
+    issueNumber: 1,
+    renderer: [OctommentsRenderer, '#octomments']
+  }).init();
+  </script>
+
+
+
+    </div>
+
+    
+
+  </div>
+  <footer class="footer text-center">
+    <div id="bottom-inner">
+        <a class="bottom-item" href="https://answer518.github.io">首页</a> |
+        <a class="bottom-item" href="https://juejin.im/user/5b3a28a1e51d45558a3f7255/posts" target="_blank">掘金专栏</a> |
+        <a class="bottom-item" href="https://github.com/answer518" target="_blank">GitHub</a> |
+        <a class="bottom-item" href="https://hexo.io" target="_blank">Powered by hexo</a>
+        <!-- <a class="bottom-item" href="https://github.com/KevinOfNeu/hexo-theme-xoxo" target="_blank">Theme xoxo</a> -->
+    </div>
+</footer>
+  
+
+<script>
+  (function(window, document, undefined) {
+
+    var timer = null;
+
+    function returnTop() {
+      cancelAnimationFrame(timer);
+      timer = requestAnimationFrame(function fn() {
+        var oTop = document.body.scrollTop || document.documentElement.scrollTop;
+        if (oTop > 0) {
+          document.body.scrollTop = document.documentElement.scrollTop = oTop - 50;
+          timer = requestAnimationFrame(fn);
+        } else {
+          cancelAnimationFrame(timer);
+        }
+      });
+    }
+
+    var hearts = [];
+    window.requestAnimationFrame = (function() {
+      return window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function(callback) {
+          setTimeout(callback, 1000 / 60);
+        }
+    })();
+    init();
+
+    function init() {
+      css(".heart{z-index:9999;width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: absolute;}.heart:after{top: -5px;}.heart:before{left: -5px;}");
+      attachEvent();
+      gameloop();
+      addMenuEvent();
+    }
+
+    function gameloop() {
+      for (var i = 0; i < hearts.length; i++) {
+        if (hearts[i].alpha <= 0) {
+          document.body.removeChild(hearts[i].el);
+          hearts.splice(i, 1);
+          continue;
+        }
+        hearts[i].y--;
+        hearts[i].scale += 0.004;
+        hearts[i].alpha -= 0.013;
+        hearts[i].el.style.cssText = "left:" + hearts[i].x + "px;top:" + hearts[i].y + "px;opacity:" + hearts[i].alpha + ";transform:scale(" + hearts[i].scale + "," + hearts[i].scale + ") rotate(45deg);background:" + hearts[i].color;
+      }
+      requestAnimationFrame(gameloop);
+    }
+
+    /**
+     * 给logo设置点击事件
+     * 
+     * - 回到顶部
+     * - 出现爱心
+     */
+    function attachEvent() {
+      var old = typeof window.onclick === "function" && window.onclick;
+      var logo = document.getElementById("logo");
+      if (logo) {
+        logo.onclick = function(event) {
+          returnTop();
+          old && old();
+          createHeart(event);
+        }
+      }
+      
+    }
+
+    function createHeart(event) {
+      var d = document.createElement("div");
+      d.className = "heart";
+      hearts.push({
+        el: d,
+        x: event.clientX - 5,
+        y: event.clientY - 5,
+        scale: 1,
+        alpha: 1,
+        color: randomColor()
+      });
+      document.body.appendChild(d);
+    }
+
+    function css(css) {
+      var style = document.createElement("style");
+      style.type = "text/css";
+      try {
+        style.appendChild(document.createTextNode(css));
+      } catch (ex) {
+        style.styleSheet.cssText = css;
+      }
+      document.getElementsByTagName('head')[0].appendChild(style);
+    }
+
+    function randomColor() {
+      // return "rgb(" + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + ")";
+      return "#F44336";
+    }
+
+    function addMenuEvent() {
+      var menu = document.getElementById('menu-main-post');
+      if (menu) {
+        var toc = document.getElementById('toc');
+        if (toc) {
+          menu.onclick = function() {
+            if (toc) {
+              if (toc.style.display == 'block') {
+                toc.style.display = 'none';
+              } else {
+                toc.style.display = 'block';
+              }
+            }
+          };
+        } else {
+          menu.style.display = 'none';
+        }
+      }
+    }
+
+  })(window, document);
+</script>
+
+  
+
+
+
+</body>
+</html>

@@ -1,0 +1,398 @@
+
+<!DOCTYPE html>
+<html lang="">
+
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#202020"/>
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+  
+  
+    <link rel="stylesheet" href="https://unpkg.com/octomments/build/ocs-ui.min.css" />
+    <meta name="keywords" content="JavaScript,Jquery,Angular," />
+  
+
+  
+    <meta name="description" content="我们每天都在使用各种各样的框架，这些框架伴随着我们每天的工作。通过使用这些框架的目的是为了解放我们，很少人去真正关心这些框架的背后都做了些什么。我也使用了不少的框架，通过这些流行框架也让我学习到了一些知识，就想把这些东西分享出来。" />
+  
+  
+  
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=1.0.1" />
+  
+  <title>揭秘js框架中的常用套路 [ 果糖酱的博客 ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css">
+    
+      <link rel="stylesheet" href="/css/xoxo.css">
+    
+  
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+<body>
+  <div class="nav-container">
+    <nav class="home-menu pure-menu pure-menu-horizontal">
+  <a class="pure-menu-heading" href="/">
+    <img class="avatar" src="/assets/images/logo.png">
+    <span class="title">果糖酱的博客</span>
+  </a>
+
+  <ul class="pure-menu-list clearfix">
+      
+          
+            <li class="pure-menu-item"><a href="/" class="pure-menu-link">首页</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/archives" class="pure-menu-link">归档</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/tags" class="pure-menu-link">标签</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/about" class="pure-menu-link">关于</a></li>
+          
+      
+  </ul>
+   
+</nav>
+  </div>
+
+  <div class="container" id="content-outer">
+    <div class="inner" id="content-inner">
+      <div class="post-container">
+  <article class="post" id="post">
+    <header class="post-header text-center">
+      <h1 class="title">
+        揭秘js框架中的常用套路
+      </h1>
+      <span>
+        
+        <time class="time" datetime="2018-08-10T01:55:23.000Z">
+        2018-08-10
+      </time>
+        
+      </span>
+      <span class="slash">/</span>
+      <span class="post-meta">
+      <span class="post-tags">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Angular/" rel="tag">Angular</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Jquery/" rel="tag">Jquery</a></li></ul>
+      </span>
+    </span>
+      <span class="slash">/</span>
+      <span class="read">
+      <span id="busuanzi_value_page_pv"></span> 点击
+    </span>
+      <span class="slash">/</span>
+      <span class="read">阅读耗时 20 分钟</span>
+    </header>
+
+    <div class="post-content">
+      <p>我们每天都在使用各种各样的框架，这些框架伴随着我们每天的工作。通过使用这些框架的目的是为了解放我们，很少人去真正关心这些框架的背后都做了些什么。我也使用了不少的框架，通过这些流行框架也让我学习到了一些知识，就想把这些东西分享出来。</p>
+<blockquote>
+<p>每个标题都是一个独立的主题，完全可以根据需要挑有兴趣的阅读。</p>
+</blockquote>
+<h2 id="字符串转DOM"><a href="#字符串转DOM" class="headerlink" title="字符串转DOM"></a>字符串转DOM</h2><p>经常使用jquery的小伙伴对下面的代码应该一点都不陌生:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> text = $(<span class="string">'&lt;div&gt;hello, world&lt;/div&gt;'</span>);</span><br><span class="line"></span><br><span class="line">$(<span class="string">'body'</span>).append(text)</span><br></pre></td></tr></table></figure>
+
+<p>以上代码执行的结果就是在页面增加了一个div节点。抛开jQuery, 代码可能会变得稍稍复杂:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> strToDom = <span class="function"><span class="keyword">function</span>(<span class="params">str</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> temp = <span class="built_in">document</span>.createElement(<span class="string">'div'</span>);</span><br><span class="line"></span><br><span class="line">    temp.innerHTML = str;</span><br><span class="line">    <span class="keyword">return</span> temp.childNodes[<span class="number">0</span>];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> text = strToDom(<span class="string">'&lt;div&gt;hello, world&lt;/div&gt;'</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">document</span>.querySelector(<span class="string">'body'</span>).appendChild(text);</span><br></pre></td></tr></table></figure>
+
+<p>这段代码，跟使用jQuery的效果是一模一样的，哈哈jQuery也不过如此嘛。如果你这么想你就错了。下面两种代码运行的有什么区别:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> tableTr = $(<span class="string">'&lt;tr&gt;&lt;td&gt;Simple text&lt;/td&gt;&lt;/tr&gt;'</span>);</span><br><span class="line">$(<span class="string">'body'</span>).append(tableTr);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> tableTr = strToDom(<span class="string">'&lt;tr&gt;&lt;td&gt;Simple text&lt;/td&gt;&lt;/tr&gt;'</span>);</span><br><span class="line"><span class="built_in">document</span>.querySelector(<span class="string">'body'</span>).appendChild(tableTr);</span><br></pre></td></tr></table></figure>
+<p>表面上看没任何的问题，如果用开发者工具看页面结构的话，会发现:</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/8/10/165247219a92885e?w=212&h=95&f=png&s=3599" alt=""></p>
+<p><code>strToDom</code> 仅仅创建了一个文本节点，而不是一个真正的<code>tr</code>标签。原因是包含HTML元素的字符串通过解析器在浏览器中运行，解析器忽略了没有放置在正确的上下文中的标签, 因此我们只能得到一个文本节点。</p>
+<p><code>jQuery</code> 是如何解决这个问题的呢? 通过分析源码，我找到了下面的代码:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> wrapMap = &#123;</span><br><span class="line">  option: [<span class="number">1</span>, <span class="string">'&lt;select multiple="multiple"&gt;'</span>, <span class="string">'&lt;/select&gt;'</span>],</span><br><span class="line">  legend: [<span class="number">1</span>, <span class="string">'&lt;fieldset&gt;'</span>, <span class="string">'&lt;/fieldset&gt;'</span>],</span><br><span class="line">  area: [<span class="number">1</span>, <span class="string">'&lt;map&gt;'</span>, <span class="string">'&lt;/map&gt;'</span>],</span><br><span class="line">  param: [<span class="number">1</span>, <span class="string">'&lt;object&gt;'</span>, <span class="string">'&lt;/object&gt;'</span>],</span><br><span class="line">  thead: [<span class="number">1</span>, <span class="string">'&lt;table&gt;'</span>, <span class="string">'&lt;/table&gt;'</span>],</span><br><span class="line">  tr: [<span class="number">2</span>, <span class="string">'&lt;table&gt;&lt;tbody&gt;'</span>, <span class="string">'&lt;/tbody&gt;&lt;/table&gt;'</span>],</span><br><span class="line">  col: [<span class="number">2</span>, <span class="string">'&lt;table&gt;&lt;tbody&gt;&lt;/tbody&gt;&lt;colgroup&gt;'</span>, <span class="string">'&lt;/colgroup&gt;&lt;/table&gt;'</span>],</span><br><span class="line">  td: [<span class="number">3</span>, <span class="string">'&lt;table&gt;&lt;tbody&gt;&lt;tr&gt;'</span>, <span class="string">'&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;'</span>],</span><br><span class="line">  _default: [<span class="number">1</span>, <span class="string">'&lt;div&gt;'</span>, <span class="string">'&lt;/div&gt;'</span>]</span><br><span class="line">&#125;;</span><br><span class="line">wrapMap.optgroup = wrapMap.option;</span><br><span class="line">wrapMap.tbody = wrapMap.tfoot = wrapMap.colgroup = wrapMap.caption = wrapMap.thead;</span><br><span class="line">wrapMap.th = wrapMap.td;</span><br></pre></td></tr></table></figure>
+
+<p>每一个元素,需要特殊处理数组分配。这个想法是为了构建正确的DOM元素和依赖的嵌套级别获取我们所需要的东西。例如, <code>tr</code> 元素,我们需要创建两层嵌套: <code>table</code>、<code>tbody</code> 。</p>
+<p>有了这个Map映射表后，我们就可以拿到最终需要的标签。下面代码演示了如何从<code>&lt;tr&gt;&lt;td&gt;hello word&lt;/td&gt;&lt;/tr&gt;</code>中取到<code>tr</code>：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> match = <span class="regexp">/&lt;\s*\w.*?&gt;/g</span>.exec(str);</span><br><span class="line"><span class="keyword">var</span> tag = match[<span class="number">0</span>].replace(<span class="regexp">/&lt;/g</span>, <span class="string">''</span>).replace(<span class="regexp">/&gt;/g</span>, <span class="string">''</span>);</span><br></pre></td></tr></table></figure>
+
+<p>剩下的就是根据合适的上下文返回DOM元素， 最终我们将<code>strToDom</code>进行最终的修改:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> strToDom = <span class="function"><span class="keyword">function</span>(<span class="params">str</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> wrapMap = &#123;</span><br><span class="line">    option: [<span class="number">1</span>, <span class="string">'&lt;select multiple="multiple"&gt;'</span>, <span class="string">'&lt;/select&gt;'</span>],</span><br><span class="line">    legend: [<span class="number">1</span>, <span class="string">'&lt;fieldset&gt;'</span>, <span class="string">'&lt;/fieldset&gt;'</span>],</span><br><span class="line">    area: [<span class="number">1</span>, <span class="string">'&lt;map&gt;'</span>, <span class="string">'&lt;/map&gt;'</span>],</span><br><span class="line">    param: [<span class="number">1</span>, <span class="string">'&lt;object&gt;'</span>, <span class="string">'&lt;/object&gt;'</span>],</span><br><span class="line">    thead: [<span class="number">1</span>, <span class="string">'&lt;table&gt;'</span>, <span class="string">'&lt;/table&gt;'</span>],</span><br><span class="line">    tr: [<span class="number">2</span>, <span class="string">'&lt;table&gt;&lt;tbody&gt;'</span>, <span class="string">'&lt;/tbody&gt;&lt;/table&gt;'</span>],</span><br><span class="line">    col: [<span class="number">2</span>, <span class="string">'&lt;table&gt;&lt;tbody&gt;&lt;/tbody&gt;&lt;colgroup&gt;'</span>, <span class="string">'&lt;/colgroup&gt;&lt;/table&gt;'</span>],</span><br><span class="line">    td: [<span class="number">3</span>, <span class="string">'&lt;table&gt;&lt;tbody&gt;&lt;tr&gt;'</span>, <span class="string">'&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;'</span>],</span><br><span class="line">    _default: [<span class="number">1</span>, <span class="string">'&lt;div&gt;'</span>, <span class="string">'&lt;/div&gt;'</span>]</span><br><span class="line">  &#125;;</span><br><span class="line">  wrapMap.optgroup = wrapMap.option;</span><br><span class="line">  wrapMap.tbody = wrapMap.tfoot = wrapMap.colgroup = wrapMap.caption = wrapMap.thead;</span><br><span class="line">  wrapMap.th = wrapMap.td;</span><br><span class="line">  <span class="keyword">var</span> element = <span class="built_in">document</span>.createElement(<span class="string">'div'</span>);</span><br><span class="line">  <span class="keyword">var</span> match = <span class="regexp">/&lt;\s*\w.*?&gt;/g</span>.exec(str);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span>(match != <span class="literal">null</span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> tag = match[<span class="number">0</span>].replace(<span class="regexp">/&lt;/g</span>, <span class="string">''</span>).replace(<span class="regexp">/&gt;/g</span>, <span class="string">''</span>);</span><br><span class="line">    <span class="keyword">var</span> map = wrapMap[tag] || wrapMap._default, element;</span><br><span class="line">    str = map[<span class="number">1</span>] + str + map[<span class="number">2</span>];</span><br><span class="line">    element.innerHTML = str;</span><br><span class="line">    <span class="comment">// Descend through wrappers to the right content</span></span><br><span class="line">    <span class="keyword">var</span> j = map[<span class="number">0</span>]+<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span>(j--) &#123;</span><br><span class="line">      element = element.lastChild;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">// if only text is passed</span></span><br><span class="line">    element.innerHTML = str;</span><br><span class="line">    element = element.lastChild;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> element;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>通过 <code>match != null</code> 判断是创建的是标签还是文本节点。这一次我们通过浏览器可以创建一个有效的DOM树。最后通过使用while循环,直到取到我们想要的标签，最后返回这个标签。</p>
+<h2 id="AngularJS-依赖注入"><a href="#AngularJS-依赖注入" class="headerlink" title="AngularJS 依赖注入"></a>AngularJS 依赖注入</h2><p>当我们开始使用AngularJS时，它的双向数据绑定让人印象深刻。此外另一个神奇特征就是依赖注入。下面是一个简单的例子:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">TodoCtrl</span>(<span class="params">$scope, $http</span>) </span>&#123;</span><br><span class="line">  $http.get(<span class="string">'users/users.json'</span>).success(<span class="function"><span class="keyword">function</span>(<span class="params">data</span>) </span>&#123;</span><br><span class="line">    $scope.users = data;</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这是一个典型的AngularJS控制器写法：通过发起一个HTTP请求,从JSON文件获取数据,并将数据赋值给 <code>$scope.users</code> 。AngularJS框架会自动将<code>$scope</code>和<code>$http</code>注入控制器中。让我们看看它是如何实现的。</p>
+<p>看一个例子，我们想将用户姓名显示到页面上，为了简单起见，采用的mock假数据模拟http请求:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> dataMockup = [<span class="string">'John'</span>, <span class="string">'Steve'</span>, <span class="string">'David'</span>];</span><br><span class="line"><span class="keyword">var</span> body = <span class="built_in">document</span>.querySelector(<span class="string">'body'</span>);</span><br><span class="line"><span class="keyword">var</span> ajaxWrapper = &#123;</span><br><span class="line">  <span class="keyword">get</span>: function(path, cb) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(path + <span class="string">' requested'</span>);</span><br><span class="line">    cb(dataMockup);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> displayUsers = <span class="function"><span class="keyword">function</span>(<span class="params">domEl, ajax</span>) </span>&#123;</span><br><span class="line">  ajax.get(<span class="string">'/api/users'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">users</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> html = <span class="string">''</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>; i &lt; users.length; i++) &#123;</span><br><span class="line">      html += <span class="string">'&lt;p&gt;'</span> + users[i] + <span class="string">'&lt;/p&gt;'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    domEl.innerHTML = html;</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">displayUsers(body, ajaxWrapper)</span><br></pre></td></tr></table></figure>
+<p><code>displayUsers(body, ajaxWrapper)</code>执行需要两个依赖项：body和ajaxWrapper。我们的目标是直接调用displayUsers()而没有传递参数,也能按我们期望的运行。</p>
+<p>大部分的框架提供了依赖注入机制有一个模块,通常叫<em>injector</em>。所有的依赖统一在这里注册，并提供对外访问的接口:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> injector = &#123;</span><br><span class="line">  storage: &#123;&#125;,</span><br><span class="line">  register: <span class="function"><span class="keyword">function</span>(<span class="params">name, resource</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.storage[name] = resource;</span><br><span class="line">  &#125;,</span><br><span class="line">  resolve: <span class="function"><span class="keyword">function</span>(<span class="params">target</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>其中关键的resolve的实现：它接收一个目标对象，通过返回一个闭包,包装target并调用它。例如:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">resolve: <span class="function"><span class="keyword">function</span>(<span class="params">target</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    target();</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样我们就可以调用我们需要的依赖的函数了。</p>
+<p>下一步就是获取target的参数列表了，这里我引用了AngularJS的实现方式：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> FN_ARGS = <span class="regexp">/^function\s*[^\(]*\(\s*([^\)]*)\)/m</span>;</span><br><span class="line"><span class="keyword">var</span> STRIP_COMMENTS = <span class="regexp">/((\/\/.*$)|(\/\*[\s\S]*?\*\/))/mg</span>;</span><br><span class="line">...</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">annotate</span>(<span class="params">fn</span>) </span>&#123;</span><br><span class="line">  ...</span><br><span class="line">  fnText = fn.toString().replace(STRIP_COMMENTS, <span class="string">''</span>);</span><br><span class="line">  argDecl = fnText.match(FN_ARGS);</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我屏蔽了其它代码细节，只留下对我们有用的部分。 <code>annotate</code> 对应的就是我们自己的 <code>resolve</code> 。它将通过目标函数转换为一个字符串,同时还将注释给去掉了, 最终得到参数信息:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">resolve: <span class="function"><span class="keyword">function</span>(<span class="params">target</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> FN_ARGS = <span class="regexp">/^function\s*[^\(]*\(\s*([^\)]*)\)/m</span>;</span><br><span class="line">  <span class="keyword">var</span> STRIP_COMMENTS = <span class="regexp">/((\/\/.*$)|(\/\*[\s\S]*?\*\/))/mg</span>;</span><br><span class="line">  fnText = target.toString().replace(STRIP_COMMENTS, <span class="string">''</span>);</span><br><span class="line">  argDecl = fnText.match(FN_ARGS);</span><br><span class="line">  <span class="built_in">console</span>.log(argDecl);</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    target();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>打开控制台：</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/8/10/1652472ea83cc576?w=756&h=130&f=jpeg&s=41516" alt=""></p>
+<p>其中argDecl数组的第二个元素包含了所有的参数， 通过参数名称就可以得到<em>injector</em>中存储的依赖项了。 下面是具体的实现：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">resolve: <span class="function"><span class="keyword">function</span>(<span class="params">target</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> FN_ARGS = <span class="regexp">/^function\s*[^\(]*\(\s*([^\)]*)\)/m</span>;</span><br><span class="line">  <span class="keyword">var</span> STRIP_COMMENTS = <span class="regexp">/((\/\/.*$)|(\/\*[\s\S]*?\*\/))/mg</span>;</span><br><span class="line">  fnText = target.toString().replace(STRIP_COMMENTS, <span class="string">''</span>);</span><br><span class="line">  argDecl = fnText.match(FN_ARGS)[<span class="number">1</span>].split(<span class="regexp">/, ?/g</span>);</span><br><span class="line">  <span class="keyword">var</span> args = [];</span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>; i&amp;lt;argDecl.length; i++) &#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">this</span>.storage[argDecl[i]]) &#123;</span><br><span class="line">      args.push(<span class="keyword">this</span>.storage[argDecl[i]]);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    target.apply(&#123;&#125;, args);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>通过 <code>.split(/, ?/g)</code> 将字符串 <code>domEl, ajax</code> 转换成数组， 通过检查<em>injector</em>中是否注册了同名的依赖，如果存在，将依赖项放入一个新的数组作为参数传递给 <code>target</code> 函数。</p>
+<p>调用的代码应该是这样的:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">injector.register(<span class="string">'domEl'</span>, body);</span><br><span class="line">injector.register(<span class="string">'ajax'</span>, ajaxWrapper);</span><br><span class="line"></span><br><span class="line">displayUsers = injector.resolve(displayUsers);</span><br><span class="line">displayUsers();</span><br></pre></td></tr></table></figure>
+<p>这样的实现的好处是,我们将domEl和ajax注入到任意想要的函数中。我们甚至可以实现应用的配置化。不再需要将参数传来传去，代价仅仅是通过<code>register</code> 和 <code>resolve</code>。</p>
+<p>目前为止我们的自动注入并不是完美的，存在两个缺点:</p>
+<p>1、函数不支持自定义参数。</p>
+<p>2、上线代码压缩导致参数名字改变，导致无法获取正确的依赖项。</p>
+<p>这两个问题<code>AngualrJS</code>已经全部解决了，有兴趣可以看我的另一篇文章: <a href="http://www.ajiehome.com/2018/08/02/jsru-he-shi-xian-di/" target="_blank" rel="noopener">javascript实现依赖注入的思路</a>，里面详细介绍了依赖注入的完整解决方案。</p>
+<h2 id="Ember-Computed属性"><a href="#Ember-Computed属性" class="headerlink" title="Ember Computed属性"></a>Ember Computed属性</h2><p>可能现在大多数人一听到计算属性，首先想到的是 <code>Vue</code> 中的 <code>Computed</code> 计算属性。其实在 <code>Ember</code> 框架也提供了这样一个特性，用于计算属性的属性。有点绕口，看一个官方例子吧:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">App.Person = Ember.Object.extend(&#123;</span><br><span class="line">  firstName: <span class="literal">null</span>,</span><br><span class="line">  lastName: <span class="literal">null</span>,</span><br><span class="line">  fullName: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.get(<span class="string">'firstName'</span>) + <span class="string">' '</span> + <span class="keyword">this</span>.get(<span class="string">'lastName'</span>);</span><br><span class="line">  &#125;.property(<span class="string">'firstName'</span>, <span class="string">'lastName'</span>)</span><br><span class="line">&#125;);</span><br><span class="line"><span class="keyword">var</span> ironMan = App.Person.create(&#123;</span><br><span class="line">  firstName: <span class="string">"Kobe"</span>,</span><br><span class="line">  lastName:  <span class="string">"Bryant"</span></span><br><span class="line">&#125;);</span><br><span class="line">ironMan.get(<span class="string">'fullName'</span>) <span class="comment">// "Kobe Bryant"</span></span><br></pre></td></tr></table></figure>
+<p>Person 对象具有firstName和lastName属性。computed属性fullName返回包含person全名的连接字符串。令人奇怪的地方在于fullName的函数使用了<br><code>.property</code> 方法。 我们看一下 <code>property</code> 的代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Function</span>.prototype.property = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> ret = Ember.computed(<span class="keyword">this</span>);</span><br><span class="line">  <span class="comment">// ComputedProperty.prototype.property expands properties; no need for us to</span></span><br><span class="line">  <span class="comment">// do so here.</span></span><br><span class="line">  <span class="keyword">return</span> ret.property.apply(ret, <span class="built_in">arguments</span>);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>通过添加新属性调整全局函数对象的原型。在类定义期间运行一些逻辑是一种很好的方法。</p>
+<p><code>Ember</code> 使用 <code>getter</code> 和 <code>setter</code> 来操作对象的数据。这就简化了计算属性的实现，因为我们之前还有一层要处理实际的变量。但是，如果我们能够将计算属性与普通js对象一起使用，那就更有趣了。例如:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> User = &#123;</span><br><span class="line">  firstName: <span class="string">'Kobe'</span>,</span><br><span class="line">  lastName: <span class="string">'Bryant'</span>,</span><br><span class="line">  name: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// getter + setter</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(User.name); <span class="comment">// Kobe Bryant</span></span><br><span class="line">User.name = <span class="string">'LeBron James'</span>;</span><br><span class="line"><span class="built_in">console</span>.log(User.firstName); <span class="comment">// LeBron</span></span><br><span class="line"><span class="built_in">console</span>.log(User.lastName); <span class="comment">// James</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>name作为一个常规属性，本质上就是一个获取或设置firstName和lastName的函数。</p>
+</blockquote>
+<p>JavaScript有一个内置的特性，可以帮助我们实现这个想法:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> User = &#123;</span><br><span class="line">  firstName: <span class="string">'Kobe'</span>,</span><br><span class="line">  lastName: <span class="string">'Bryant'</span>,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="built_in">Object</span>.defineProperty(User, <span class="string">"name"</span>, &#123;</span><br><span class="line">  <span class="keyword">get</span>: function() &#123; </span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.firstName + <span class="string">' '</span> + <span class="keyword">this</span>.lastName;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="keyword">set</span>: function(value) &#123; </span><br><span class="line">    <span class="keyword">var</span> parts = value.toString().split(<span class="regexp">/ /</span>);</span><br><span class="line">    <span class="keyword">this</span>.firstName = parts[<span class="number">0</span>];</span><br><span class="line">    <span class="keyword">this</span>.lastName = parts[<span class="number">1</span>] ? parts[<span class="number">1</span>] : <span class="keyword">this</span>.lastName;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p><code>Object.defineProperty</code> 方法可以接受对象、对象的属性名、<code>getter</code> 和 <code>setter</code> 。我们要做的就是编写这两个方法的实现逻辑。运行上面的代码，我们就能得到想要的结果：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(User.name); <span class="comment">// Kobe Bryant</span></span><br><span class="line">User.name = <span class="string">'LeBron James'</span>;</span><br><span class="line"><span class="built_in">console</span>.log(User.firstName); <span class="comment">// LeBron</span></span><br><span class="line"><span class="built_in">console</span>.log(User.lastName); <span class="comment">// James</span></span><br></pre></td></tr></table></figure>
+
+<p><code>Object.defineProperty</code> 虽然是我们想要的，但显然我们不想每次都这么写。在理想的情况下，我们希望提供一个接口。在本节中，我们将编写一个名为 <code>Computize</code> 的函数，它将处理对象并以某种方式将name函数转换为具有相同名称的属性。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> Computize = <span class="function"><span class="keyword">function</span>(<span class="params">obj</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> obj;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> User = Computize(&#123;</span><br><span class="line">  firstName: <span class="string">'Kobe'</span>,</span><br><span class="line">  lastName: <span class="string">'Bryant'</span>,</span><br><span class="line">  name: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>我们想使用name方法作为setter，同时作为getter。这类似于Ember的计算属性。</p>
+<p>现在，我们将自己的逻辑添加到函数对象的原型中:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Function</span>.prototype.computed = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> &#123; <span class="attr">computed</span>: <span class="literal">true</span>, <span class="attr">func</span>: <span class="keyword">this</span> &#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>这样就可以在每个Function定义后直接调用computed函数了。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">name: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  ...</span><br><span class="line">&#125;.computed()</span><br></pre></td></tr></table></figure>
+
+<p>name属性不再是一个函数，而变成一个对象: <code>{ computed: true, func: this }</code> 。其中 <code>computed</code> 等于<code>true</code>, <code>func</code>属性指向原本的函数。</p>
+<p>真正神奇的事情发生在Computize helper的实现中。它遍历对象的所有属性，对所有的计算属性使用object.defineproperty:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> Computize = <span class="function"><span class="keyword">function</span>(<span class="params">obj</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">var</span> prop <span class="keyword">in</span> obj) &#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">typeof</span> obj[prop] == <span class="string">'object'</span> &amp;&amp; obj[prop].computed === <span class="literal">true</span>) &#123;</span><br><span class="line">      <span class="keyword">var</span> func = obj[prop].func;</span><br><span class="line">      <span class="keyword">delete</span> obj[prop];</span><br><span class="line">      <span class="built_in">Object</span>.defineProperty(obj, prop, &#123;</span><br><span class="line">        <span class="keyword">get</span>: func,</span><br><span class="line">        <span class="keyword">set</span>: func</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  return obj;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注意: 我们将计算属性name删除了，原因是Object.defineProperty在某些浏览器下仅对未定义的属性起作用。</p>
+</blockquote>
+<p>下面是使用.computed()函数的用户对象的最终版本：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> User = Computize(&#123;</span><br><span class="line">  firstName: <span class="string">'Kobe'</span>,</span><br><span class="line">  lastName: <span class="string">'Bryant'</span>,</span><br><span class="line">  name: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="built_in">arguments</span>.length &gt; <span class="number">0</span>) &#123;</span><br><span class="line">      <span class="keyword">var</span> parts = <span class="built_in">arguments</span>[<span class="number">0</span>].toString().split(<span class="regexp">/ /</span>);</span><br><span class="line">      <span class="keyword">this</span>.firstName = parts[<span class="number">0</span>];</span><br><span class="line">      <span class="keyword">this</span>.lastName = parts[<span class="number">1</span>] ? parts[<span class="number">1</span>] : <span class="keyword">this</span>.lastName;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.firstName + <span class="string">' '</span> + <span class="keyword">this</span>.lastName;</span><br><span class="line">  &#125;.computed()</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>函数的逻辑就是，判断是否有参数，如果有参数就直接将参数进行分割处理，并分别为firstname和lastname赋值，最终返回完整的名字。</p>
+<h2 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h2><p>在大型框架和库的背后包含着许多优秀前辈的经验。通过学习这些框架能够让我们更好理解这些框架背后的原理，能够脱离框架开发，这点很重要。</p>
+
+    </div>
+
+    <div>全文完。</div>
+  </article>
+  <div class="toc-container">
+    
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#字符串转DOM"><span class="toc-text">字符串转DOM</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AngularJS-依赖注入"><span class="toc-text">AngularJS 依赖注入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Ember-Computed属性"><span class="toc-text">Ember Computed属性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#结束"><span class="toc-text">结束</span></a></li></ol>
+  </div>
+
+
+  </div>
+</div>
+<div class="copyright">
+    <span>转载时请注明原文链接。</span>
+</div>
+<!-- <div class="share" style="width: 100%;">
+  <img src="https://kevinofneu-blog-static.oss-cn-beijing.aliyuncs.com/static/2018-12-10-qrcode_for_gh_ffacf5722095_258.jpg" alt="Running Geek" style="margin: auto; display: block;"/>
+
+  <div style="margin: auto; text-align: center; font-size: 0.8em; color: grey;">老铁们关注走一走，不迷路</div>
+  
+</div>
+ -->
+  
+    <div class="post-nav">
+      <div class="post-nav-item post-nav-next">
+        
+          <span>〈 </span>
+          <a href="/2018/07/02/how-to-build-a-ssr-app-with-react-reduct/" rel="next" title="基于React+Redux的SSR实现">
+          基于React+Redux的SSR实现
+          </a>
+        
+      </div>
+  
+      <div class="post-nav-item post-nav-prev">
+          
+          <a href="/2019/10/28/the-story-of-vue3-0/" rel="prev" title="Vue.js作者：聊聊关于Vue3.0的故事">
+            Vue.js作者：聊聊关于Vue3.0的故事
+          </a>
+          <span>〉</span>
+        
+      </div>
+    </div>
+  
+
+  <script src="https://unpkg.com/octomments/build/ocs.min.js"></script>
+  <div id="octomments"></div>
+  <script>
+  Octomments({
+    github: {
+      owner: 'answer518',
+      repo: 'answer518.github.io',
+    },
+    issueNumber: 1,
+    renderer: [OctommentsRenderer, '#octomments']
+  }).init();
+  </script>
+
+
+
+    </div>
+
+    
+
+  </div>
+  <footer class="footer text-center">
+    <div id="bottom-inner">
+        <a class="bottom-item" href="https://answer518.github.io">首页</a> |
+        <a class="bottom-item" href="https://juejin.im/user/5b3a28a1e51d45558a3f7255/posts" target="_blank">掘金专栏</a> |
+        <a class="bottom-item" href="https://github.com/answer518" target="_blank">GitHub</a> |
+        <a class="bottom-item" href="https://hexo.io" target="_blank">Powered by hexo</a>
+        <!-- <a class="bottom-item" href="https://github.com/KevinOfNeu/hexo-theme-xoxo" target="_blank">Theme xoxo</a> -->
+    </div>
+</footer>
+  
+
+<script>
+  (function(window, document, undefined) {
+
+    var timer = null;
+
+    function returnTop() {
+      cancelAnimationFrame(timer);
+      timer = requestAnimationFrame(function fn() {
+        var oTop = document.body.scrollTop || document.documentElement.scrollTop;
+        if (oTop > 0) {
+          document.body.scrollTop = document.documentElement.scrollTop = oTop - 50;
+          timer = requestAnimationFrame(fn);
+        } else {
+          cancelAnimationFrame(timer);
+        }
+      });
+    }
+
+    var hearts = [];
+    window.requestAnimationFrame = (function() {
+      return window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function(callback) {
+          setTimeout(callback, 1000 / 60);
+        }
+    })();
+    init();
+
+    function init() {
+      css(".heart{z-index:9999;width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: absolute;}.heart:after{top: -5px;}.heart:before{left: -5px;}");
+      attachEvent();
+      gameloop();
+      addMenuEvent();
+    }
+
+    function gameloop() {
+      for (var i = 0; i < hearts.length; i++) {
+        if (hearts[i].alpha <= 0) {
+          document.body.removeChild(hearts[i].el);
+          hearts.splice(i, 1);
+          continue;
+        }
+        hearts[i].y--;
+        hearts[i].scale += 0.004;
+        hearts[i].alpha -= 0.013;
+        hearts[i].el.style.cssText = "left:" + hearts[i].x + "px;top:" + hearts[i].y + "px;opacity:" + hearts[i].alpha + ";transform:scale(" + hearts[i].scale + "," + hearts[i].scale + ") rotate(45deg);background:" + hearts[i].color;
+      }
+      requestAnimationFrame(gameloop);
+    }
+
+    /**
+     * 给logo设置点击事件
+     * 
+     * - 回到顶部
+     * - 出现爱心
+     */
+    function attachEvent() {
+      var old = typeof window.onclick === "function" && window.onclick;
+      var logo = document.getElementById("logo");
+      if (logo) {
+        logo.onclick = function(event) {
+          returnTop();
+          old && old();
+          createHeart(event);
+        }
+      }
+      
+    }
+
+    function createHeart(event) {
+      var d = document.createElement("div");
+      d.className = "heart";
+      hearts.push({
+        el: d,
+        x: event.clientX - 5,
+        y: event.clientY - 5,
+        scale: 1,
+        alpha: 1,
+        color: randomColor()
+      });
+      document.body.appendChild(d);
+    }
+
+    function css(css) {
+      var style = document.createElement("style");
+      style.type = "text/css";
+      try {
+        style.appendChild(document.createTextNode(css));
+      } catch (ex) {
+        style.styleSheet.cssText = css;
+      }
+      document.getElementsByTagName('head')[0].appendChild(style);
+    }
+
+    function randomColor() {
+      // return "rgb(" + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + ")";
+      return "#F44336";
+    }
+
+    function addMenuEvent() {
+      var menu = document.getElementById('menu-main-post');
+      if (menu) {
+        var toc = document.getElementById('toc');
+        if (toc) {
+          menu.onclick = function() {
+            if (toc) {
+              if (toc.style.display == 'block') {
+                toc.style.display = 'none';
+              } else {
+                toc.style.display = 'block';
+              }
+            }
+          };
+        } else {
+          menu.style.display = 'none';
+        }
+      }
+    }
+
+  })(window, document);
+</script>
+
+  
+
+
+
+</body>
+</html>
