@@ -17,17 +17,18 @@
   <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
 
   
-  <meta name="keywords" content="果糖酱的博客，小程序，PC，WebApp，H5，大前端" />
+  <link rel="stylesheet" href="https://unpkg.com/octomments/build/ocs-ui.min.css" />
+  <meta name="keywords" content="react,hooks,useMemo," />
   
 
   
-  <meta name="description" content="果糖酱的博客,自律才能自由" />
+  <meta name="description" content="重学React Hooks系列(4) - useMemo" />
   
 
   
   <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=1.0.1" />
   
-  <title>tag: hooks [ 果糖酱的博客 ]</title>
+  <title>重学React Hooks系列(4) - useMemo [ 果糖酱的博客 ]</title>
   
   <!-- stylesheets list from config.yml -->
   
@@ -71,55 +72,111 @@
 
   <div class="container" id="content-outer">
     <div class="inner" id="content-inner">
-      
-<div class="page tag-page" id="tag">
-  <h3 title="hooks下的文章">hooks</h3>
-  
-    <div class="tag-item">
-      
-        <a href="/2021/06/15/Relearn-the-hooks-series-useMemo/">
-          重学React Hooks系列(4) - useMemo
-        </a>
-      
-      <time class="time" datetime="2021-06-15T11:04:14.000Z">
+      <div class="post-container">
+  <article class="post" id="post">
+    <header class="post-header text-center">
+      <h1 class="title">
+        重学React Hooks系列(4) - useMemo
+      </h1>
+      <span>
+        
+        <time class="time" datetime="2021-06-15T11:04:14.000Z">
         2021-06-15
       </time>
+        
+      </span>
+      <span class="slash">/</span>
+      <span class="post-meta">
+      <span class="post-tags">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hooks/" rel="tag">hooks</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/react/" rel="tag">react</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/useMemo/" rel="tag">useMemo</a></li></ul>
+      </span>
+    </span>
+      <span class="slash">/</span>
+      <span class="read">
+      <span id="busuanzi_value_page_pv"></span> 点击
+    </span>
+      <span class="slash">/</span>
+      <span class="read">阅读耗时 4 分钟</span>
+    </header>
+
+    <div class="post-content">
+      <p>在 <code>React</code> 中 <code>state</code> 一旦发生改变，整个组件都会进行一次 <code>re-render</code>，包括子组件。这里的 <code>re-render</code> 过程并不是真的重新渲染，而是首先进行 <code>dom</code> <code>diff</code> 找到前后节点快照的差异点，然后只做最小的更新，利用js计算代替昂贵的 <code>dom</code> 操作。</p>
+<blockquote>
+<p>不要过早的进行优化，React本身就是高性能的View层解决方案</p>
+</blockquote>
+<h2 id="useMemo-与-react-memo-的区别？"><a href="#useMemo-与-react-memo-的区别？" class="headerlink" title="useMemo 与 react memo 的区别？"></a>useMemo 与 react memo 的区别？</h2><p>React memo包裹一个组件，避免组件重复渲染。</p>
+<h2 id="useMemo-VS-useCallback"><a href="#useMemo-VS-useCallback" class="headerlink" title="useMemo VS useCallback?"></a>useMemo VS useCallback?</h2><ul>
+<li>useMemo 作用于缓存值</li>
+<li>useCallback 作用于缓存函数</li>
+</ul>
+<p>举个例子：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">const</span> users = [</span><br><span class="line">  &#123; <span class="attr">id</span>: <span class="string">'a'</span>, <span class="attr">name</span>: <span class="string">'Robin'</span> &#125;,</span><br><span class="line">  &#123; <span class="attr">id</span>: <span class="string">'b'</span>, <span class="attr">name</span>: <span class="string">'Dennis'</span> &#125;,</span><br><span class="line">];</span><br><span class="line"> </span><br><span class="line"><span class="keyword">const</span> App = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> [text, setText] = React.useState(<span class="string">''</span>);</span><br><span class="line">  <span class="keyword">const</span> [search, setSearch] = React.useState(<span class="string">''</span>);</span><br><span class="line"> </span><br><span class="line">  <span class="keyword">const</span> handleText = <span class="function">(<span class="params">event</span>) =&gt;</span> &#123;</span><br><span class="line">    setText(event.target.value);</span><br><span class="line">  &#125;;</span><br><span class="line"> </span><br><span class="line">  <span class="keyword">const</span> handleSearch = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    setSearch(text);</span><br><span class="line">  &#125;;</span><br><span class="line"> </span><br><span class="line">  <span class="keyword">const</span> filteredUsers = users.filter(<span class="function">(<span class="params">user</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> user.name.toLowerCase().includes(search.toLowerCase());</span><br><span class="line">  &#125;);</span><br><span class="line"> </span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">      &lt;input type=<span class="string">"text"</span> value=&#123;text&#125; onChange=&#123;handleText&#125; /&gt;</span><br><span class="line">      &lt;button type=<span class="string">"button"</span> onClick=&#123;handleSearch&#125;&gt;</span><br><span class="line">        Search</span><br><span class="line">      &lt;<span class="regexp">/button&gt;</span></span><br><span class="line"><span class="regexp"> </span></span><br><span class="line"><span class="regexp">      &lt;List list=&#123;filteredUsers&#125; /</span>&gt;</span><br><span class="line">    &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">  );</span></span><br><span class="line"><span class="regexp">&#125;;</span></span><br><span class="line"><span class="regexp"> </span></span><br><span class="line"><span class="regexp">const List = (&#123; list &#125;) =&gt; &#123;</span></span><br><span class="line"><span class="regexp">  return (</span></span><br><span class="line"><span class="regexp">    &lt;ul&gt;</span></span><br><span class="line"><span class="regexp">      &#123;list.map((item) =&gt; (</span></span><br><span class="line"><span class="regexp">        &lt;ListItem key=&#123;item.id&#125; item=&#123;item&#125; /</span>&gt;</span><br><span class="line">      ))&#125;</span><br><span class="line">    &lt;<span class="regexp">/ul&gt;</span></span><br><span class="line"><span class="regexp">  );</span></span><br><span class="line"><span class="regexp">&#125;;</span></span><br><span class="line"><span class="regexp"> </span></span><br><span class="line"><span class="regexp">const ListItem = (&#123; item &#125;) =&gt; &#123;</span></span><br><span class="line"><span class="regexp">  return &lt;li&gt;&#123;item.name&#125;&lt;/</span>li&gt;;</span><br><span class="line">&#125;;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> App;</span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">App</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  ...</span><br><span class="line"> </span><br><span class="line">  <span class="keyword">const</span> filteredUsers = users.filter(<span class="function">(<span class="params">user</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'Filter function is running ...'</span>);</span><br><span class="line">    <span class="keyword">return</span> user.name.toLowerCase().includes(search.toLowerCase());</span><br><span class="line">  &#125;);</span><br><span class="line"> </span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>项目简单且数据量不大的时候，这点性能开销可能感觉不到什么影响。只有列表数据足够大的时候，每次键盘的输入都会执行 <code>filter</code> 回调，这会明显降低应用的性能。</p>
+<p><strong>这时 useMemo 就派上用场了</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">App</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  ...</span><br><span class="line"> </span><br><span class="line">  <span class="keyword">const</span> filteredUsers = React.useMemo(</span><br><span class="line">    () =&gt;</span><br><span class="line">      users.filter(<span class="function">(<span class="params">user</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'Filter function is running ...'</span>);</span><br><span class="line">        <span class="keyword">return</span> user.name.toLowerCase().includes(search.toLowerCase());</span><br><span class="line">      &#125;),</span><br><span class="line">    [search]</span><br><span class="line">  );</span><br><span class="line"> </span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当 <code>search</code> 改变的时候才会执行 <code>users.filter</code> 回调函数，其他时候都不会触发执行。</p>
+<h2 id="为什么React不把useMemo作为默认行为？"><a href="#为什么React不把useMemo作为默认行为？" class="headerlink" title="为什么React不把useMemo作为默认行为？"></a>为什么React不把useMemo作为默认行为？</h2><p><code>useMemo</code> 每次重新渲染时会根据依赖项数组中的依赖项，来决定是否应该重新计算值。这种计算比重新计算值要昂贵得多。所以 <code>useMemo</code> 是用来缓存值的。</p>
+
     </div>
-  
-    <div class="tag-item">
-      
-        <a href="/2021/06/12/Relearn-the-hooks-series-useRef/">
-          重学React Hooks系列(3) - useRef
-        </a>
-      
-      <time class="time" datetime="2021-06-12T02:32:28.000Z">
-        2021-06-12
-      </time>
-    </div>
-  
-    <div class="tag-item">
-      
-        <a href="/2021/06/11/Relearn-the-hooks-series-useState/">
-          重学React Hooks系列(2) - useState
-        </a>
-      
-      <time class="time" datetime="2021-06-11T06:48:42.000Z">
-        2021-06-11
-      </time>
-    </div>
-  
-    <div class="tag-item">
-      
-        <a href="/2021/06/10/Relearn-the-hooks-series-why-hooks/">
-          重学React Hooks系列(1) - why hooks
-        </a>
-      
-      <time class="time" datetime="2021-06-10T06:35:17.000Z">
-        2021-06-10
-      </time>
-    </div>
+
+    <div>全文完。</div>
+  </article>
+  <div class="toc-container">
+    
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#useMemo-与-react-memo-的区别？"><span class="toc-text">useMemo 与 react memo 的区别？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#useMemo-VS-useCallback"><span class="toc-text">useMemo VS useCallback?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#为什么React不把useMemo作为默认行为？"><span class="toc-text">为什么React不把useMemo作为默认行为？</span></a></li></ol>
+  </div>
+
+
+  </div>
+</div>
+<div class="copyright">
+    <span>转载时请注明原文链接。</span>
+</div>
+<!-- <div class="share" style="width: 100%;">
+  <img src="https://kevinofneu-blog-static.oss-cn-beijing.aliyuncs.com/static/2018-12-10-qrcode_for_gh_ffacf5722095_258.jpg" alt="Running Geek" style="margin: auto; display: block;"/>
+
+  <div style="margin: auto; text-align: center; font-size: 0.8em; color: grey;">老铁们关注走一走，不迷路</div>
   
 </div>
+ -->
+  
+    <div class="post-nav">
+      <div class="post-nav-item post-nav-next">
+        
+          <span>〈 </span>
+          <a href="/2021/06/12/Relearn-the-hooks-series-useRef/" rel="next" title="重学React Hooks系列(3) - useRef">
+          重学React Hooks系列(3) - useRef
+          </a>
+        
+      </div>
+  
+      <div class="post-nav-item post-nav-prev">
+          
+      </div>
+    </div>
+  
+
+  <script src="https://unpkg.com/octomments/build/ocs.min.js"></script>
+  <div id="octomments"></div>
+  <script>
+  Octomments({
+    github: {
+      owner: 'answer518',
+      repo: 'answer518.github.io',
+    },
+    issueNumber: 1,
+    renderer: [OctommentsRenderer, '#octomments']
+  }).init();
+  </script>
+
+
+
     </div>
 
     
