@@ -21,13 +21,13 @@
   
 
   
-  <meta name="description" content="果糖酱的博客,自律才能自由" />
+  <meta name="description" content="前端同学必会音视频知识" />
   
 
   
   <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=1.0.1" />
   
-  <title>tag: hooks [ 果糖酱的博客 ]</title>
+  <title>前端同学必会音视频知识 [ 果糖酱的博客 ]</title>
   
   <!-- stylesheets list from config.yml -->
   
@@ -71,66 +71,140 @@
 
   <div class="container" id="content-outer">
     <div class="inner" id="content-inner">
-      
-<div class="page tag-page" id="tag">
-  <h3 title="hooks下的文章">hooks</h3>
-  
-    <div class="tag-item">
-      
-        <a href="/2021/06/16/Relearn-the-hooks-series-useCallback/">
-          重学React Hooks系列(5) - useCallback
-        </a>
-      
-      <time class="time" datetime="2021-06-16T02:02:18.000Z">
-        2021-06-16
+      <div class="post-container">
+  <article class="post" id="post">
+    <header class="post-header text-center">
+      <h1 class="title">
+        前端同学必会音视频知识
+      </h1>
+      <span>
+        
+        <time class="time" datetime="2021-06-26T03:04:06.000Z">
+        2021-06-26
       </time>
+        
+      </span>
+      <span class="slash">/</span>
+      <span class="post-meta">
+      <span class="post-tags">
+        
+      </span>
+    </span>
+      <span class="slash">/</span>
+      <span class="read">
+      <span id="busuanzi_value_page_pv"></span> 点击
+    </span>
+      <span class="slash">/</span>
+      <span class="read">阅读耗时 11 分钟</span>
+    </header>
+
+    <div class="post-content">
+      <h1 id="什么是视频"><a href="#什么是视频" class="headerlink" title="什么是视频"></a>什么是视频</h1><p>视频，其实就是一系列连续播放的图片，如果1s播放24张图片，那么人眼看到的就不再是一张张独立的图片，而是动起来的画面。其中一张图片称为一帧，1s播放的图片数量称为帧率。常见的帧率有24帧&#x2F;s，30帧&#x2F;s，32帧&#x2F;s。</p>
+<p>视频是由图片构成的，图片是由像素构成的，假设尺寸为 1024*768。 每个像素由RGB构成，每个8位，共24位。</p>
+<p>先补充一点二进制的知识：</p>
+<blockquote>
+<p>1位10进制数，能够表示0-9，共10种可能<br>类比一下，1位2进制，能够表示0，1，共表示2种可能性。<br>一位2进制称为1比特，即1 bit。<br>byte 字节是计算机计量的基本单位，1 byte&#x3D; 8bit<br>1位16进制能够表示0-15，共16种可能性，如果换算成2进制，2^4&#x3D;16,需要4位二进制才能表示1位16进制数。<br>1byte&#x3D;8bit&#x3D;2个16进制数<br>像素用16进制表示为 #ffffff,需要6个16进制，也就是3byte</p>
+</blockquote>
+<p>假设帧率是30，那么每秒钟的视频的尺寸如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">30帧x1024x768x24=566231040Bits=70778880Bytes</span><br></pre></td></tr></table></figure>
+
+<p>一分钟视频的尺寸就是 4246732800Bytes已经是4个G了。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1Byte=8bit</span><br><span class="line">1MB=1024Byte(2^10)</span><br><span class="line">1GB=1024MB(2^20Byte)</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，这个数据量是很大的，不好进行网络传输以及存储，所以需要对视频进行压缩，也就是编码。</p>
+<h2 id="编码过程"><a href="#编码过程" class="headerlink" title="编码过程"></a>编码过程</h2><p>之所以能够对视频的中图片进行压缩，是因为视频和图片具有以下特点:</p>
+<ul>
+<li>空间冗余：图像的相邻像素之间有较强的相关性，一张图片相邻像素往往是渐变的，不是突变的，没必要每个像素都完整地保存，可以隔几个保存一个，中间的用算法计算出来。</li>
+<li>时间冗余：视频序列的相邻图像之间内容相似。一个视频中连续出现的图片也不是突变的，可以根据已有的图片进行预测和推断。</li>
+<li>视觉冗余：人的视觉系统对某些细节不敏感，因此不会每一个细节都注意到，可以允许丢失一些数据。</li>
+<li>编码冗余：不同像素值出现的概率不同，概率高的用的字节少，概率低的用的字节多，类似霍夫曼编码（Huffman Coding）的思路。</li>
+</ul>
+<p>编码的流程如下：</p>
+<p><img src="/assets/images/2021-07/36f4fd40334444d3b0450d932d892ee2_tplv-k3u1fbpfcp-watermark.awebp" alt="音视频编码过程"></p>
+<p>经过编码之后，视频由一帧帧的图片，变成了一串串让人看不懂的二进制代码，因为编码的方式(算法)的不同，所以就有了编码格式的区分。常见的编码格式有 <code>H.264</code>, <code>MPEG-4</code>, <code>VP8</code> 等。</p>
+<p>这里需要注意的一点是，因为编码格式是有版权问题的，所以不同的浏览器支持的编码格式不同，所以就会出现有些编码格式的视频在某些浏览器播放不了，或者只有声音没有画面的情况。</p>
+<p>我们前端开发只需要记住一点，<strong>主流浏览器支持的视频编码格式是h264</strong>。</p>
+<h1 id="音视频基础概念"><a href="#音视频基础概念" class="headerlink" title="音视频基础概念"></a>音视频基础概念</h1><h2 id="分辨率"><a href="#分辨率" class="headerlink" title="分辨率"></a>分辨率</h2><p>屏幕是由一个个像素点组成的，我们常见的1080p，是指屏幕竖直方向有1080个像素，共有1920列，一共207万像素。2K，2560x1440，共369万像素。</p>
+<blockquote>
+<p>分辨率对视频体积有一定影响，但是不是分辨率越大，视频越清晰，还要看码率。</p>
+</blockquote>
+<h3 id="帧率FPS"><a href="#帧率FPS" class="headerlink" title="帧率FPS"></a>帧率FPS</h3><p>每秒显示的帧数，就是1s播放的图片数量(Frames per Second)。</p>
+<h2 id="码率（比特率）"><a href="#码率（比特率）" class="headerlink" title="码率（比特率）"></a>码率（比特率）</h2><p>码率，也叫比特率，帧率是1S播放多少帧，类比一下，比特率就是1s的视频有多少bit。</p>
+<p><strong>这个参数决定了视频是否清晰</strong>。</p>
+<p>一个1080P的视频，大小可以为1G，也可以为4G，视频越大，说明1S存放的数据越多，比特率越高，压缩比越小，视频越清晰。</p>
+<p>1080P，长度为100分钟，大小为1GB的视频的比特率是多少？</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">总时间为</span><br><span class="line">100分钟=100X60S=6000s</span><br><span class="line">总数据量为</span><br><span class="line">1GB=1024MB=1024X1024KB=1024X1024X1024Byte=1024X1024X1024X8bit=8589934592bit</span><br><span class="line">帧率为 (数据量/时间)</span><br><span class="line">8589934592/6000 = 1.4Mbit/s</span><br></pre></td></tr></table></figure>
+<p>帧率和分辨率都可以影响视频体积，但是帧率是主要因素，在工作中如果看到一个很短的视频非常大，很大可能性是因为帧率很大，为了便于网络传输，需要降低帧率。一般来说主流视频平台的帧率在1Mbit&#x2F;s左右。</p>
+<h1 id="视频播放器的原理"><a href="#视频播放器的原理" class="headerlink" title="视频播放器的原理"></a>视频播放器的原理</h1><p>先说一下播放器是如何播放视频的，这里的播放器可以是本地的播放器，也可以是浏览器中的播放器。</p>
+<p>大概流程如下：<br><img src="/assets/images/2021-07/tos-cn-i-k3u1fbpfcp/8c66c86311584cb8ac2908d879c9d658~tplv-k3u1fbpfcp-watermark.awebp" alt="音视频编码过程"></p>
+<p><strong>解协议</strong>的作用，就是将流媒体协议的数据，解析为标准的相应的封装格式数据。流媒体协议主要包括RTMP,HLS以及HTTP等。</p>
+<p><strong>解封装</strong>：解封装就是将音频码流和视频码流从xxx.mp4文件中分离出来。xxx.MP4文件经过解封装后，会得到编码格式为h264的视频压缩数据和编码格式为aac的音频压缩数据。</p>
+<p><strong>音视频解码</strong>：将压缩的音视频数据转化原始的数据，视频的原始数据就是一帧帧的图像，音频的原始数据就是YUM数据。</p>
+<p><strong>视音频同步</strong>的作用，就是根据解封装模块处理过程中获取到的参数信息，同步解码出来的视频和音频数据，并将视频音频数据送至系统的显卡和声卡播放出来。</p>
+<h1 id="浏览器侧音视频知识"><a href="#浏览器侧音视频知识" class="headerlink" title="浏览器侧音视频知识"></a>浏览器侧音视频知识</h1><h2 id="为什么有些视频播放不了？"><a href="#为什么有些视频播放不了？" class="headerlink" title="为什么有些视频播放不了？"></a>为什么有些视频播放不了？</h2><p>浏览器播放一个视频的流程上面刚讲过，在音视频解码阶段，因为浏览器支持的解码器有限，所有有些编码的视频码流浏览器无法解码，流程中断，所以也就无法播放。</p>
+<p>前端开发的需要记住，视频编码为<code>h264</code>，音频编码为 <code>aac</code> 的MP4文件在各大浏览器都能播放，因为 <code>h264</code> 编码格式虽然有版权，但是可以免费使用。</p>
+
     </div>
-  
-    <div class="tag-item">
-      
-        <a href="/2021/06/15/Relearn-the-hooks-series-useMemo/">
-          重学React Hooks系列(4) - useMemo
-        </a>
-      
-      <time class="time" datetime="2021-06-15T11:04:14.000Z">
-        2021-06-15
-      </time>
-    </div>
-  
-    <div class="tag-item">
-      
-        <a href="/2021/06/12/Relearn-the-hooks-series-useRef/">
-          重学React Hooks系列(3) - useRef
-        </a>
-      
-      <time class="time" datetime="2021-06-12T02:32:28.000Z">
-        2021-06-12
-      </time>
-    </div>
-  
-    <div class="tag-item">
-      
-        <a href="/2021/06/11/Relearn-the-hooks-series-useState/">
-          重学React Hooks系列(2) - useState
-        </a>
-      
-      <time class="time" datetime="2021-06-11T06:48:42.000Z">
-        2021-06-11
-      </time>
-    </div>
-  
-    <div class="tag-item">
-      
-        <a href="/2021/06/10/Relearn-the-hooks-series-why-hooks/">
-          重学React Hooks系列(1) - why hooks
-        </a>
-      
-      <time class="time" datetime="2021-06-10T06:35:17.000Z">
-        2021-06-10
-      </time>
-    </div>
+
+    <div>全文完。</div>
+  </article>
+  <div class="toc-container">
+    
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E8%A7%86%E9%A2%91"><span class="toc-text">什么是视频</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%96%E7%A0%81%E8%BF%87%E7%A8%8B"><span class="toc-text">编码过程</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%9F%B3%E8%A7%86%E9%A2%91%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5"><span class="toc-text">音视频基础概念</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E8%BE%A8%E7%8E%87"><span class="toc-text">分辨率</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%A7%E7%8E%87FPS"><span class="toc-text">帧率FPS</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A0%81%E7%8E%87%EF%BC%88%E6%AF%94%E7%89%B9%E7%8E%87%EF%BC%89"><span class="toc-text">码率（比特率）</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%A7%86%E9%A2%91%E6%92%AD%E6%94%BE%E5%99%A8%E7%9A%84%E5%8E%9F%E7%90%86"><span class="toc-text">视频播放器的原理</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B5%8F%E8%A7%88%E5%99%A8%E4%BE%A7%E9%9F%B3%E8%A7%86%E9%A2%91%E7%9F%A5%E8%AF%86"><span class="toc-text">浏览器侧音视频知识</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E6%9C%89%E4%BA%9B%E8%A7%86%E9%A2%91%E6%92%AD%E6%94%BE%E4%B8%8D%E4%BA%86%EF%BC%9F"><span class="toc-text">为什么有些视频播放不了？</span></a></li></ol></li></ol>
+  </div>
+
+
+  </div>
+</div>
+<div class="copyright">
+    <span>转载时请注明原文链接。</span>
+</div>
+<!-- <div class="share" style="width: 100%;">
+  <img src="https://kevinofneu-blog-static.oss-cn-beijing.aliyuncs.com/static/2018-12-10-qrcode_for_gh_ffacf5722095_258.jpg" alt="Running Geek" style="margin: auto; display: block;"/>
+
+  <div style="margin: auto; text-align: center; font-size: 0.8em; color: grey;">老铁们关注走一走，不迷路</div>
   
 </div>
+ -->
+  
+    <div class="post-nav">
+      <div class="post-nav-item post-nav-next">
+        
+          <span>〈 </span>
+          <a href="/2021/06/16/Relearn-the-hooks-series-useCallback/" rel="next" title="重学React Hooks系列(5) - useCallback">
+          重学React Hooks系列(5) - useCallback
+          </a>
+        
+      </div>
+  
+      <div class="post-nav-item post-nav-prev">
+          
+          <a href="/2022/04/22/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%B8%88%E5%A6%82%E4%BD%95%E7%AA%81%E7%A0%B4%E6%88%90%E9%95%BF%E7%93%B6%E9%A2%88/" rel="prev" title="前端工程师如何突破成长瓶颈">
+            前端工程师如何突破成长瓶颈
+          </a>
+          <span>〉</span>
+        
+      </div>
+    </div>
+  
+
+  <script src="https://unpkg.com/octomments/build/ocs.min.js"></script>
+  <div id="octomments"></div>
+  <script>
+  Octomments({
+    github: {
+      owner: 'answer518',
+      repo: 'answer518.github.io',
+    },
+    issueNumber: 1,
+    renderer: [OctommentsRenderer, '#octomments']
+  }).init();
+  </script>
+
+
+
     </div>
 
     
