@@ -37,7 +37,7 @@
   <link rel="stylesheet" href="/css/xoxo.css">
   
   
-<meta name="generator" content="Hexo 5.4.2"></head>
+<meta name="generator" content="Hexo 7.3.0"></head>
 
 <body>
   <div class="nav-container">
@@ -204,7 +204,7 @@
 <p>开启 es6 import 语法：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// .babelrc</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">  <span class="string">&quot;plugins&quot;</span>: [</span><br><span class="line">    <span class="string">&quot;@babel/plugin-syntax-dynamic-import&quot;</span>,</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ProfileLazy.js</span></span><br><span class="line"><span class="keyword">import</span> loadable <span class="keyword">from</span> <span class="string">&quot;@loadable/component&quot;</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="title function_">loadable</span>(<span class="function">() =&gt;</span></span><br><span class="line">  <span class="title function_">import</span>(<span class="comment">/* webpackChunkName: &quot;profile&quot; */</span> <span class="string">&quot;./Profile&quot;</span>)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ProfileLazy.js</span></span><br><span class="line"><span class="keyword">import</span> loadable <span class="keyword">from</span> <span class="string">&quot;@loadable/component&quot;</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="title function_">loadable</span>(<span class="function">() =&gt;</span></span><br><span class="line">  <span class="keyword">import</span>(<span class="comment">/* webpackChunkName: &quot;profile&quot; */</span> <span class="string">&quot;./Profile&quot;</span>)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
 
 <blockquote>
 <p>webpackChunkName 用于指定 chunkname</p>
