@@ -18,17 +18,17 @@
 
   
   <link rel="stylesheet" href="https://unpkg.com/octomments/build/ocs-ui.min.css" />
-  <meta name="keywords" content="职场认知,个人发展," />
+  <meta name="keywords" content="Claude Code工程化实战," />
   
 
   
-  <meta name="description" content="web3又一次在我眼前跳动 --- 他们不是代码，而是通往新世界的传票。年龄的逆向优势，在web3行业不那么看重年龄，也就是没有所谓的35岁危机。远程办公，对于常年995的我来说，能很好的兼顾工作和家庭生活。" />
+  <meta name="description" content="Claude Code是一个可编程、可扩展、可组合的 AI Agent 框架。它不只是工具箱里的一把螺丝刀，而是整间五金铺——你不仅能拧螺丝，还能现场造螺丝刀、改说明书，甚至把隔壁老王家的电钻也拉进来一起嗨。就像没人会把 VS Code 简单叫“记事本++”一样，Claude Code 也绝不是“聊天框里会写代码的小可爱”，它是能让你躺着就把 CI/CD 跑通、把需求变 PR 的“赛博替身”。" />
   
 
   
   <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=1.0.1" />
   
-  <title>web3-程序员的乌托邦 [ 果糖酱的博客 ]</title>
+  <title>Claude Code底层架构解析 [ 果糖酱的博客 ]</title>
   
   <!-- stylesheets list from config.yml -->
   
@@ -76,19 +76,19 @@
   <article class="post" id="post">
     <header class="post-header text-center">
       <h1 class="title">
-        web3-程序员的乌托邦
+        Claude Code底层架构解析
       </h1>
       <span>
         
-        <time class="time" datetime="2025-09-18T06:06:04.000Z">
-        2025-09-18
+        <time class="time" datetime="2026-02-15T03:41:56.000Z">
+        2026-02-15
       </time>
         
       </span>
       <span class="slash">/</span>
       <span class="post-meta">
       <span class="post-tags">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%B8%AA%E4%BA%BA%E5%8F%91%E5%B1%95/" rel="tag">个人发展</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%81%8C%E5%9C%BA%E8%AE%A4%E7%9F%A5/" rel="tag">职场认知</a></li></ul>
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Claude-Code%E5%B7%A5%E7%A8%8B%E5%8C%96%E5%AE%9E%E6%88%98/" rel="tag">Claude Code工程化实战</a></li></ul>
       </span>
     </span>
       <span class="slash">/</span>
@@ -96,20 +96,149 @@
       <span id="busuanzi_value_page_pv"></span> 点击
     </span>
       <span class="slash">/</span>
-      <span class="read">阅读耗时 4 分钟</span>
+      <span class="read">阅读耗时 27 分钟</span>
     </header>
 
     <div class="post-content">
-      <p>凌晨2点钟, 我还躺在床上辗转反侧, 平时这个点早就进入深度睡眠了，迫不得已打开手机 喜马拉雅听绝密档案，越听越精神，又换成百家讲坛依旧没有一丝困意。</p>
-<p>上次失眠还是十年前，因为感情没有着落，又临近春节回家免不了父母的一顿唠叨。而现在35+奔40的年纪，叠加所从事的号称吃青春饭的IT行业，我突然意识到：一直引以为傲掌握的技术，不上不下职位正在变成困住我的楚门世界。</p>
-<h2 id="困兽之斗"><a href="#困兽之斗" class="headerlink" title="困兽之斗"></a>困兽之斗</h2><p>记得初入行还是java工程师，用的还是jsp，SSH三大框架。写了3年java后，果断转型做了前端工程师，那时候移动互联网正处于红利期，前端从业人员还比较少，所以薪资也跟着水涨船高，那会儿的我根本就没有想过有一天会面临失业。</p>
-<p>从去年开始公司开始大幅度的裁员，我负责的部门也在不断减员。偶尔跟出去的前同事聊天，也或多或少感觉到这个行业的冰冷，以及对自身未来的担忧…</p>
-<h2 id="web3-破局？"><a href="#web3-破局？" class="headerlink" title="web3 &#x3D; 破局？"></a>web3 &#x3D; 破局？</h2><p>其实去年就开始关注web3的机会，开始陆续报一些课程跟着学习实践，后来因为工作上和个人的原因中断了。</p>
-<p>今年上半年公司又进行了一次大的组织调整，让我感到提前布局的重要性，需要提前思考下一步规划了。<br>这个时候web3又一次在我眼前跳动 — 他们不是代码，而是通往新世界的传票。</p>
+      <p><strong>Claude Code是一个可编程、可扩展、可组合的 AI Agent 框架。</strong></p>
+<p>说白了，它不只是工具箱里的一把螺丝刀，而是整间五金铺——你不仅能拧螺丝，还能现场造螺丝刀、改说明书，甚至把隔壁老王家的电钻也拉进来一起嗨。就像没人会把 VS Code 简单叫“记事本++”一样，Claude Code 也绝不是“聊天框里会写代码的小可爱”，它是能让你躺着就把 CI&#x2F;CD 跑通、把需求变 PR 的“赛博替身”。</p>
+<h2 id="5-分钟快速上手"><a href="#5-分钟快速上手" class="headerlink" title="5 分钟快速上手"></a>5 分钟快速上手</h2><p>工欲善其事必先利其器，我们首先花几分钟，把 Claude Code 用起来。第一步，在 <a target="_blank" rel="noopener" href="https://code.claude.com/docs/en/desktop">这里</a> 下载匹配你系统的 Claude Code 版本。</p>
+<p><img src="/../assets/images/2025/Claude_Code_Install.png" alt="Claude Code Install"></p>
+<p>Claude Code 是付费软件，需要在 Claude 网站开账户。它所支持的账户类型包括：</p>
+<ul>
+<li>Claude Pro &#x2F; Max &#x2F; Teams &#x2F; Enterprise（推荐）</li>
+<li>Claude Console（API 访问，需预付费）</li>
+</ul>
+<p>以下最基本的命令行（Command Line）交互方式，以及常用命令的速查表。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/work/letsvan-mini/   <span class="comment"># 进入项目目录</span></span><br><span class="line">claude                      <span class="comment"># 启动交互模式</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 然后你可以：</span></span><br><span class="line">&gt; 这个项目是做什么的？              <span class="comment"># 了解项目</span></span><br><span class="line">&gt; 帮我加一个 hello world 函数      <span class="comment"># 修改代码（会请求确认）</span></span><br><span class="line">&gt; 提交我的更改                      <span class="comment"># Git 操作</span></span><br></pre></td></tr></table></figure>
+
+<center>常用命令速查表</center>
+
+<p><img src="/../assets/images/2025/Claude_Code_Commands.png" alt="Claude Code Commands"></p>
+<p>除了把 Claude 当“纯爷们”命令行使唤，更时髦的玩法是让它“潜伏”进 VS Code、浏览器，甚至隔壁 Cursor 的工位里——把 Coding IDE 和 Claude Code 打包成“黄金搭档”。左手 IDE 的丝滑补全，右手命令行的狂暴输出，一份代码，双倍快乐，堪称程序员界的“左手咖啡右手键盘”。</p>
+<h2 id="从入门到驾驭"><a href="#从入门到驾驭" class="headerlink" title="从入门到驾驭"></a>从入门到驾驭</h2><p>大多数人使用 Claude Code 的方式:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">用户 → 输入问题 → Claude 回答 → 完成</span><br></pre></td></tr></table></figure>
+<p>然后就止步于此了。</p>
+<p>Claude Code 可以生成代码，从 0 开始做项目，整理文件，甚至优化你的操作系统……虽然能做到这些也已经很强大了，但这仍然只是被动使用！而 Claude Code 还支持另一种模式：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">用户 → 配置 Agent → Agent 自主工作 → 自动完成任务</span><br></pre></td></tr></table></figure>
+
+<p>这是<strong>主动驾驭</strong>——你设计，它执行。就像我们编写程序，程序自动运行。</p>
+<p>举个例子：<br><img src="/../assets/images/2025/Claude_Code_Usage.png" alt="Claude Code Example"></p>
+<p>如何从被动使用者变成主动驾驭者？</p>
+<p>对于 Claude Code：</p>
+<ul>
+<li>使用者：知道怎么提问，怎么让 Claude 帮你写代码。</li>
+<li>驾驭者：理解记忆系统、子代理、技能包、钩子的工作原理，能构建自定义工作流。</li>
+</ul>
+<p>我们现在这一讲就是“驾驭者入门”——让你看到 Claude Code 引擎盖下面的东西。</p>
+<h2 id="Claude-Code-底层技术全景图"><a href="#Claude-Code-底层技术全景图" class="headerlink" title="Claude Code 底层技术全景图"></a>Claude Code 底层技术全景图</h2><p>Claude Code 的底层能力从技术上拆解可以分为四个层次：基础层、扩展层、集成层和编程接口层。</p>
+<p><img src="/../assets/images/2025/Claude_Code_Architecture.png" alt="Claude Code Architecture"></p>
+<p>让我们从上到下，逐层解析：</p>
+<h3 id="基础层：Memory（记忆系统）"><a href="#基础层：Memory（记忆系统）" class="headerlink" title="基础层：Memory（记忆系统）"></a>基础层：Memory（记忆系统）</h3><p>基础层也可以称为是 Claude Code 的长期记忆系统，它的核心文件是 CLAUDE.md。</p>
+<p>比如入职一家新公司，第一天你会收到一份新员工手册，告诉你：</p>
+<ul>
+<li>公司的代码风格是什么。</li>
+<li>Git 提交信息怎么写。</li>
+<li>项目的架构是怎样的。</li>
+<li>有哪些不能碰的“禁区”。</li>
+</ul>
+<p>而 CLAUDE.md  就是 Claude 的“新员工手册”。</p>
+<p>因此，我强烈建议每一个人都为你的 Claude 创建 CLAUDE.md，以提供给它一系列最基本的信息。</p>
+<p>例如，当我们要开始一个新的电商项目，我创建了下面的 CLAUDE.md 文件。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Project: E-commerce Platform</span></span><br><span class="line"></span><br><span class="line"><span class="comment">## Tech Stack</span></span><br><span class="line">- Frontend: React + TypeScript</span><br><span class="line">- Backend: Node.js + Express</span><br><span class="line">- Database: PostgreSQL</span><br><span class="line"></span><br><span class="line"><span class="comment">## Code Style</span></span><br><span class="line">- Use functional components</span><br><span class="line">- Prefer async/await over .<span class="keyword">then</span>()</span><br><span class="line">- Maximum line length: 100 characters</span><br><span class="line"></span><br><span class="line"><span class="comment">## Important Rules</span></span><br><span class="line">- NEVER commit to main directly</span><br><span class="line">- Always run tests before pushing</span><br></pre></td></tr></table></figure>
+
+<p>Claude 每次开始对话时，都会读取这个文件。这样它就“记住”了你的项目规范，不需要每次重复说明。</p>
+<p>Claude Code 并不是只有一个CLAUDE.md记忆文件，全局、项目和项目的特定模块都可以拥有属于自己的记忆文件（或者也可以叫配置文件）。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">~/.claude/CLAUDE.md         <span class="comment"># 全局（所有项目共用）</span></span><br><span class="line">    ↓</span><br><span class="line">项目根目录/CLAUDE.md          <span class="comment"># 项目级（当前项目）</span></span><br><span class="line">    ↓</span><br><span class="line">项目根目录/.claude/rules/*.md <span class="comment"># 模块级（特定目录）</span></span><br></pre></td></tr></table></figure>
+<p>我们可以把这些文件视为 Claude Code 系统记忆的不同层级。</p>
+<h3 id="扩展层：四大核心组件"><a href="#扩展层：四大核心组件" class="headerlink" title="扩展层：四大核心组件"></a>扩展层：四大核心组件</h3><p>这一层是 Claude Code 的能力中心，包含 Commands（斜杠命令）、Skills（技能）、SubAgents（子代理）、Hooks（钩子）四个核心组件。</p>
+<h4 id="1、Commands（斜杠命令）"><a href="#1、Commands（斜杠命令）" class="headerlink" title="1、Commands（斜杠命令）"></a>1、Commands（斜杠命令）</h4><p>斜杠命令是 Claude Code 内置或用户自定义的一系列核心能力，其触发方式是用户手动输入  &#x2F;command</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">用户输入: /review</span><br><span class="line"></span><br><span class="line">Claude 执行: 根据 .claude/commands/review.md 的指令审查代码</span><br></pre></td></tr></table></figure>
+<p>Commands 适合标准化操作——团队统一的 commit 格式、固定的部署流程等。</p>
+<h4 id="2、Skills（技能）"><a href="#2、Skills（技能）" class="headerlink" title="2、Skills（技能）"></a>2、Skills（技能）</h4><p>技能就是 Claude 的“隐藏菜单”——它自己瞄一眼上下文，觉得“嗯，这题我会”，啪地一声就把对应外挂给点亮了。这些外挂可以是官方原装，也能由你 DIY，主打一个“懂我者，AI 也”。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">用户说: <span class="string">&quot;帮我看看这段代码有没有安全问题&quot;</span></span><br><span class="line"></span><br><span class="line">Claude 思考: 这是代码安全审查任务 → 激活 security-review Skill</span><br><span class="line"></span><br><span class="line">Claude 执行: 按照 Skill 中定义的流程审查代码</span><br></pre></td></tr></table></figure>
+
+<p>不少人初听 Skills，第一反应都是：“这不就是升级版的 tool 吗？Agent 直接甩个函数调用不香吗？”</p>
+<p>我摊手：长得像，但身份证不一样。Tool 是对外喊“外卖”，Skills 是大脑里自带“菜谱”——把 if-else、prompt、策略、执行顺序，全塞进一页小抄，打包成“专家套餐”。</p>
+<p>一句话：Tool 管“能不能干”，Skills 管“该不该干、怎么干、干到几分熟”。于是灵魂追问来了——啥时候喊 Skills 上菜，啥时候让 Commands 端盘子？</p>
+<p>Commands 像公司团建，固定流程、打卡签到、可复盘；Skills 像老炮私厨，看食材下刀、凭火候翻锅，今天想多加一勺辣，全凭心情和锅气。遇到“安全、架构、性能”这种带味儿的老汤，就让 Skills 这位老炮掌勺；要是只想标准快餐，直接 &#x2F;command 点单，干净又卫生。</p>
+<p>拿刚才的例子来说——当用户问“帮我看看这段代码有没有安全问题”。Claude 的隐式判断流程是这样的。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1️⃣ 这是代码吗？——是</span><br><span class="line">2️⃣ 这是哪一类代码？——Node.js 后端</span><br><span class="line">3️⃣ 上下文是否涉及用户输入？——是</span><br><span class="line">4️⃣ 是否存在鉴权逻辑？——是</span><br><span class="line">5️⃣ 是否值得深入做安全审查？——是</span><br></pre></td></tr></table></figure>
+<p>做完这些判断之后，就会自动激活 security-review Skill。</p>
+<p>在 Skill 内部，是“像专家一样”的行为说明，它不会跑固定 checklist，而是根据语言选择重点、根据上下文跳过无关项、在发现高风险点时主动深挖、在安全风险低时明确告诉你“为什么没问题” —— 这不是流程执行，这是专家判断。</p>
+<h4 id="3、SubAgents（子代理）"><a href="#3、SubAgents（子代理）" class="headerlink" title="3、SubAgents（子代理）"></a>3、SubAgents（子代理）</h4><p>子代理是除了 Skills 之外的另一个大杀器，用于独立完成专项任务。其触发方式可以由 Claude 决定或用户指定。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">主 Claude: 这个任务需要跑大量测试，让我创建一个子代理来处理。</span><br><span class="line"></span><br><span class="line">子代理（test-runner）: 执行测试，只把结果汇报给主 Claude</span><br></pre></td></tr></table></figure>
+<p>SubAgents 适合隔离执行——高噪声任务（比如在大量日志中寻找出错信息，在大量文档中检索相关资源）、需要特定权限的任务。</p>
+<h4 id="4、Hooks（钩子）"><a href="#4、Hooks（钩子）" class="headerlink" title="4、Hooks（钩子）"></a>4、Hooks（钩子）</h4><p>钩子是在特定事件触发时自动执行的脚本，其触发方式是事件自动触发。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">事件: Claude 即将执行 Edit 工具</span><br><span class="line"></span><br><span class="line">Hook: 自动检查是否有安全敏感内容</span><br><span class="line"></span><br><span class="line">结果: 如果发现问题，阻止执行并警告</span><br></pre></td></tr></table></figure>
+<p>Hooks 适合自动化检查——格式化、安全检查、日志记录等。</p>
+<h3 id="集成层：连接外部世界"><a href="#集成层：连接外部世界" class="headerlink" title="集成层：连接外部世界"></a>集成层：连接外部世界</h3><p>上面这四大核心组件之上，是集成层，负责链接外部世界。<br>集成层包含 Headless（无头模式）和 MCP（Model Context Protocol）两大技术。</p>
+<h4 id="1、Headless（无头模式）"><a href="#1、Headless（无头模式）" class="headerlink" title="1、Headless（无头模式）"></a>1、Headless（无头模式）</h4><p>无头模式让 Claude Code 在没有人工交互的情况下运行，适合  CI&#x2F;CD 集成——自动代码审查、自动修复、自动生成变更日志等。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># GitHub Actions 中</span></span><br><span class="line">- name: Auto-fix code issues</span><br><span class="line">  run: claude --headless <span class="string">&quot;Fix all linting errors in src/&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="2、MCP（Model-Context-Protocol）"><a href="#2、MCP（Model-Context-Protocol）" class="headerlink" title="2、MCP（Model Context Protocol）"></a>2、MCP（Model Context Protocol）</h4><p>MCP 让 Claude 连接外部工具和服务，适合工具连接——可以把任何外部系统变成 Claude 可调用的工具。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Claude → MCP → 数据库</span><br><span class="line">Claude → MCP → Jira</span><br><span class="line">Claude → MCP → 自定义 API</span><br></pre></td></tr></table></figure>
+
+<h3 id="编程接口层：Agent-SDK"><a href="#编程接口层：Agent-SDK" class="headerlink" title="编程接口层：Agent SDK"></a>编程接口层：Agent SDK</h3><p>当配置式的扩展不够用时，你可以用代码来驱动 Claude。这种方式适合构建自定义 Agent——完全控制执行流程、自定义工具、复杂工作流。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">from claude_sdk import ClaudeSDKClient</span><br><span class="line"></span><br><span class="line">client = ClaudeSDKClient()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 执行任务</span></span><br><span class="line">result = client.query(</span><br><span class="line">    prompt=<span class="string">&quot;Review this code for security issues&quot;</span>,</span><br><span class="line">    tools=[<span class="string">&quot;Read&quot;</span>, <span class="string">&quot;Grep&quot;</span>],</span><br><span class="line">    max_turns=10</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<h2 id="组件关系和技术选型指南"><a href="#组件关系和技术选型指南" class="headerlink" title="组件关系和技术选型指南"></a>组件关系和技术选型指南</h2><p>在真实的系统中，这些组件不是孤立存在的——它们相互协作，共同完成复杂任务。</p>
+<h3 id="触发方式"><a href="#触发方式" class="headerlink" title="触发方式"></a>触发方式</h3><p>首先看触发方式，也就是这些组件是怎么被激活的？不同组件的触发方式决定了它们的使用场景。</p>
+<p><img src="/../assets/images/2025/Claude_Code_Architecture2.png" alt="组件触发方式"></p>
+<h4 id="为什么“确定性”很重要？"><a href="#为什么“确定性”很重要？" class="headerlink" title="为什么“确定性”很重要？"></a>为什么“确定性”很重要？</h4><p>如果我们要设计一个生产系统：</p>
+<ul>
+<li>如果你需要“每次都必须执行”的操作（比如代码格式化），你需要  100% 确定性——选择 Commands 或 Hooks。</li>
+<li>如果你希望 Claude “智能判断何时使用”（比如识别到安全问题时自动深入分析），你可以接受概率性——选择 Skills。</li>
+<li>如果任务可能很重，你希望“既可以手动触发，也可以让 Claude 自己决定”，你需要可控性——选择 SubAgents。</li>
+</ul>
+<p>上面表格会在你做技术选型时反复用到。</p>
+<h3 id="数据流向"><a href="#数据流向" class="headerlink" title="数据流向"></a>数据流向</h3><p>理解了触发方式，我们来看数据是怎么在系统中流动的。这张图展示了一个典型请求的生命周期：</p>
+<p><img src="/../assets/images/2025/Claude_Code_Dataflow.png" alt="数据流向"></p>
+<p>让我结合一个具体场景来解释这个流程——当用户输入“帮我修复 src&#x2F;api.js 中的安全漏洞”之后，Claude 可能的处理流程如下。</p>
+<p>1.Memory 层：Claude 首先加载  CLAUDE.md，了解到这是一个 Node.js 项目，团队要求所有安全修复必须附带测试。</p>
+<p>2.扩展层分发：</p>
+<p>用户没有输入斜杠命令，所以 Commands 不参与。</p>
+<p>Claude 识别出“安全漏洞”关键词，激活  security-review Skill</p>
+<p>Skill 指示 Claude 创建一个子代理来执行测试。</p>
+<p>3.Hooks 监控：Claude 准备执行  Edit  工具修改代码时，Hooks 自动运行预检查脚本，确保没有引入新的安全问题。</p>
+<p>4.工具执行：通过 Read、Edit 等工具完成代码修改。</p>
+<p>5.MCP 连接：如果配置了 Jira MCP，还可以自动更新相关的 ticket 状态。</p>
+<p>小结：<strong>Memory 是基础设施，始终存在；扩展层是能力中心，按需激活；Hooks 是守门人，监控一切。</strong></p>
+<h4 id="Plugins：打包容器"><a href="#Plugins：打包容器" class="headerlink" title="Plugins：打包容器"></a>Plugins：打包容器</h4><p>当你开发了一套好用的 Commands、Skills、Hooks 组合，想要分享给团队或社区时，就需要 Plugins。</p>
+<p>Plugins 不是一种新能力，而是打包机制——就像 npm 包把一堆 JavaScript 文件打包在一起，Plugin 把一组相关的 Claude Code 扩展打包在一起</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">my-team-plugin/</span><br><span class="line">├── commands/           <span class="comment"># 斜杠命令</span></span><br><span class="line">│   └── review.md</span><br><span class="line">├── skills/             <span class="comment"># 技能</span></span><br><span class="line">│   └── security-check/</span><br><span class="line">│       └── SKILL.md</span><br><span class="line">├── agents/             <span class="comment"># 子代理</span></span><br><span class="line">│   └── test-runner.md</span><br><span class="line">├── hooks/              <span class="comment"># 钩子</span></span><br><span class="line">│   └── pre-edit.sh</span><br><span class="line">└── plugin.json         <span class="comment"># 插件配置</span></span><br></pre></td></tr></table></figure>
+<p>一个典型的 Plugins 使用场景：</p>
 <blockquote>
-<p>年龄的逆向优势，在web3行业不那么看重年龄，也就是没有所谓的35岁危机。<br>远程办公，对于常年995的我来说，能很好的兼顾工作和家庭生活。</p>
+<p>你是团队的技术 Lead，花了两周时间打磨出一套完美的代码审查流程：一个  &#x2F;review  命令触发审查，一个  code-quality Skill 自动分析代码质量，一个  test-runner 子代理执行测试，还有一个 Hook 确保所有修改都有对应的测试。<br>与其让团队成员手动复制这些文件，不如打包成一个 Plugin，新成员只需一条命令就能获得完整的工作流。</p>
 </blockquote>
-<h2 id="语言关：英语"><a href="#语言关：英语" class="headerlink" title="语言关：英语"></a>语言关：英语</h2><p>还有一点英语很重要，毕竟只会中文的话选择的机会就会受限，但是华人企业普遍会介意年龄。但是欧美企业就不存在年龄歧视，所以学好英语还是蛮重要的，能大大拓宽自己的选择面。</p>
+<p><strong>Plugin 的价值在于可复用、可版本化、可分发。</strong></p>
+<h3 id="技术选型指南"><a href="#技术选型指南" class="headerlink" title="技术选型指南"></a>技术选型指南</h3><p>用几个真实问题来演示如何做技术选型决策：</p>
+<p>问题 1：我希望团队成员都用统一的 commit message 格式。</p>
+<ul>
+<li>这是一种“能力”吗？是的，是生成规范 commit message 的能力。</li>
+<li>希望手动触发还是自动识别？手动触发更合适，因为不是每次对话都需要 commit。</li>
+<li>答案：适合用 Commands（创建一个  &#x2F;commit  命令）。</li>
+</ul>
+<p>问题 2：每当 Claude 要修改代码时，我想自动检查是否符合我们的安全规范。</p>
+<ul>
+<li>这是一种“能力“吗？不是，这是一种“检查机制”。</li>
+<li>需要在工具执行时自动检查？ 对，在 Edit 工具执行前检查。</li>
+<li>答案：适合用 Hooks（创建一个 pre-Edit hook）</li>
+</ul>
+<p>问题 3：我想让 Claude 能够查询我们内部的知识库。</p>
+<ul>
+<li>这是一种“能力”吗？ 不完全是，这是“连接外部数据源”。</li>
+<li>需要连接外部系统？ 知识库是一个外部系统</li>
+<li>答案：适合用 MCP（创建一个知识库 MCP server）。</li>
+</ul>
+<h3 id="组合使用"><a href="#组合使用" class="headerlink" title="组合使用"></a>组合使用</h3><p>真实世界的问题很少能用单一技术解决。Claude Code 的强大之处在于组件可组合——每个组件做好自己的事，组合起来完成复杂任务。</p>
+<p>假设你想实现这样一个流程：每当有人提交 PR，自动进行代码审查，发现问题就评论，没问题就通过。这需要组合多种技术：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">1. Headless 模式在 CI 中触发</span><br><span class="line">   └── GitHub Actions 监听 PR 事件，调用 claude --headless</span><br><span class="line"></span><br><span class="line">2. 调用 code-review SubAgent</span><br><span class="line">   └── 隔离审查任务，避免污染主流程上下文</span><br><span class="line"></span><br><span class="line">3. SubAgent 使用 security-check Skill</span><br><span class="line">   └── 自动识别安全相关代码，应用专业审查规则</span><br><span class="line"></span><br><span class="line">4. Hooks 记录审查日志</span><br><span class="line">   └── 每次工具调用都记录，便于审计和调试</span><br><span class="line"></span><br><span class="line">5. 结果通过 MCP 发送到 Slack</span><br><span class="line">   └── 审查完成后通知相关人员</span><br></pre></td></tr></table></figure>
+<p>这五个步骤涉及五种不同的技术，但组合在一起就是一个完整的自动化流程。这就是可组合的威力。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>首先，我希望你记住最重要的一个认知转变：Claude Code （以及其它 AI Coder）不只是一个聊天工具，而是一个可编程的 AI Agent 框架。它有自己的记忆系统、有可以分工协作的子代理、有按需加载的技能包、有事件驱动的钩子机制。理解这一点，你才能真正发挥它的潜力。</p>
+<p>其次，我们梳理了整个技术栈的四层架构。最底层是 Memory，让 Claude 记住你的项目；往上是扩展层，包括 Commands、Skills、SubAgents 和 Hooks 四大核心组件；再往上是集成层，Headless 让它融入 CI&#x2F;CD，MCP 让它连接外部世界；最顶层是 Agent SDK，给你完全的编程控制能力。每一层都有明确的职责，相互配合又互不干扰。</p>
+<p>然后，我们学习了技术选型的方法。面对一个需求，你需要问自己：这是能力问题还是流程问题？需要确定性触发还是智能识别？需要隔离执行还是集中处理？顺着决策树走下来，答案往往就清晰了。</p>
+<p>最后，也是最有价值的一点：这些组件是可以组合的。单独的 Command 只是一个命令，单独的 Skill 只是一个能力包，但当你把 Headless + SubAgent + Skill + Hook + MCP 组合在一起，就变成了一个完整的自动化流程。这种组合的灵活性，才是 Claude Code 真正的威力所在。</p>
 
     </div>
 
@@ -119,7 +248,7 @@
     
   <div id="toc" class="toc-article">
     <strong class="toc-title">目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%B0%E5%85%BD%E4%B9%8B%E6%96%97"><span class="toc-text">困兽之斗</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#web3-%E7%A0%B4%E5%B1%80%EF%BC%9F"><span class="toc-text">web3 &#x3D; 破局？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%AD%E8%A8%80%E5%85%B3%EF%BC%9A%E8%8B%B1%E8%AF%AD"><span class="toc-text">语言关：英语</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E5%88%86%E9%92%9F%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B"><span class="toc-text">5 分钟快速上手</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E9%A9%BE%E9%A9%AD"><span class="toc-text">从入门到驾驭</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Claude-Code-%E5%BA%95%E5%B1%82%E6%8A%80%E6%9C%AF%E5%85%A8%E6%99%AF%E5%9B%BE"><span class="toc-text">Claude Code 底层技术全景图</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E5%B1%82%EF%BC%9AMemory%EF%BC%88%E8%AE%B0%E5%BF%86%E7%B3%BB%E7%BB%9F%EF%BC%89"><span class="toc-text">基础层：Memory（记忆系统）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%A9%E5%B1%95%E5%B1%82%EF%BC%9A%E5%9B%9B%E5%A4%A7%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6"><span class="toc-text">扩展层：四大核心组件</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1%E3%80%81Commands%EF%BC%88%E6%96%9C%E6%9D%A0%E5%91%BD%E4%BB%A4%EF%BC%89"><span class="toc-text">1、Commands（斜杠命令）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2%E3%80%81Skills%EF%BC%88%E6%8A%80%E8%83%BD%EF%BC%89"><span class="toc-text">2、Skills（技能）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3%E3%80%81SubAgents%EF%BC%88%E5%AD%90%E4%BB%A3%E7%90%86%EF%BC%89"><span class="toc-text">3、SubAgents（子代理）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4%E3%80%81Hooks%EF%BC%88%E9%92%A9%E5%AD%90%EF%BC%89"><span class="toc-text">4、Hooks（钩子）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9B%86%E6%88%90%E5%B1%82%EF%BC%9A%E8%BF%9E%E6%8E%A5%E5%A4%96%E9%83%A8%E4%B8%96%E7%95%8C"><span class="toc-text">集成层：连接外部世界</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1%E3%80%81Headless%EF%BC%88%E6%97%A0%E5%A4%B4%E6%A8%A1%E5%BC%8F%EF%BC%89"><span class="toc-text">1、Headless（无头模式）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2%E3%80%81MCP%EF%BC%88Model-Context-Protocol%EF%BC%89"><span class="toc-text">2、MCP（Model Context Protocol）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%96%E7%A8%8B%E6%8E%A5%E5%8F%A3%E5%B1%82%EF%BC%9AAgent-SDK"><span class="toc-text">编程接口层：Agent SDK</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%84%E4%BB%B6%E5%85%B3%E7%B3%BB%E5%92%8C%E6%8A%80%E6%9C%AF%E9%80%89%E5%9E%8B%E6%8C%87%E5%8D%97"><span class="toc-text">组件关系和技术选型指南</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A6%E5%8F%91%E6%96%B9%E5%BC%8F"><span class="toc-text">触发方式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E2%80%9C%E7%A1%AE%E5%AE%9A%E6%80%A7%E2%80%9D%E5%BE%88%E9%87%8D%E8%A6%81%EF%BC%9F"><span class="toc-text">为什么“确定性”很重要？</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E6%B5%81%E5%90%91"><span class="toc-text">数据流向</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Plugins%EF%BC%9A%E6%89%93%E5%8C%85%E5%AE%B9%E5%99%A8"><span class="toc-text">Plugins：打包容器</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8A%80%E6%9C%AF%E9%80%89%E5%9E%8B%E6%8C%87%E5%8D%97"><span class="toc-text">技术选型指南</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%84%E5%90%88%E4%BD%BF%E7%94%A8"><span class="toc-text">组合使用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a></li></ol>
   </div>
 
 
@@ -140,16 +269,16 @@
       <div class="post-nav-item post-nav-next">
         
           <span>〈 </span>
-          <a href="/2024/11/24/How-Introverted-People-Can-Thrive-in-the-Workplace/" rel="next" title="内向的人如何在职场中如鱼得水?">
-          内向的人如何在职场中如鱼得水?
+          <a href="/2025/09/20/From-web2-to-web3-a-look-at-the-evolution-of-front-end-frameworks/" rel="next" title="从web2到web3,看前端技术变迁史">
+          从web2到web3,看前端技术变迁史
           </a>
         
       </div>
   
       <div class="post-nav-item post-nav-prev">
           
-          <a href="/2025/09/20/%E4%BB%8Eweb2%E5%88%B0web3-%E7%9C%8B%E5%89%8D%E7%AB%AF%E6%A1%86%E6%9E%B6%E5%8F%98%E8%BF%81%E5%8F%B2/" rel="prev" title="从web2到web3,看前端技术变迁史">
-            从web2到web3,看前端技术变迁史
+          <a href="/2026/02/16/Claude-Code-memory-system-and-CLAUDE-md/" rel="prev" title="Claude Code记忆系统与CLAUDE.md">
+            Claude Code记忆系统与CLAUDE.md
           </a>
           <span>〉</span>
         

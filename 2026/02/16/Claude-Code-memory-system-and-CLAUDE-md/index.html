@@ -18,17 +18,17 @@
 
   
   <link rel="stylesheet" href="https://unpkg.com/octomments/build/ocs-ui.min.css" />
-  <meta name="keywords" content="React,web3," />
+  <meta name="keywords" content="Claude Code工程化实战," />
   
 
   
-  <meta name="description" content="前端技术变迁史：洪荒时代-&gt;Ajax诞生前后端分离雏形出现-&gt;现代前端框架百家争鸣到React框架横空出世，最后谈谈React与Web3的关系。" />
+  <meta name="description" content="项目逐渐复杂的时候，如果每次新对话，Claude 都让我从零开始，如果它不记得你的项目用什么技术栈、什么代码风格、什么团队规范——那这种“失忆症”让人抓狂。CLAUDE.md 就是治疗这种失忆症的药。它是一份给 Claude 的“项目入职手册”——Claude 每次开始对话时，都会自动阅读这份手册，了解你的项目背景，明确它在干活时应该遵循的一系列底层规则。" />
   
 
   
   <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=1.0.1" />
   
-  <title>从web2到web3,看前端技术变迁史 [ 果糖酱的博客 ]</title>
+  <title>Claude Code记忆系统与CLAUDE.md [ 果糖酱的博客 ]</title>
   
   <!-- stylesheets list from config.yml -->
   
@@ -76,19 +76,19 @@
   <article class="post" id="post">
     <header class="post-header text-center">
       <h1 class="title">
-        从web2到web3,看前端技术变迁史
+        Claude Code记忆系统与CLAUDE.md
       </h1>
       <span>
         
-        <time class="time" datetime="2025-09-20T07:04:34.000Z">
-        2025-09-20
+        <time class="time" datetime="2026-02-16T02:22:08.000Z">
+        2026-02-16
       </time>
         
       </span>
       <span class="slash">/</span>
       <span class="post-meta">
       <span class="post-tags">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/React/" rel="tag">React</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web3/" rel="tag">web3</a></li></ul>
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Claude-Code%E5%B7%A5%E7%A8%8B%E5%8C%96%E5%AE%9E%E6%88%98/" rel="tag">Claude Code工程化实战</a></li></ul>
       </span>
     </span>
       <span class="slash">/</span>
@@ -96,61 +96,72 @@
       <span id="busuanzi_value_page_pv"></span> 点击
     </span>
       <span class="slash">/</span>
-      <span class="read">阅读耗时 10 分钟</span>
+      <span class="read">阅读耗时 18 分钟</span>
     </header>
 
     <div class="post-content">
-      <h2 id="前端技术变迁史"><a href="#前端技术变迁史" class="headerlink" title="前端技术变迁史"></a>前端技术变迁史</h2><h3 id="1-洪荒时期"><a href="#1-洪荒时期" class="headerlink" title="1.洪荒时期"></a>1.洪荒时期</h3><p>1995年javascript刚建立的时候，网页是无状态。此时的研发范式还是遵循着后端为主的MVC模式，即后端主导着整个研发流程，负责保存和管理数据库（Model层），处理数据和实现业务逻辑（Control层），当时还没有前端这个工种，完全是由美工负责提供切好的html模版给到后端，由后端完成jsp、php的文件渲染给到浏览器展示，jsp&amp;php模版如下图所示：</p>
-<p><img src="/../assets/images/2025/jsp&php%E6%A8%A1%E7%89%88.png" alt="jsp&amp;php模版示例"></p>
-<p>这个阶段的主要问题如下：</p>
-<p>1、用户体验不流畅：每次伴随用户的操作，都要刷新页面获取最新的状态，用户体验割裂。<br>2、页面加载速度慢：每次刷新页面，都要重新加载静态资源文件，页面加载速度慢。<br>3、前后端协作困难：前后端共同维护一套模板代码，后端需要在前端写好的代码上加上后端的动态逻辑。</p>
-<h3 id="2-Ajax诞生"><a href="#2-Ajax诞生" class="headerlink" title="2.Ajax诞生"></a>2.Ajax诞生</h3><p>这个阶段Ajax诞生后前端可以无需重新加载整个页面就能主动获取最新的页面状态，至此前端开始维护页面状态，这标志着前后端分离的开发模式雏形开始出现。</p>
-<p>前端开发员为了实现页面的更新需要频繁操作dom，此时面临最大的问题就是各大浏览器标准不统一，导致的dom原生操作非常非常麻烦，业界急需一个统一的跨浏览器的处理方案。</p>
-<h3 id="3-JQuery-应运而生"><a href="#3-JQuery-应运而生" class="headerlink" title="3.JQuery 应运而生"></a>3.JQuery 应运而生</h3><p>JQuery重点解决了2大痛点：<br>1、完善的跨浏览器解决方案<br>2、简化的dom操作和事件处理</p>
-<p>由于JQuery的出现，前端写代码难度大大降低：</p>
-<p><img src="/../assets/images/2025/JQuery.png" alt="jquery是如何简化dom操作的"></p>
-<h3 id="4-现代框架出现-MVVM"><a href="#4-现代框架出现-MVVM" class="headerlink" title="4.现代框架出现 - MVVM"></a>4.现代框架出现 - MVVM</h3><p>随着时代发展和前端地位的不断提升，以往的前端开发存在以下弊端：<br>1、随着前端应用复杂度的提升，越来越无法满足模块化开发和协作的需求。<br>2、MVC、MVVM等后端框架衍生的好的范式无法再前端开发中得到很好落地应用。</p>
-<p>前端框架进入百花齐放的时代，像Backbone.js、.Ember.js、Knockout.js、Angular.js(1.0)等框架也曾流行一时，但最终三大框架登上时代舞台：</p>
-<ul>
-<li>React</li>
-<li>Vue</li>
-<li>Angular(2.0)</li>
-</ul>
-<h3 id="5-持续进化中"><a href="#5-持续进化中" class="headerlink" title="5.持续进化中"></a>5.持续进化中</h3><p>在技术的加持和浏览器标准的不断完善下，前端的能力越来越广，能涉足的领域也越来越多：</p>
-<ul>
-<li>游戏开发(coco2d.js、白鹭)</li>
-<li>webApp开发(RN、weex、Flutter)</li>
-<li>图像开发WebGL(three.js)</li>
-<li>小程序&#x2F;快应用</li>
-<li>后端(node.js)</li>
-<li>应用开发(electron)</li>
-<li>Web3开发(ethers.js、web3.js、viem、wagmi)</li>
-</ul>
-<p>同时为了提高前端开发体验，配套的前端基建发展越来越快，比如：</p>
-<ul>
-<li>webpack、rollup、vite等解决前端编译打包的问题</li>
-<li>typescript解决js类型增加代码鲁棒性</li>
-<li>next.js、nuxt提供了全栈开发解决方案</li>
-<li>未来更多想象…</li>
-</ul>
-<h2 id="关于React"><a href="#关于React" class="headerlink" title="关于React"></a>关于React</h2><p>React是meta 2013年内部推出的前端框架，是目前使用率最高的前端框架，拥有最好的社区支持和生态圈以及大量的第三方工具，海外占比极高。</p>
-<h3 id="1-开发思想"><a href="#1-开发思想" class="headerlink" title="1.开发思想"></a>1.开发思想</h3><p>三个关键词：组件化、不可变、数据流。</p>
-<p>React团队推崇开发者将一个大需求拆解，使用JSX语法来编写一个一个可复用的组件来合成需要的用户界面。<br>开发者只需考虑如何拆解可复用的组件，管理好每个组件的数据状态，剩下的工作交给React。</p>
-<h3 id="2-解决了哪些问题"><a href="#2-解决了哪些问题" class="headerlink" title="2.解决了哪些问题?"></a>2.解决了哪些问题?</h3><ul>
-<li>使用虚拟dom和声明式编程，解决了JQuery仍需手动操作dom的问题</li>
-<li>通过单向数据流，简化了数据管理的复杂度，易于理解和维护</li>
-<li>引入组件化开发模式，满足前端工程化和模块化的趋势</li>
-<li>基于虚拟dom的思想，使得跨平台开发成为现实，推出了React Native</li>
-</ul>
-<h3 id="3-缺点"><a href="#3-缺点" class="headerlink" title="3.缺点"></a>3.缺点</h3><p>个人观点：1.由于JSX语法写法太过灵活，导致缺乏范式和最佳实践，学习曲线陡峭。学会rect写代码不难，难的事写出高性能可复用性的代码。<br>2.社群生态相对分散，官方没有提供一套完整可用的套件，不像Vue有全家桶，需要花更多的时间来评估和选择适合项目的第三方库和工具。<br>3.中文资料不如Vue，且质量不高。</p>
-<h3 id="4-个人建议学习路线"><a href="#4-个人建议学习路线" class="headerlink" title="4.个人建议学习路线"></a>4.个人建议学习路线</h3><p>首先推荐官方网站作为快速入门，和demo实践，尽快熟悉和掌握React语法和开发思想。</p>
+      <p>和 AI 协作，不知道你有没有这样的经历:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">第一次对话：</span><br><span class="line">你：帮我写一个用户登录接口</span><br><span class="line">Claude：好的，这是一个基础的登录接口...（使用 Express + JavaScript）</span><br><span class="line"></span><br><span class="line">你：我们项目用的是 Fastify 和 TypeScript</span><br><span class="line">Claude：好的，让我重新写...</span><br><span class="line"></span><br><span class="line">第二次对话：</span><br><span class="line">你：帮我写一个订单创建接口</span><br><span class="line">Claude：好的，这是一个基础的订单接口...（又用 Express + JavaScript）</span><br><span class="line"></span><br><span class="line">你：（崩溃）我们用 Fastify 和 TypeScript！</span><br><span class="line"></span><br><span class="line">--------------------------------------------------------------</span><br><span class="line"></span><br><span class="line">第一个项目：</span><br><span class="line">你：帮我根据刚才的讨论做一套循环经济相关PPT，给老板直接看</span><br><span class="line">Claude：好的，这是一份图文并茂，有技术深度的PPT...</span><br><span class="line">你（看了PPT）：内容挺好的，调一下格式，16:9 ，加Speaker Notes</span><br><span class="line">Claude：...</span><br><span class="line"></span><br><span class="line">第二个项目：</span><br><span class="line">你：帮我根据项目进展，做一套知识图谱的PPT，直接用于演示的标准</span><br><span class="line">Claude：好的，这是一个份根据你的项目制作的详细知识图谱PPT...</span><br><span class="line">你（看了PPT）：16:9 ，加Speaker Notes！</span><br></pre></td></tr></table></figure>
+<p>在刚刚开始使用 Claude Code 时，这种情况常见。对于小项目，我多说几次需求，倒也无所谓。</p>
+<p>但是时间长了，项目逐渐复杂的时候，如果每次新对话，Claude 都让我从零开始，如果它不记得你的项目用什么技术栈、什么代码风格、什么团队规范——那这种“失忆症”让人抓狂。</p>
+<p>CLAUDE.md 就是治疗这种失忆症的药。它是一份给 Claude 的“项目入职手册”——Claude 每次开始对话时，都会自动阅读这份手册，了解你的项目背景，明确它在干活时应该遵循的一系列底层规则。</p>
+<h1 id="Claude-Code-记忆系统的工作原理"><a href="#Claude-Code-记忆系统的工作原理" class="headerlink" title="Claude Code 记忆系统的工作原理"></a>Claude Code 记忆系统的工作原理</h1><p>当你在项目目录启动 Claude Code 时，发生的“记忆系统初始化”过程如下图所示。</p>
+<p><img src="/../assets/images/2025/Claude-Code-Memory-System.png" alt="Claude Code 记忆系统初始化过程"></p>
+<p>这就像你给新员工一份入职手册，他读完之后就知道公司的规矩。不同的是，Claude 每次对话都会重新“入职”——所以这份手册必须简洁有效。</p>
+<p><strong>CLAUDE.md 的内容会每次对话都加载，所以要精简。把“每次都需要”的内容放这里，把“偶尔需要”的内容放到 Skills 或文档里。</strong></p>
+<h1 id="编写高效的-CLAUDE-md"><a href="#编写高效的-CLAUDE-md" class="headerlink" title="编写高效的 CLAUDE.md"></a>编写高效的 CLAUDE.md</h1><p>如果你只能记住一句话，那就是 CLAUDE.md 写得好不好，直接决定了 Claude 是靠谱同事，还是每次都要重新培训的实习生。</p>
+<p>下面我们就来讨论 CLAUDE.md 编写要遵循的核心原则，了解怎么写，才值得每次都被加载进上下文。</p>
+<h2 id="核心原则-1：Less-is-More"><a href="#核心原则-1：Less-is-More" class="headerlink" title="核心原则 1：Less is More"></a>核心原则 1：Less is More</h2><p>CLAUDE.md 的每一行，都会在每一次对话开始时被自动注入上下文。这意味着一件事：冗余不是无害的，而是持续消耗的。所以保持精简不是建议，而是必须。</p>
+<h2 id="核心原则-2：具体优于泛泛"><a href="#核心原则-2：具体优于泛泛" class="headerlink" title="核心原则 2：具体优于泛泛"></a>核心原则 2：具体优于泛泛</h2><p>先来看一个非常常见、但几乎没有任何效果的写法。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 项目规范</span></span><br><span class="line"><span class="comment">## 代码质量</span></span><br><span class="line">请写出高质量的代码。代码应该是可读的。使用有意义的变量名。</span><br><span class="line">保持代码整洁。遵循最佳实践。不要写重复的代码。</span><br></pre></td></tr></table></figure>
+
+<p>这些话没有一句是错的，但问题在于——Claude 本来就知道这些。它们不会改变 Claude 的任何决策，只会白白占用上下文空间。这些话对人类尚且含糊，对模型来说，更是几乎等于什么都没说。</p>
+<p>真正有价值的 CLAUDE.md，应该长这样:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 项目规范</span></span><br><span class="line"></span><br><span class="line"><span class="comment">## TypeScript</span></span><br><span class="line">- 使用 `interface` 定义对象结构，`<span class="built_in">type</span>` 用于联合类型</span><br><span class="line">- 禁止 `any`，使用 `unknown` + 类型守卫</span><br><span class="line">- 函数参数 &gt; 3 个时，使用对象参数</span><br><span class="line"></span><br><span class="line"><span class="comment">## 错误处理</span></span><br><span class="line">```js</span><br><span class="line">// 业务错误</span><br><span class="line">throw new BusinessError(<span class="string">&#x27;ORDER_NOT_FOUND&#x27;</span>, <span class="string">&#x27;订单不存在&#x27;</span>);</span><br><span class="line"></span><br><span class="line">// 验证错误（Zod 自动抛出）</span><br><span class="line">const data = orderSchema.parse(input);</span><br><span class="line"></span><br><span class="line">// controller 中不要 try-catch</span><br><span class="line">// 由全局错误中间件统一处理</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">两者的差异非常明确。后者不是模糊要求“要高质量”，而是给出了如何做才算高质量；不是“注意错误处理”，而是具体的错误模型；不是抽象描述，而是可直接模仿的代码形态。</span><br><span class="line"></span><br><span class="line">这里有个简单的判断标准——如果你不写，Claude 也大概率会做对，那就不要写。</span><br><span class="line"></span><br><span class="line">## 核心原则 3：关键三问题 WHY / WHAT / HOW</span><br><span class="line"></span><br><span class="line">一份真正“能用”的 CLAUDE.md，通常都在回答三个问题。不是一次性回答，而是在关键地方给出明确指引。</span><br><span class="line"></span><br><span class="line">### WHY —— 为什么要这样做？</span><br><span class="line"></span><br><span class="line">```bash</span><br><span class="line">## 为什么使用 Zod？</span><br><span class="line">- TypeScript 只有编译时类型检查</span><br><span class="line">- API 输入需要运行时验证</span><br><span class="line">- Zod 可以同时生成 TS 类型和验证逻辑</span><br><span class="line">- 错误信息自动生成，对用户友好</span><br></pre></td></tr></table></figure>
+
+<p>这一部分的作用，不是让 Claude “记住一个库”，而是让它理解背后的决策逻辑。当 Claude 明白了为什么，它在面对相似但不完全相同的场景时，才更可能做出一致的判断。</p>
+<h3 id="WHAT-——-具体要做什么，不要做什么？"><a href="#WHAT-——-具体要做什么，不要做什么？" class="headerlink" title="WHAT —— 具体要做什么，不要做什么？"></a>WHAT —— 具体要做什么，不要做什么？</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 数据库操作规范</span></span><br><span class="line">- 所有查询通过 Prisma ORM</span><br><span class="line">- 复杂查询封装在 `src/repositories/`</span><br><span class="line">- 禁止在 controller/service 中直接写 SQL</span><br><span class="line">- 事务使用 `prisma.<span class="variable">$transaction</span>()`</span><br></pre></td></tr></table></figure>
+
+<p>这一部分的重点是边界。什么是允许的，什么是禁止的，决策应该发生在哪一层？对 Claude 来说，这比“最佳实践”四个字重要得多。</p>
+<h3 id="HOW-——-按什么步骤去做？"><a href="#HOW-——-按什么步骤去做？" class="headerlink" title="HOW —— 按什么步骤去做？"></a>HOW —— 按什么步骤去做？</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 创建新 API 端点</span></span><br><span class="line"></span><br><span class="line">1. 在 `src/schemas/` 创建请求/响应 Zod schema</span><br><span class="line">2. 在 `src/routes/` 添加路由定义</span><br><span class="line">3. 在 `src/controllers/` 实现请求处理</span><br><span class="line">4. 在 `src/services/` 实现业务逻辑</span><br><span class="line">5. 在 `tests/` 添加测试用例</span><br><span class="line"></span><br><span class="line">示例参考: `src/routes/orders.ts`</span><br></pre></td></tr></table></figure>
+
+<p>当步骤清晰、路径明确、还有参考文件时，Claude 才会稳定复用同一套工作流，而不是每次自由发挥。</p>
+<h2 id="核心原则-4：渐进式披露：不要把一切都塞进-CLAUDE-md"><a href="#核心原则-4：渐进式披露：不要把一切都塞进-CLAUDE-md" class="headerlink" title="核心原则 4：渐进式披露：不要把一切都塞进 CLAUDE.md"></a>核心原则 4：渐进式披露：不要把一切都塞进 CLAUDE.md</h2><p>CLAUDE.md 的职责是定义默认决策，而不是承载全部知识。对于非核心、但可能被用到的内容，正确的做法是引用，而不是复制。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 项目规范</span></span><br><span class="line"></span><br><span class="line"><span class="comment">## 核心</span></span><br><span class="line">[精简的核心规范]</span><br><span class="line"></span><br><span class="line"><span class="comment">## 详细文档</span></span><br><span class="line">- 数据库设计: 见 `docs/database.md`</span><br><span class="line">- API 规范: 见 `docs/api-spec.md`</span><br><span class="line">- 部署流程: 见 `docs/deployment.md`</span><br></pre></td></tr></table></figure>
+
+<p>这样做有两个好处：<br>1.CLAUDE.md 保持轻量，启动成本低 。<br>2.当 Claude 需要进一步的细节信息时，可以按需读取引用文件。</p>
+<h1 id="CLAUDE-md-实战演练"><a href="#CLAUDE-md-实战演练" class="headerlink" title="CLAUDE.md 实战演练"></a>CLAUDE.md 实战演练</h1><h2 id="场景一：为新项目创建记忆"><a href="#场景一：为新项目创建记忆" class="headerlink" title="场景一：为新项目创建记忆"></a>场景一：为新项目创建记忆</h2><p>假设你刚接手一个 React + TypeScript 前端项目，让我们从零配置记忆。</p>
+<h3 id="Step-1：创建基础-CLAUDE-md"><a href="#Step-1：创建基础-CLAUDE-md" class="headerlink" title="Step 1：创建基础 CLAUDE.md"></a>Step 1：创建基础 CLAUDE.md</h3><p>先通过 &#x2F;init 命令自动初始化 CLAUDE.md 文件，或使用下面的命令在项目根目录手动创建记忆文件。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">touch</span> CLAUDE.md</span><br></pre></td></tr></table></figure>
+
+<p>然后创建如下的内容。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 项目：电商平台前端</span></span><br><span class="line"></span><br><span class="line"><span class="comment">## 技术栈</span></span><br><span class="line">- React 18 + TypeScript</span><br><span class="line">- Vite 构建</span><br><span class="line">- TanStack Query（数据获取）</span><br><span class="line">- Zustand（状态管理）</span><br><span class="line">- Tailwind CSS</span><br><span class="line"></span><br><span class="line"><span class="comment">## 目录结构</span></span><br><span class="line">src/ </span><br><span class="line">├── components/ <span class="comment"># 组件 </span></span><br><span class="line">│ ├── ui/ <span class="comment"># 基础 UI </span></span><br><span class="line">│ └── features/ <span class="comment"># 功能组件 </span></span><br><span class="line">├── pages/ <span class="comment"># 页面 </span></span><br><span class="line">├── hooks/ <span class="comment"># 自定义 Hooks </span></span><br><span class="line">├── stores/ <span class="comment"># Zustand stores </span></span><br><span class="line">├── api/ <span class="comment"># API 调用 </span></span><br><span class="line">└── types/ <span class="comment"># 类型定义</span></span><br><span class="line"></span><br><span class="line"><span class="comment">## 组件规范</span></span><br><span class="line">- 函数组件 + Hooks</span><br><span class="line">- Props 接口命名: `XxxProps`</span><br><span class="line">- 一个组件一个目录: `Button/index.tsx`</span><br><span class="line"></span><br><span class="line"><span class="comment">## 状态管理</span></span><br><span class="line">- 服务端状态: TanStack Query</span><br><span class="line">- 客户端状态: Zustand</span><br><span class="line">- 本地状态: useState</span><br><span class="line"></span><br><span class="line"><span class="comment">## 常用命令</span></span><br><span class="line">- `pnpm dev` - 开发服务器</span><br><span class="line">- `pnpm build` - 构建</span><br><span class="line">- `pnpm <span class="built_in">test</span>` - 测试</span><br></pre></td></tr></table></figure>
+
+<h3 id="Step-2：创建本地记忆"><a href="#Step-2：创建本地记忆" class="headerlink" title="Step 2：创建本地记忆"></a>Step 2：创建本地记忆</h3><p>CLAUDE.local.md</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">* 本地笔记</span><br><span class="line"></span><br><span class="line">** 环境</span><br><span class="line">- API: http://localhost:8080</span><br><span class="line">- Mock: 使用 MSW</span><br><span class="line"></span><br><span class="line">** 当前任务</span><br><span class="line">- 重构购物车组件</span><br><span class="line">- 截止: 本周五</span><br></pre></td></tr></table></figure>
+
+<h3 id="Step-3：添加条件规则（可选）"><a href="#Step-3：添加条件规则（可选）" class="headerlink" title="Step 3：添加条件规则（可选）"></a>Step 3：添加条件规则（可选）</h3><p>创建如下.claude&#x2F;rules&#x2F;testing.md：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">paths:</span><br><span class="line">  - <span class="string">&quot;src/**/*.test.tsx&quot;</span></span><br><span class="line">  - <span class="string">&quot;src/**/*.test.ts&quot;</span></span><br><span class="line">---</span><br><span class="line"></span><br><span class="line">**测试规范</span><br><span class="line"></span><br><span class="line">- 使用 Vitest + React Testing Library</span><br><span class="line">- 测试文件放在同目录: `Button.test.tsx`</span><br><span class="line">- 优先测试用户行为，而非实现细节</span><br><span class="line"></span><br><span class="line">```typescript</span><br><span class="line">// ✅ 好</span><br><span class="line">expect(screen.getByRole(<span class="string">&#x27;button&#x27;</span>)).toBeEnabled();</span><br><span class="line"></span><br><span class="line">// ❌ 不好</span><br><span class="line">expect(component.state.isLoading).toBe(<span class="literal">false</span>);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">## 场景二：优化已有的 CLAUDE.md</span><br><span class="line"></span><br><span class="line">假设你的 CLAUDE.md 已经有 500 行，Claude 开始变慢。此时就需要给它瘦个身，做一些优化了。我们可以分三步走。</span><br><span class="line"></span><br><span class="line">### Step 1：识别核心内容</span><br><span class="line"></span><br><span class="line">可以问自己：哪些内容是每次对话都需要的？下面是对于项目整体的一个规划示例——目的是使 CLAUDE.md 保有一个简单而清晰的结构。</span><br><span class="line"></span><br><span class="line">### Step 2：拆分成独立文件</span><br><span class="line"></span><br><span class="line">详细的 API 文档、数据库表结构和部署流程虽然重要，但是完全没有必要每次都读入 Claude 内存，可以移动到单独文件，精简原来的 CLAUDE.md 。</span><br><span class="line"></span><br><span class="line">```bash</span><br><span class="line">## 核心规范</span><br><span class="line">[精简内容]</span><br><span class="line"></span><br><span class="line">## 详细参考</span><br><span class="line">- API 端点清单: @docs/api.md</span><br><span class="line">- 数据库 Schema: @prisma/schema.prisma</span><br><span class="line">- 部署配置: @docs/deploy.md</span><br></pre></td></tr></table></figure>
+
+<h3 id="Step-3：使用条件规则"><a href="#Step-3：使用条件规则" class="headerlink" title="Step 3：使用条件规则"></a>Step 3：使用条件规则</h3><p>可以考虑进一步把测试规范、前端规范、后端规范拆分到  .claude&#x2F;rules&#x2F;，并设置  paths条件。</p>
+<h2 id="场景三：记忆管理命令"><a href="#场景三：记忆管理命令" class="headerlink" title="场景三：记忆管理命令"></a>场景三：记忆管理命令</h2><p>要查看当前记忆，在 Claude Code 中输入：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/memory</span><br></pre></td></tr></table></figure>
+
+<p>就会显示当前加载的所有记忆内容和来源。编辑记忆的命令参数如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">/memory edit         <span class="comment"># 编辑项目级 CLAUDE.md</span></span><br><span class="line">/memory edit user    <span class="comment"># 编辑用户级记忆</span></span><br><span class="line">/memory edit <span class="built_in">local</span>   <span class="comment"># 编辑本地级记忆</span></span><br></pre></td></tr></table></figure>
+
+<p>你也可以通过自然语言指令，让 Claude 帮你更新记忆！例如：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">你：请记住，我们项目使用 pnpm 而不是 npm</span><br><span class="line"></span><br><span class="line">Claude：好的，我可以将这个信息添加到项目的 CLAUDE.md 中。</span><br><span class="line">        要我现在更新吗？</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>CLAUDE.md 是有层次的记忆。它的意义，是把项目规范、编码风格和团队约定中反复强调的共识，从对话中抽离出来，变成一次配置、长期生效的默认规则。</p>
+<p>然而记忆本身是有成本的。CLAUDE.md 会在每一次对话开始时自动加载。这意味着它并不适合承载所有信息，而只适合存放每次都必须知道的内容。</p>
 <blockquote>
-<p>官方文档：<a target="_blank" rel="noopener" href="https://react.dev/">https://react.dev</a></p>
+<p>当记忆过多、层级混乱，Claude 的行为反而会变得迟钝甚至不稳定。</p>
 </blockquote>
-<p>B站和其它官网也有各种免费讲解视频可以作为辅助学习材料，也可以选择一些优秀的付费课程。</p>
-<p>记住<code>coding</code>才是最好的学习方式，代码是一行一行写出来的，而不是满足于概念理解或一些简单的demo上。</p>
-<p>最后如果还有余力，可以深入研究一下源码，甚至写一个<code>mini-react</code>, 更了解本质。</p>
-<h2 id="React与Web3"><a href="#React与Web3" class="headerlink" title="React与Web3"></a>React与Web3</h2><p>React在Web3领域有广泛的应用，在交易所、Dapp、钱包中，都可以使用React配合Wagmi、viem来实现链交互，页面框架的搭建，而且海外React岗远远高于其他前端框架，所以所学好React的收益还是蛮大的。 </p>
+<p>因此，理解加载顺序、控制记忆体量、区分团队规范与个人偏好，并不是简单的进阶技巧，而是能否长期使用这套机制的前提。</p>
 
     </div>
 
@@ -160,7 +171,7 @@
     
   <div id="toc" class="toc-article">
     <strong class="toc-title">目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E7%AB%AF%E6%8A%80%E6%9C%AF%E5%8F%98%E8%BF%81%E5%8F%B2"><span class="toc-text">前端技术变迁史</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%B4%AA%E8%8D%92%E6%97%B6%E6%9C%9F"><span class="toc-text">1.洪荒时期</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Ajax%E8%AF%9E%E7%94%9F"><span class="toc-text">2.Ajax诞生</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-JQuery-%E5%BA%94%E8%BF%90%E8%80%8C%E7%94%9F"><span class="toc-text">3.JQuery 应运而生</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E7%8E%B0%E4%BB%A3%E6%A1%86%E6%9E%B6%E5%87%BA%E7%8E%B0-MVVM"><span class="toc-text">4.现代框架出现 - MVVM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E6%8C%81%E7%BB%AD%E8%BF%9B%E5%8C%96%E4%B8%AD"><span class="toc-text">5.持续进化中</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E4%BA%8EReact"><span class="toc-text">关于React</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%BC%80%E5%8F%91%E6%80%9D%E6%83%B3"><span class="toc-text">1.开发思想</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E8%A7%A3%E5%86%B3%E4%BA%86%E5%93%AA%E4%BA%9B%E9%97%AE%E9%A2%98"><span class="toc-text">2.解决了哪些问题?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E7%BC%BA%E7%82%B9"><span class="toc-text">3.缺点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E4%B8%AA%E4%BA%BA%E5%BB%BA%E8%AE%AE%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF"><span class="toc-text">4.个人建议学习路线</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#React%E4%B8%8EWeb3"><span class="toc-text">React与Web3</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Claude-Code-%E8%AE%B0%E5%BF%86%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="toc-text">Claude Code 记忆系统的工作原理</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BC%96%E5%86%99%E9%AB%98%E6%95%88%E7%9A%84-CLAUDE-md"><span class="toc-text">编写高效的 CLAUDE.md</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E5%8E%9F%E5%88%99-1%EF%BC%9ALess-is-More"><span class="toc-text">核心原则 1：Less is More</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E5%8E%9F%E5%88%99-2%EF%BC%9A%E5%85%B7%E4%BD%93%E4%BC%98%E4%BA%8E%E6%B3%9B%E6%B3%9B"><span class="toc-text">核心原则 2：具体优于泛泛</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#WHAT-%E2%80%94%E2%80%94-%E5%85%B7%E4%BD%93%E8%A6%81%E5%81%9A%E4%BB%80%E4%B9%88%EF%BC%8C%E4%B8%8D%E8%A6%81%E5%81%9A%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-text">WHAT —— 具体要做什么，不要做什么？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HOW-%E2%80%94%E2%80%94-%E6%8C%89%E4%BB%80%E4%B9%88%E6%AD%A5%E9%AA%A4%E5%8E%BB%E5%81%9A%EF%BC%9F"><span class="toc-text">HOW —— 按什么步骤去做？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E5%8E%9F%E5%88%99-4%EF%BC%9A%E6%B8%90%E8%BF%9B%E5%BC%8F%E6%8A%AB%E9%9C%B2%EF%BC%9A%E4%B8%8D%E8%A6%81%E6%8A%8A%E4%B8%80%E5%88%87%E9%83%BD%E5%A1%9E%E8%BF%9B-CLAUDE-md"><span class="toc-text">核心原则 4：渐进式披露：不要把一切都塞进 CLAUDE.md</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#CLAUDE-md-%E5%AE%9E%E6%88%98%E6%BC%94%E7%BB%83"><span class="toc-text">CLAUDE.md 实战演练</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9C%BA%E6%99%AF%E4%B8%80%EF%BC%9A%E4%B8%BA%E6%96%B0%E9%A1%B9%E7%9B%AE%E5%88%9B%E5%BB%BA%E8%AE%B0%E5%BF%86"><span class="toc-text">场景一：为新项目创建记忆</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Step-1%EF%BC%9A%E5%88%9B%E5%BB%BA%E5%9F%BA%E7%A1%80-CLAUDE-md"><span class="toc-text">Step 1：创建基础 CLAUDE.md</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Step-2%EF%BC%9A%E5%88%9B%E5%BB%BA%E6%9C%AC%E5%9C%B0%E8%AE%B0%E5%BF%86"><span class="toc-text">Step 2：创建本地记忆</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Step-3%EF%BC%9A%E6%B7%BB%E5%8A%A0%E6%9D%A1%E4%BB%B6%E8%A7%84%E5%88%99%EF%BC%88%E5%8F%AF%E9%80%89%EF%BC%89"><span class="toc-text">Step 3：添加条件规则（可选）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Step-3%EF%BC%9A%E4%BD%BF%E7%94%A8%E6%9D%A1%E4%BB%B6%E8%A7%84%E5%88%99"><span class="toc-text">Step 3：使用条件规则</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9C%BA%E6%99%AF%E4%B8%89%EF%BC%9A%E8%AE%B0%E5%BF%86%E7%AE%A1%E7%90%86%E5%91%BD%E4%BB%A4"><span class="toc-text">场景三：记忆管理命令</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a></li></ol>
   </div>
 
 
@@ -181,14 +192,19 @@
       <div class="post-nav-item post-nav-next">
         
           <span>〈 </span>
-          <a href="/2025/09/18/%E8%BD%AC%E5%9E%8B%E5%88%BB%E4%B8%8D%E5%AE%B9%E7%BC%93/" rel="next" title="web3-程序员的乌托邦">
-          web3-程序员的乌托邦
+          <a href="/2026/02/15/Analysis-of-the-underlying-architecture-of--Claude-Code/" rel="next" title="Claude Code底层架构解析">
+          Claude Code底层架构解析
           </a>
         
       </div>
   
       <div class="post-nav-item post-nav-prev">
           
+          <a href="/2026/02/24/The-core-concept-and-application-value-of-Sub-Agents/" rel="prev" title="Sub-Agents的核心概念与应用价值">
+            Sub-Agents的核心概念与应用价值
+          </a>
+          <span>〉</span>
+        
       </div>
     </div>
   
