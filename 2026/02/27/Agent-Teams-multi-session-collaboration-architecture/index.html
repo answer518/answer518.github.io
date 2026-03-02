@@ -21,13 +21,13 @@
   
 
   
-  <meta name="description" content="果糖酱的博客,自律才能自由" />
+  <meta name="description" content="Agent Teams多会话协作架构" />
   
 
   
   <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=1.0.1" />
   
-  <title> [ 果糖酱的博客 ]自律才能自由</title>
+  <title>Agent Teams多会话协作架构 [ 果糖酱的博客 ]</title>
   
   <!-- stylesheets list from config.yml -->
   
@@ -49,7 +49,7 @@
   <ul class="pure-menu-list clearfix">
       
           
-            <li class="pure-menu-item actived"><a href="/" class="pure-menu-link">首页</a></li>
+            <li class="pure-menu-item"><a href="/" class="pure-menu-link">首页</a></li>
           
       
           
@@ -71,238 +71,193 @@
 
   <div class="container" id="content-outer">
     <div class="inner" id="content-inner">
-      
+      <div class="post-container">
+  <article class="post" id="post">
+    <header class="post-header text-center">
+      <h1 class="title">
+        Agent Teams多会话协作架构
+      </h1>
+      <span>
+        
+        <time class="time" datetime="2026-02-27T10:06:08.000Z">
+        2026-02-27
+      </time>
+        
+      </span>
+      <span class="slash">/</span>
+      <span class="post-meta">
+      <span class="post-tags">
+        
+      </span>
+    </span>
+      <span class="slash">/</span>
+      <span class="read">
+      <span id="busuanzi_value_page_pv"></span> 点击
+    </span>
+      <span class="slash">/</span>
+      <span class="read">阅读耗时 17 分钟</span>
+    </header>
 
-  <div class="recent-posts">
+    <div class="post-content">
+      <p>今天我们要探索一个更进阶的（也是新鲜出炉的）协作模式：<strong>Agent Teams（智能体团队）</strong>。</p>
+<blockquote>
+<p>注意：Agent Teams 是 Claude Code 的实验性功能，默认关闭。需要在相关级别的设置文件中（如用户级设置 ~&#x2F;.claude&#x2F;settings.json 或 项目级设置 project_folder&#x2F;.claude&#x2F;settings.json）添加  CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS  环境变量来启用。Claud Code 官方说，这个实验性功能可能存在已知限制（具体限制可以参考官网实时更新的说明，搜索“limitations”关键字），生产环境请谨慎评估。</p>
+</blockquote>
+<h1 id="Sub-Agents-vs-Agent-Teams：从“任务委托”到“团队协作”"><a href="#Sub-Agents-vs-Agent-Teams：从“任务委托”到“团队协作”" class="headerlink" title="Sub-Agents vs Agent Teams：从“任务委托”到“团队协作”"></a>Sub-Agents vs Agent Teams：从“任务委托”到“团队协作”</h1><p>前面几篇文章介绍的子代理工作模式虽然也各有差异，但是基本模式一致。都是主对话像老板一样，把任务委派给各个专职员工（子代理）。这种模式解决了上下文污染、权限边界、任务并行等问题。但它有一个根本性的限制：<strong>子代理只能向主对话汇报，不能互相交流</strong>。</p>
+<p><img src="/../assets/images/2025/Claude_Code_sub_agents_single_proxy.png" alt="Claude_Code_sub_agents_single_proxy"></p>
+<p>这在很多场景下足够好用。但我们在实际生产环境中可能会遇到更复杂、更诡异的场景：比如<strong>多假设并行验证</strong>。</p>
+<p>你的系统出现了一个奇怪 bug——用户登录后偶尔会话丢失，没有明确的规律。你怀疑可能是：</p>
+<ul>
+<li>假设 A：JWT token 过期时间计算有问题</li>
+<li>假设 B：Redis session 存储的竞态条件</li>
+<li>假设 C：负载均衡器的 sticky session 配置</li>
+</ul>
+<p>如果用子代理，情况可能是这样：</p>
+<p><img src="/../assets/images/2025/Claude_Code_agent_teams.png" alt="Claude_Code_agent_teams"></p>
+<p>如果子代理 <code>B</code> 能看到子代理 <code>C</code> 的发现，它可能会说：等等，<code>Redis</code> 连接数上限问题可能是因为 sticky session 5 分钟后切换了服务器，导致新的 <code>Redis</code> 连接被创建。</p>
+<p><strong>这正是 Agent Teams 要解决的问题——让代理之间能够直接交流、互相挑战、协作推进。</strong></p>
+<p>Agent Teams 让你可以协调多个 <code>Claude Code</code> 实例作为一个团队工作。一个会话作为  Team Lead（团队领导），协调工作、分配任务、综合结果。Teammates（队友）各自独立工作，每个都有自己的上下文窗口，并且可以直接互相通信。</p>
+<p><img src="/../assets/images/2025/Claude_Code_agent_teams.png" alt="Claude_Code_agent_teams"></p>
+<p>因此我们说，“Agent Teams 模式”与“主会话 - 子代理模式”最本质的区别是，<strong>Teammates 可以互相发消息、共享发现、挑战彼此的结论</strong>。</p>
+<h2 id="创建和使用-Agent-Teams"><a href="#创建和使用-Agent-Teams" class="headerlink" title="创建和使用 Agent Teams"></a>创建和使用 Agent Teams</h2><p>Agent Teams 默认是关闭的，启用方式是在 settings.json 中设置环境变量：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;env&quot;</span>: &#123;</span><br><span class="line">    <span class="string">&quot;CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS&quot;</span>: <span class="string">&quot;1&quot;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>或者在 shell 环境中设置：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1</span><br></pre></td></tr></table></figure>
+
+<p>在 Claude Code 中可以通过下面两种方式创建团队：<br><img src="/../assets/images/2025/Claude_Code_agent_teams_create.png" alt="Claude_Code_agent_teams"></p>
+<p><strong>两种方式你都保持控制权</strong>——Claude 不会未经你批准就创建 team。</p>
+<p>启用后，用自然语言告诉 <code>Claude</code> 创建团队并描述任务：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">我在设计一个 CLI 工具来追踪代码库中的 TODO 注释。</span><br><span class="line">创建一个 agent team 从不同角度探索这个问题：</span><br><span class="line">一个 teammate 负责 UX，一个负责技术架构（用最好的模型），一个扮演审评质疑者（用普通模型）。</span><br></pre></td></tr></table></figure>
+
+<p>Claude 会建团队，生成指定的 <code>Teammates</code> 让它们探索问题，然后综合各方发现，完成后清理团队。</p>
+<h2 id="实战项目：全栈-Bug-猎人"><a href="#实战项目：全栈-Bug-猎人" class="headerlink" title="实战项目：全栈 Bug 猎人"></a>实战项目：全栈 Bug 猎人</h2><p>项目场景是一个 <code>Express.js</code> 电商应用（ShopStream），其中刻意植入了多个相互关联 bug。用户报告了三个看似独立的症状：会话丢失、API 变慢、数据泄漏。真相是这些症状由相互 bug 的级联故障造成：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Bug 1: DB 连接池太小（db.js）</span><br><span class="line"><span class="code">    ↓ 连接耗尽</span></span><br><span class="line"><span class="code">Bug 2: Redis Session 不处理重连（middleware/session.js）</span></span><br><span class="line"><span class="code">    ↓ Session 写入静默失败</span></span><br><span class="line"><span class="code">Bug 3: 订单查询 N+1 问题（routes/orders.js）</span></span><br><span class="line"><span class="code">    ↓ 大量连接被占用 → 加剧 Bug 1</span></span><br><span class="line"><span class="code">Bug 4: 缓存竞态条件（middleware/cache.js）</span></span><br><span class="line"><span class="code">    ↓ 缓存 key 缺少用户标识 → 数据泄漏</span></span><br><span class="line"><span class="code">    ... ...</span></span><br></pre></td></tr></table></figure>
+
+<p>那么为什么这里需要 <code>Agent Teams</code> 呢？</p>
+<p>因为单独调查者容易“锚定”，找到一个 <code>bug</code> 后就满意了，不继续挖掘。而 <code>bug</code> 之间的关联需要跨视角发现，只有 Session 侦探和数据库侦探各自的发现互相对照，才能看到级联效应。此外，架构侦探可以把其他侦探的发现串联起来，通过辩论机制产出更完整的根因链。</p>
+<h1 id="四大协作设计模式"><a href="#四大协作设计模式" class="headerlink" title="四大协作设计模式"></a>四大协作设计模式</h1><p>Agent Teams 最强大的地方在于它支持的协作模式。</p>
+<h2 id="模式一：竞争假设（Competing-Hypothesis）"><a href="#模式一：竞争假设（Competing-Hypothesis）" class="headerlink" title="模式一：竞争假设（Competing Hypothesis）"></a>模式一：竞争假设（Competing Hypothesis）</h2><p>这种模式适用于根因不明确，需要从多个方向同时验证的场景。</p>
+<p>单个 Agent 调查时容易“锚定”——找到一个合理解释后就停止探索，可能错过真正的根因。此时，让多个 Teammates 各自持有不同假设，并要求它们互相挑战、试图推翻对方的理论。</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">用户报告应用在发送一条消息后就退出了，而不是保持连接。</span><br><span class="line">生成 5 个 agent teammates 调查不同的假设。</span><br><span class="line">让它们互相对话，试图推翻对方的理论，像科学辩论一样。</span><br><span class="line">将最终共识更新到 findings 文档。</span><br></pre></td></tr></table></figure>
+
+<p>该模式架构如下：<br><img src="/../assets/images/2025/Claude_Code_agent_teams_competing_hypothesis.png" alt="Claude_Code_agent_teams_competing_hypothesis"></p>
+<p>想一想，这种模式的工程价值在哪里？</p>
+<ul>
+<li>避免锚定效应——多个独立调查者，各自寻找证据支持自己的假设。</li>
+<li>辩论机制迫使每个假设必须经受挑战才能“存活”。</li>
+<li>最终“存活”的假设更可能是真正的根因。</li>
+</ul>
+<p>为什么辩论结构是此处的关键机制？顺序调查会收到锚定偏见的影响，一旦第一个理论被探索，后续调查会不自觉地偏向它。多个独立调查者主动互相反驳，幸存下来的理论更可能是真正的根因。</p>
+<h2 id="模式二：分层评审（Parallel-Review）"><a href="#模式二：分层评审（Parallel-Review）" class="headerlink" title="模式二：分层评审（Parallel Review）"></a>模式二：分层评审（Parallel Review）</h2><p>这种模式适用于代码审查、PR Review 等需要从多个维度同时评估的任务。</p>
+<p>因为单个 <code>reviewer</code> 容易聚焦于某一类问题（比如只看代码风格），而忽略其他维度。让多个 <code>Teammates</code> 各自负责不同的审查维度，同时工作。</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">创建一个 agent team 来审查 PR #142。生成三个 reviewer：</span><br><span class="line"><span class="bullet">-</span> 一个专注安全隐患</span><br><span class="line"><span class="bullet">-</span> 一个检查性能影响</span><br><span class="line"><span class="bullet">-</span> 一个验证测试覆盖</span><br><span class="line">让它们各自审查并汇报发现。</span><br></pre></td></tr></table></figure>
+<p>该模式架构如下：<br><img src="/../assets/images/2025/Claude_Code_agent_teams_parallel_review.png" alt="Claude_Code_agent_teams_parallel_review"></p>
+<p>这种模式的工程价值有哪些呢？</p>
+<ul>
+<li>每个维度都得到充分关注，不会因为注意力分散而遗漏。</li>
+<li>并行执行，时间成本不增加。</li>
+<li>不同专家可能发现关联问题（Security Reviewer 发现的输入验证问题可能影响 Performance）</li>
+</ul>
+<h2 id="模式三：模块化开发（Module-Ownership）"><a href="#模式三：模块化开发（Module-Ownership）" class="headerlink" title="模式三：模块化开发（Module Ownership）"></a>模式三：模块化开发（Module Ownership）</h2><p>这种模式适用于新功能开发，涉及多个独立模块（前端、后端、数据库、测试）的场景。</p>
+<p>由于让一个 <code>Agent</code> 依次开发容易混淆上下文，多个子代理并行又无法协调接口。因此，让每个 <code>Teammate</code> 拥有一个模块，通过共享任务列表协调工作。</p>
+<p>该模式架构如下：<br><img src="/../assets/images/2025/Claude_Code_agent_teams_module_ownership.png" alt="Claude_Code_agent_teams_module_ownership"></p>
+<p>这种模式的关键机制是：</p>
+<ul>
+<li>任务依赖：任务可以声明依赖其他任务，被阻塞的任务不能被认领。</li>
+<li>自动解锁：当依赖任务完成后，被阻塞的任务自动变为可认领。</li>
+<li>文件所有权：每个 Teammate 负责不同的文件，避免冲突。</li>
+</ul>
+<h2 id="模式四：规划-审批（Plan-Approval）"><a href="#模式四：规划-审批（Plan-Approval）" class="headerlink" title="模式四：规划 - 审批（Plan Approval）"></a>模式四：规划 - 审批（Plan Approval）</h2><p>这种模式适用于复杂或高风险任务，需要在实施前确认方案。</p>
+<p>如果直接让 <code>Teammate</code> 开干，可能因方向错误导致返工。因此要求 <code>Teammate</code> 在实施前先提交计划，<code>Lead</code> 审批通过后才能执行。</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">生成一个 architect teammate 来重构认证模块。</span><br><span class="line">要求在修改任何代码前先提交计划等待审批。</span><br></pre></td></tr></table></figure>
+
+<p>该模式工作流如下：</p>
+<p><img src="/../assets/images/2025/Claude_Code_agent_teams_plan_approval.png" alt="Claude_Code_agent_teams_plan_approval"></p>
+<p>控制 <code>Lead</code> 的审批标准：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">生成一个 architect teammate 来重构认证模块。</span><br><span class="line">要求在修改任何代码前先提交计划等待审批。</span><br><span class="line">只批准包含测试计划的方案。</span><br><span class="line">拒绝任何修改数据库 schema 的方案。</span><br></pre></td></tr></table></figure>
+
+<p>Lead 会根据你提供的标准自主做出批准 &#x2F; 拒绝决策。你影响 <code>Lead</code> 判断的方式是在 <code>prompt</code> 中给出明确的标准，比如“只批准包含测试覆盖的方案”或“拒绝修改数据库 schema 的方案”。</p>
+<h1 id="Sub-Agents-vs-Agent-Teams：选型决策树"><a href="#Sub-Agents-vs-Agent-Teams：选型决策树" class="headerlink" title="Sub-Agents vs Agent Teams：选型决策树"></a>Sub-Agents vs Agent Teams：选型决策树</h1><p>到底 Sub-Agents 和 Agent Teams 这两种架构如何选择？这里给出一个选型决策树：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">你的任务需要多个 workers 吗？</span><br><span class="line">├── 否 → 直接在主对话或用单个子代理</span><br><span class="line">└── 是 → Workers 需要互相通信吗？</span><br><span class="line"><span class="code">    ├── 否 → Sub-Agents</span></span><br><span class="line"><span class="code">    │   └── 特点：</span></span><br><span class="line"><span class="code">    │       • 更低 token 成本</span></span><br><span class="line"><span class="code">    │       • 更简单的协调</span></span><br><span class="line"><span class="code">    │       • 适合：并行探索、流水线编排</span></span><br><span class="line"><span class="code">    │</span></span><br><span class="line"><span class="code">    └── 是 → Agent Teams</span></span><br><span class="line"><span class="code">        └── 特点：</span></span><br><span class="line"><span class="code">            • 支持讨论和挑战</span></span><br><span class="line"><span class="code">            • 共享任务列表</span></span><br><span class="line"><span class="code">            • 适合：竞争假设、协作开发、多角度审查</span></span><br></pre></td></tr></table></figure>
+
+<p>一句话总结，核心判断标准是你的 <code>workers</code> 是否需要互相通信？<code>Sub-Agents</code> 是快速、廉价的“派出去 - 带回来”模式，如果只需汇报结果 ，就选 <code>Sub-Agents</code>；<code>Agent Teams</code> 是复杂、协作的“组队讨论”模式，如果需要互相讨论、挑战、协调 ，就选 <code>Agent Teams</code>。</p>
+<h2 id="token成本考量"><a href="#token成本考量" class="headerlink" title="token成本考量"></a>token成本考量</h2><p>Claude 指出，<code>Agent Teams</code> 使用的 <code>token</code> 显著高于单会话或子代理，因为每个 <code>Teammate</code> 是独立的 <code>Claude</code> 实例，有独立的上下文窗口。消息通信消耗额外 <code>token</code>，而且团队越大，成本越高。</p>
+<p>因此，适合 Agent Teams 的任务特征包括：</p>
+<ul>
+<li>并行探索能带来真正的价值；</li>
+<li>讨论和挑战能提高结果质量；</li>
+<li>任务复杂度值得额外成本。</li>
+</ul>
+<p>不适合 <code>Agent Teams</code> 的任务特征包括：</p>
+<ul>
+<li>常规任务，单会话就够；</li>
+<li>任务之间没有协作需求以及预算有限的场景。</li>
+</ul>
+
+    </div>
+
+    <div>全文完。</div>
+  </article>
+  <div class="toc-container">
     
-
-      <article class="recent-post-item">
-        <a class="title" href="/2026/03/01/Practical_application_of_task-based_Skills/"><h2>任务型 Skills （斜杠命令 /Command）实战</h2></a>
-        <div class="post-meta">
-          
-          <time class="time" datetime="2026-03-01T06:14:23.000Z">
-            2026-03-01
-          </time>
-          
-          <span class="slash">/</span>
-          
-          
-          
-
-        </div>
-        
-        <a class="more" href="/2026/03/01/Practical_application_of_task-based_Skills/"> 阅读全文〉</a>
-      </article>
-    
-
-      <article class="recent-post-item">
-        <a class="title" href="/2026/02/28/Skill-structure-and-triggering-mechanism/"><h2>SKILL.md结构与触发机制</h2></a>
-        <div class="post-meta">
-          
-          <time class="time" datetime="2026-02-28T05:04:07.000Z">
-            2026-02-28
-          </time>
-          
-          <span class="slash">/</span>
-          
-          
-          
-
-        </div>
-        
-        <a class="more" href="/2026/02/28/Skill-structure-and-triggering-mechanism/"> 阅读全文〉</a>
-      </article>
-    
-
-      <article class="recent-post-item">
-        <a class="title" href="/2026/02/27/Agent-Teams-multi-session-collaboration-architecture/"><h2>Agent Teams多会话协作架构</h2></a>
-        <div class="post-meta">
-          
-          <time class="time" datetime="2026-02-27T10:06:08.000Z">
-            2026-02-27
-          </time>
-          
-          <span class="slash">/</span>
-          
-          
-          
-
-        </div>
-        
-        <a class="more" href="/2026/02/27/Agent-Teams-multi-session-collaboration-architecture/"> 阅读全文〉</a>
-      </article>
-    
-
-      <article class="recent-post-item">
-        <a class="title" href="/2026/02/26/Parallel-exploration-and-pipeline-orchestration/"><h2>并行探索与流水线编排</h2></a>
-        <div class="post-meta">
-          
-          <time class="time" datetime="2026-02-26T10:53:40.000Z">
-            2026-02-26
-          </time>
-          
-          <span class="slash">/</span>
-          
-          <ul class="index-tag-list" itemprop="keywords"><li class="index-tag-list-item"><a class="index-tag-list-link" href="/tags/Claude-Code%E5%B7%A5%E7%A8%8B%E5%8C%96%E5%AE%9E%E6%88%98/" rel="tag">Claude Code工程化实战</a></li></ul>
-          
-
-        </div>
-        
-          <div class="post-excerpt">
-            并行探索支持多个子代理同时工作，适合独立任务的同时处理，提供快速 + 清洁的上下文，其核心价值是速度 + 独立性。流水线编排支持多个子代理顺序工作，适合有依赖关系的连续阶段，子代理之间职责清晰 + 权限递进，其核心价值是**清晰度 + 可控性。
-          </div>
-        
-        <a class="more" href="/2026/02/26/Parallel-exploration-and-pipeline-orchestration/"> 阅读全文〉</a>
-      </article>
-    
-
-      <article class="recent-post-item">
-        <a class="title" href="/2026/02/25/Build-a-read-only-security-audit-sub-agent/"><h2>构建只读型安全审计子代理</h2></a>
-        <div class="post-meta">
-          
-          <time class="time" datetime="2026-02-25T03:19:56.000Z">
-            2026-02-25
-          </time>
-          
-          <span class="slash">/</span>
-          
-          <ul class="index-tag-list" itemprop="keywords"><li class="index-tag-list-item"><a class="index-tag-list-link" href="/tags/Claude-Code%E5%B7%A5%E7%A8%8B%E5%8C%96%E5%AE%9E%E6%88%98/" rel="tag">Claude Code工程化实战</a></li></ul>
-          
-
-        </div>
-        
-          <div class="post-excerpt">
-            很多线上事故并非代码 bug，而是影响面被低估：下游链路、SLA 预算、历史事故经验没有被纳入设计判断。因此我们引入 impact-analyzer 子代理： 只读、可审计，专注分析调用链、下游影响与 SLA 风险； 并通过 Skill 把链路拓扑与历史事故提前注入上下文。这再次印证一个核心原则：子代理不是一开始就需要的，而是在工程痛点清晰后反推出来的设计选择。
-          </div>
-        
-        <a class="more" href="/2026/02/25/Build-a-read-only-security-audit-sub-agent/"> 阅读全文〉</a>
-      </article>
-    
-
-      <article class="recent-post-item">
-        <a class="title" href="/2026/02/24/Engineering-guide-from-Sub-Agents-to-Multi-Agent/"><h2>从Sub-Agents到Multi-Agent的工程指南</h2></a>
-        <div class="post-meta">
-          
-          <time class="time" datetime="2026-02-24T08:47:00.000Z">
-            2026-02-24
-          </time>
-          
-          <span class="slash">/</span>
-          
-          <ul class="index-tag-list" itemprop="keywords"><li class="index-tag-list-item"><a class="index-tag-list-link" href="/tags/Claude-Code%E5%B7%A5%E7%A8%8B%E5%8C%96%E5%AE%9E%E6%88%98/" rel="tag">Claude Code工程化实战</a></li></ul>
-          
-
-        </div>
-        
-          <div class="post-excerpt">
-            在个人的项目实践中，我一般上来先做简单 Demo，不用什么设计模式，SubAgent 和 Skills，到了两三个礼拜后，感觉认知过载了，有点吃不消了，我才开始考虑上面的架构决策树。这是我个人习惯，你也可以在项目一开始就开始全局性的考量，根据具体项目性质和任务的复杂度而定，对整体架构进行详细的设计和规划。
-          </div>
-        
-        <a class="more" href="/2026/02/24/Engineering-guide-from-Sub-Agents-to-Multi-Agent/"> 阅读全文〉</a>
-      </article>
-    
-
-      <article class="recent-post-item">
-        <a class="title" href="/2026/02/24/The-core-concept-and-application-value-of-Sub-Agents/"><h2>Sub-Agents的核心概念与应用价值</h2></a>
-        <div class="post-meta">
-          
-          <time class="time" datetime="2026-02-24T07:16:56.000Z">
-            2026-02-24
-          </time>
-          
-          <span class="slash">/</span>
-          
-          <ul class="index-tag-list" itemprop="keywords"><li class="index-tag-list-item"><a class="index-tag-list-link" href="/tags/Claude-Code%E5%B7%A5%E7%A8%8B%E5%8C%96%E5%AE%9E%E6%88%98/" rel="tag">Claude Code工程化实战</a></li></ul>
-          
-
-        </div>
-        
-          <div class="post-excerpt">
-            什么时候该用子代理，可以用一句话判断：当任务存在高噪声输出、需要明确权限边界、可以并行推进或能够拆成清晰阶段时，用子代理；当任务需要频繁来回讨论和即时调整时，就不要用。
-          </div>
-        
-        <a class="more" href="/2026/02/24/The-core-concept-and-application-value-of-Sub-Agents/"> 阅读全文〉</a>
-      </article>
-    
-
-      <article class="recent-post-item">
-        <a class="title" href="/2026/02/16/Claude-Code-memory-system-and-CLAUDE-md/"><h2>Claude Code记忆系统与CLAUDE.md</h2></a>
-        <div class="post-meta">
-          
-          <time class="time" datetime="2026-02-16T02:22:08.000Z">
-            2026-02-16
-          </time>
-          
-          <span class="slash">/</span>
-          
-          <ul class="index-tag-list" itemprop="keywords"><li class="index-tag-list-item"><a class="index-tag-list-link" href="/tags/Claude-Code%E5%B7%A5%E7%A8%8B%E5%8C%96%E5%AE%9E%E6%88%98/" rel="tag">Claude Code工程化实战</a></li></ul>
-          
-
-        </div>
-        
-          <div class="post-excerpt">
-            项目逐渐复杂的时候，如果每次新对话，Claude 都让我从零开始，如果它不记得你的项目用什么技术栈、什么代码风格、什么团队规范——那这种“失忆症”让人抓狂。CLAUDE.md 就是治疗这种失忆症的药。它是一份给 Claude 的“项目入职手册”——Claude 每次开始对话时，都会自动阅读这份手册，了解你的项目背景，明确它在干活时应该遵循的一系列底层规则。
-          </div>
-        
-        <a class="more" href="/2026/02/16/Claude-Code-memory-system-and-CLAUDE-md/"> 阅读全文〉</a>
-      </article>
-    
-
-      <article class="recent-post-item">
-        <a class="title" href="/2026/02/15/Analysis-of-the-underlying-architecture-of--Claude-Code/"><h2>Claude Code底层架构解析</h2></a>
-        <div class="post-meta">
-          
-          <time class="time" datetime="2026-02-15T03:41:56.000Z">
-            2026-02-15
-          </time>
-          
-          <span class="slash">/</span>
-          
-          <ul class="index-tag-list" itemprop="keywords"><li class="index-tag-list-item"><a class="index-tag-list-link" href="/tags/Claude-Code%E5%B7%A5%E7%A8%8B%E5%8C%96%E5%AE%9E%E6%88%98/" rel="tag">Claude Code工程化实战</a></li></ul>
-          
-
-        </div>
-        
-          <div class="post-excerpt">
-            Claude Code是一个可编程、可扩展、可组合的 AI Agent 框架。它不只是工具箱里的一把螺丝刀，而是整间五金铺——你不仅能拧螺丝，还能现场造螺丝刀、改说明书，甚至把隔壁老王家的电钻也拉进来一起嗨。就像没人会把 VS Code 简单叫“记事本++”一样，Claude Code 也绝不是“聊天框里会写代码的小可爱”，它是能让你躺着就把 CI/CD 跑通、把需求变 PR 的“赛博替身”。
-          </div>
-        
-        <a class="more" href="/2026/02/15/Analysis-of-the-underlying-architecture-of--Claude-Code/"> 阅读全文〉</a>
-      </article>
-    
-
-      <article class="recent-post-item">
-        <a class="title" href="/2025/09/20/From-web2-to-web3-a-look-at-the-evolution-of-front-end-frameworks/"><h2>从web2到web3,看前端技术变迁史</h2></a>
-        <div class="post-meta">
-          
-          <time class="time" datetime="2025-09-20T07:04:34.000Z">
-            2025-09-20
-          </time>
-          
-          <span class="slash">/</span>
-          
-          <ul class="index-tag-list" itemprop="keywords"><li class="index-tag-list-item"><a class="index-tag-list-link" href="/tags/React/" rel="tag">React</a></li><li class="index-tag-list-item"><a class="index-tag-list-link" href="/tags/web3/" rel="tag">web3</a></li></ul>
-          
-
-        </div>
-        
-          <div class="post-excerpt">
-            前端技术变迁史：洪荒时代->Ajax诞生前后端分离雏形出现->现代前端框架百家争鸣到React框架横空出世，最后谈谈React与Web3的关系。
-          </div>
-        
-        <a class="more" href="/2025/09/20/From-web2-to-web3-a-look-at-the-evolution-of-front-end-frameworks/"> 阅读全文〉</a>
-      </article>
-    
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Sub-Agents-vs-Agent-Teams%EF%BC%9A%E4%BB%8E%E2%80%9C%E4%BB%BB%E5%8A%A1%E5%A7%94%E6%89%98%E2%80%9D%E5%88%B0%E2%80%9C%E5%9B%A2%E9%98%9F%E5%8D%8F%E4%BD%9C%E2%80%9D"><span class="toc-text">Sub-Agents vs Agent Teams：从“任务委托”到“团队协作”</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E5%92%8C%E4%BD%BF%E7%94%A8-Agent-Teams"><span class="toc-text">创建和使用 Agent Teams</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E6%88%98%E9%A1%B9%E7%9B%AE%EF%BC%9A%E5%85%A8%E6%A0%88-Bug-%E7%8C%8E%E4%BA%BA"><span class="toc-text">实战项目：全栈 Bug 猎人</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9B%9B%E5%A4%A7%E5%8D%8F%E4%BD%9C%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F"><span class="toc-text">四大协作设计模式</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A8%A1%E5%BC%8F%E4%B8%80%EF%BC%9A%E7%AB%9E%E4%BA%89%E5%81%87%E8%AE%BE%EF%BC%88Competing-Hypothesis%EF%BC%89"><span class="toc-text">模式一：竞争假设（Competing Hypothesis）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A8%A1%E5%BC%8F%E4%BA%8C%EF%BC%9A%E5%88%86%E5%B1%82%E8%AF%84%E5%AE%A1%EF%BC%88Parallel-Review%EF%BC%89"><span class="toc-text">模式二：分层评审（Parallel Review）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A8%A1%E5%BC%8F%E4%B8%89%EF%BC%9A%E6%A8%A1%E5%9D%97%E5%8C%96%E5%BC%80%E5%8F%91%EF%BC%88Module-Ownership%EF%BC%89"><span class="toc-text">模式三：模块化开发（Module Ownership）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A8%A1%E5%BC%8F%E5%9B%9B%EF%BC%9A%E8%A7%84%E5%88%92-%E5%AE%A1%E6%89%B9%EF%BC%88Plan-Approval%EF%BC%89"><span class="toc-text">模式四：规划 - 审批（Plan Approval）</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Sub-Agents-vs-Agent-Teams%EF%BC%9A%E9%80%89%E5%9E%8B%E5%86%B3%E7%AD%96%E6%A0%91"><span class="toc-text">Sub-Agents vs Agent Teams：选型决策树</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#token%E6%88%90%E6%9C%AC%E8%80%83%E9%87%8F"><span class="toc-text">token成本考量</span></a></li></ol></li></ol>
   </div>
+
+
+  </div>
+</div>
+<div class="copyright">
+    <span>转载时请注明原文链接。</span>
+</div>
+<!-- <div class="share" style="width: 100%;">
+  <img src="https://kevinofneu-blog-static.oss-cn-beijing.aliyuncs.com/static/2018-12-10-qrcode_for_gh_ffacf5722095_258.jpg" alt="Running Geek" style="margin: auto; display: block;"/>
+
+  <div style="margin: auto; text-align: center; font-size: 0.8em; color: grey;">老铁们关注走一走，不迷路</div>
+  
+</div>
+ -->
+  
+    <div class="post-nav">
+      <div class="post-nav-item post-nav-next">
+        
+          <span>〈 </span>
+          <a href="/2026/02/26/Parallel-exploration-and-pipeline-orchestration/" rel="next" title="并行探索与流水线编排">
+          并行探索与流水线编排
+          </a>
+        
+      </div>
+  
+      <div class="post-nav-item post-nav-prev">
+          
+          <a href="/2026/02/28/Skill-structure-and-triggering-mechanism/" rel="prev" title="SKILL.md结构与触发机制">
+            SKILL.md结构与触发机制
+          </a>
+          <span>〉</span>
+        
+      </div>
+    </div>
+  
+
+  <script src="https://unpkg.com/octomments/build/ocs.min.js"></script>
+  <div id="octomments"></div>
+  <script>
+  Octomments({
+    github: {
+      owner: 'answer518',
+      repo: 'answer518.github.io',
+    },
+    issueNumber: 1,
+    renderer: [OctommentsRenderer, '#octomments']
+  }).init();
+  </script>
 
 
 
     </div>
 
-    
-      <nav class="page-nav text-center">
-          <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/">〉</a>
-      </nav>
     
 
   </div>

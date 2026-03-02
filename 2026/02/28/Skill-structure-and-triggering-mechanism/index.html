@@ -21,13 +21,13 @@
   
 
   
-  <meta name="description" content="果糖酱的博客,自律才能自由" />
+  <meta name="description" content="SKILL.md结构与触发机制" />
   
 
   
   <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=1.0.1" />
   
-  <title> [ 果糖酱的博客 ]自律才能自由</title>
+  <title>SKILL.md结构与触发机制 [ 果糖酱的博客 ]</title>
   
   <!-- stylesheets list from config.yml -->
   
@@ -49,7 +49,7 @@
   <ul class="pure-menu-list clearfix">
       
           
-            <li class="pure-menu-item actived"><a href="/" class="pure-menu-link">首页</a></li>
+            <li class="pure-menu-item"><a href="/" class="pure-menu-link">首页</a></li>
           
       
           
@@ -71,238 +71,197 @@
 
   <div class="container" id="content-outer">
     <div class="inner" id="content-inner">
-      
+      <div class="post-container">
+  <article class="post" id="post">
+    <header class="post-header text-center">
+      <h1 class="title">
+        SKILL.md结构与触发机制
+      </h1>
+      <span>
+        
+        <time class="time" datetime="2026-02-28T05:04:07.000Z">
+        2026-02-28
+      </time>
+        
+      </span>
+      <span class="slash">/</span>
+      <span class="post-meta">
+      <span class="post-tags">
+        
+      </span>
+    </span>
+      <span class="slash">/</span>
+      <span class="read">
+      <span id="busuanzi_value_page_pv"></span> 点击
+    </span>
+      <span class="slash">/</span>
+      <span class="read">阅读耗时 25 分钟</span>
+    </header>
 
-  <div class="recent-posts">
+    <div class="post-content">
+      <h1 id="从第一性原理来解释什么是-Skills"><a href="#从第一性原理来解释什么是-Skills" class="headerlink" title="从第一性原理来解释什么是 Skills"></a>从第一性原理来解释什么是 Skills</h1><p>在真实的工程团队里，很少有人能够把所有规范背下来。</p>
+<p>代码风格指南十几页，Git 提交规范三四种类型，API 设计有版本约定，安全审查有检查清单，部署流程有风险控制条款……这些规则并不复杂，但数量一多，就不可能长期驻留在脑中。人类工程师的做法很简单：需要时再查阅。</p>
+<p>如果我们把 Claude 当作真正的工程助手，它也会面临同样的问题。最直接的做法，是把所有团队规范写进 CLAUDE.md，让模型每次对话都读取这些内容。短期看这是可行的。但当知识规模扩大到几十页甚至上百页时，问题就出现了——每一次对话都在为“可能用不到的知识”支付上下文成本。这不仅消耗 tokens，更重要的是，它会稀释模型的注意力。真正需要用到的规则，反而淹没在冗余信息里。</p>
+<p>这正是 Skills 出现的背景。</p>
+<p>Skills 并不是简单的“能力扩展机制”，它本质上是一种按需加载的认知结构。与其把所有知识常驻在上下文中，不如把它们封装成可独立触发的能力单元。当模型判断当前任务涉及某个特定领域时，再加载对应的知识与操作流程。</p>
+<p>因此，我们可以给 Skills 一个更精确的定义：<strong>Skills 是一种可被语义触发的能力包，它包含领域知识、执行步骤、输出规范与约束条件，并在需要时渐进式加载到主 Agent 的认知空间中。</strong></p>
+<p>如果我们把 Agent 生态整体展开来看，会发现 Skills 并不是孤立存在的。Agent 生态中有四大支柱，每个都解决了一个根本性问题:</p>
+<p><img src="/../assets/images/2025/Claude_Code_agent_ecosystem.webp" alt="Claude_Code_agent_ecosystem"></p>
+<ul>
+<li><p>Tools 是行动原语。它回答的是能做什么。读文件、改代码、执行 Bash 命令……这些是操作层面的能力，类似人的双手。</p>
+</li>
+<li><p>SubAgents 是执行分工。它回答的是谁来做。当任务复杂到需要独立上下文时，子代理承担专职职责，类似团队中的同事。</p>
+</li>
+<li><p>Hooks 是流程规则。它回答的是什么时候检查。它们在关键节点自动触发质量校验或合规约束，类似企业中的质检流程。</p>
+</li>
+<li><p>而 <code>Skills</code> 回答的，是另外一个非常关键的问题：“怎么做，以及何时做”，它不是工具，也不是分工机制。它是一种可操作知识结构。</p>
+</li>
+</ul>
+<p><code>Skills</code> 解决的核心问题是，在有限的上下文窗口中，让 <code>Agent</code> 在正确的时刻拥有正确的领域知识。</p>
+<p>这不是工具问题（Tools 回答“能做什么”），也不是分工问题（SubAgents 回答“谁来做”），而是认知问题——Agent 需要知道特定领域的规范、流程、模式，才能做出正确决策。</p>
+<h2 id="Skills-的核心生态位——可操作知识"><a href="#Skills-的核心生态位——可操作知识" class="headerlink" title="Skills 的核心生态位——可操作知识"></a>Skills 的核心生态位——可操作知识</h2><p>很多人会把 <code>Skills</code> 理解成“结构化文档”，但可操作知识与被动文档之间，存在本质区别。</p>
+<p>一份 <code>API</code> 设计指南放在 <code>Wiki</code> 上，是静态文本。它不包含触发条件，不定义执行流程，不规定输出结构，也不会自动校验质量。它等待人去阅读。</p>
+<p>而一个 <code>Skill</code>，则是一段具备语义入口的标准操作程序。它通过 <code>description</code> 告诉模型：在什么情况下应该加载这项能力。它在正文中定义执行步骤，将抽象原则转化为可执行流程。它通过模板约束输出格式，确保结果标准化。它可以限制可调用工具的范围，防止越权操作。它甚至可以通过 <code>hooks</code> 在完成后自动执行验证逻辑。</p>
+<p>当我们把文档封装为 <code>Skill</code>，它就不再是参考资料，而成为一种可被调用的行为模式。从工程视角看，这是对上下文资源的优化；但从系统设计视角看，这是一种更深层的变化。</p>
+<p>过去的软件体系中，调度权始终掌握在人类手中。工程师写 Prompt、编排 Workflow、定义调用顺序。模型只是执行者。路径在设计时就被固定下来。但当知识规模持续扩大、场景组合持续增长时，这种“人预编排一切”的模式开始失效。我们无法穷举所有路径，也无法为每一种场景写出完整流程。</p>
+<p>Skills 的真正突破点，在于它把能力的“语义定义权”交给模型。</p>
+<p>人不再编排具体执行路径，而是定义能力的边界与含义。模型根据 description 理解能力语义，并在运行时决定是否加载、何时加载。这看似只是增加了一个字段，却完成了一次范式跃迁。我们从“人调度模型”，走向“模型调度能力”。</p>
+<p>正因为“模型调度能力”和“可操作知识”的重要性，Skills 已经逐渐脱离了 Claude 的语境，成了 Agent 生态中的通用概念。“技能化”思路正在从 Claude 系统扩展到其他智能体平台，以及 AI 赋能的工程工具中。</p>
+<h2 id="企业本体论视角：Skills-是组织的-SOP-体系"><a href="#企业本体论视角：Skills-是组织的-SOP-体系" class="headerlink" title="企业本体论视角：Skills 是组织的 SOP 体系"></a>企业本体论视角：Skills 是组织的 SOP 体系</h2><p>当这种“可操作知识”机制扩展到企业层面，它的意义会更加清晰。</p>
+<p>如果把 Claude Code 的技术栈映射到企业组织结构，我们会发现一种高度对称的关系。Tools 对应员工的操作工具；SubAgents 对应岗位分工；Hooks 对应质量与合规流程；CLAUDE.md 类似企业文化与通用规章；MCP Servers 像外部合作伙伴；Plugins 是对外打包的解决方案。</p>
+<p>而 Skills，正是企业的 SOP 体系。</p>
+<p>一个成熟的企业不会要求员工背诵全部操作手册。相反，它建立标准操作程序，在具体任务发生时按需查阅，并按照步骤执行，输出标准化结果。当新员工进行代码审查时，他不会即兴发挥。他会参考《代码审查 SOP》，按步骤检查，最后输出符合模板的报告。</p>
+<p>Claude 在加载 code-review Skill 时，所做的事情，本质上是同一个过程。从这个角度看，Skills 不再只是技术机制，而是一种企业经验的结构化表达方式。</p>
+<p>当组织的“做事方式”被封装为可语义调用的能力单元，经验就不再依附于老员工的记忆，也不再散落在文档系统中。它变成模型可以理解、选择和继承的结构。</p>
+<p>对于企业来说，把专业流程、领域知识和行动判断封装成可复用的能力单元，然后让智能体按需加载和调用，这是一种让通用模型具备专业化、按需调用能力的通用设计模式。类似 Skills 的模块化能力已经被用于数据分析、校验、报告生成等任务，把自然语言指令转化成结构化的专业工作流；也有技术方案将企业组件库、开发规范等封装成“技能包”，让模型自动发现、理解并正确应用这些业务能力。</p>
+<blockquote>
+<p>为什么Skills 会在这一轮 Agent 浪潮里真正出圈？并不是因为它多好用，而是因为它第一次把长期被忽略的问题，放到了系统层面来解决 ———— 谁来判断 “什么时候应该用什么能力”</p>
+</blockquote>
+<p>Skills的突破点在于：它不再要求人预先编排所有路径，而是把“能力的语义定义”放到了模型中。模型根据 description 理解能力语义，并在运行时决定是否加载、何时加载。这看似只是增加了一个字段，却完成了一次范式跃迁。我们从“人调度模型”，走向“模型调度能力”。</p>
+<h2 id="深入了解-Skill-触发机制"><a href="#深入了解-Skill-触发机制" class="headerlink" title="深入了解 Skill 触发机制"></a>深入了解 Skill 触发机制</h2><p>在 <code>Claude Code</code> 中，<code>Skills</code> 默认情况下支持两种触发方式：</p>
+<ul>
+<li>用户显式触发： 输入&#x2F;skill-name，例如：&#x2F;review src&#x2F;auth.ts</li>
+<li>分层审批：Claude 读取 description，语义匹配后自动加载，例如用户说“帮我审查这段代码”，Claude 激活 code-review Skill 进行审查。</li>
+</ul>
+<p>和 <code>Sub-Agents</code> 类似，<code>Skills</code> 的触发机制靠 <code>LLM</code> 语义推理，而非精确匹配。<code>Claude</code> 读取所有 <code>Skills</code> 的 <code>description</code>，通过语义理解判断当前对话是否匹配某个 <code>Skill</code>。</p>
+<p>当用户发送消息时，Claude 的处理流程如下图所示：</p>
+<p><img src="/../assets/images/2025/Skill-structure-and-triggering-mechanism.png" alt="Claude 处理流程"></p>
+<p>当用户请求可能匹配多个 <code>Skills</code> 时，<code>Claude</code> 会：</p>
+<ol>
+<li>评估每个 Skill 的 description 与用户请求的相关性。</li>
+<li>选择<strong>最相关</strong>的那个。</li>
+<li>如果不确定，可能会询问用户或使用通用方式处理。</li>
+</ol>
+<h1 id="两大类型的Skills：参考型和任务型"><a href="#两大类型的Skills：参考型和任务型" class="headerlink" title="两大类型的Skills：参考型和任务型"></a>两大类型的Skills：参考型和任务型</h1><p>从工程角度，<code>Skill</code> 内容分为两类，参考型和任务型。参考型 <code>Skill</code> 影响“怎么做”，任务型 <code>Skill</code> 决定“做什么”。前者是语义环境，后者是具体行动。</p>
+<p>你在写 description 时需要明确它属于哪种类型：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="section"># 参考型——Claude 自动选择是否使用</span></span><br><span class="line">name: api-conventions</span><br><span class="line">description: API design patterns for this codebase. Use when writing or reviewing API endpoints.</span><br><span class="line"></span><br><span class="line"><span class="section"># 任务型——通常由用户手动触发</span></span><br><span class="line">name: deploy</span><br><span class="line">description: Deploy the application to production</span><br><span class="line">disable-model-invocation: true</span><br></pre></td></tr></table></figure>
+
+<h2 id="创建一个参考型-Skill"><a href="#创建一个参考型-Skill" class="headerlink" title="创建一个参考型 Skill"></a>创建一个参考型 Skill</h2><p>在 <code>Claude Code</code> 中，每个 <code>Skill</code> 独占一个目录，其标准的目录和文件结构如下：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.claude/skills/<span class="language-xml"><span class="tag">&lt;<span class="name">skill-name</span>&gt;</span></span>/SKILL.md</span><br></pre></td></tr></table></figure>
+
+<p>我们即将要创建的这个参考型 <code>Skill</code>  是一个“API 设计规范”：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line">.claude/skills/api-conventions/     # skill 目录，名称即 skill 名</span><br><span class="line"><span class="section">└── SKILL.md                        # 主文件（必需）</span></span><br><span class="line"><span class="section">---</span></span><br><span class="line">name: api-conventions</span><br><span class="line">description: API design patterns and conventions for this project. Covers RESTful URL naming, response format standards, error handling, and authentication requirements. Use when writing or reviewing API endpoints, designing new APIs, or making decisions about request/response formats.</span><br><span class="line">allowed-tools:</span><br><span class="line"><span class="bullet">  -</span> Read</span><br><span class="line"><span class="bullet">  -</span> Grep</span><br><span class="line"><span class="section">  - Glob</span></span><br><span class="line"><span class="section">---</span></span><br><span class="line"></span><br><span class="line"><span class="section"># API Design Conventions</span></span><br><span class="line"></span><br><span class="line">These are the API design standards for our project. Apply these conventions whenever working with API endpoints.</span><br><span class="line"></span><br><span class="line"><span class="section">## URL Naming</span></span><br><span class="line"></span><br><span class="line"><span class="bullet">-</span> Use plural nouns for resources: <span class="code">`/users`</span>, <span class="code">`/orders`</span>, <span class="code">`/products`</span></span><br><span class="line"><span class="bullet">-</span> Use kebab-case for multi-word resources: <span class="code">`/order-items`</span>, <span class="code">`/user-profiles`</span></span><br><span class="line"><span class="bullet">-</span> Nested resources for belongsTo relationships: <span class="code">`/users/&#123;id&#125;/orders`</span></span><br><span class="line"><span class="bullet">-</span> Maximum two levels of nesting; beyond that, use query parameters</span><br><span class="line"><span class="bullet">-</span> Use query parameters for filtering: <span class="code">`/orders?status=active&amp;limit=20`</span></span><br><span class="line"></span><br><span class="line"><span class="section">## Response Format</span></span><br><span class="line"></span><br><span class="line">All API responses must follow this structure:</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  &quot;data&quot;: &#123;&#125;,        // 成功时返回的数据</span><br><span class="line">  &quot;error&quot;: null,     // 错误时返回错误对象 &#123; code, message, details &#125;</span><br><span class="line">  &quot;meta&quot;: &#123;          // 分页和元信息</span><br><span class="line"><span class="code">    &quot;page&quot;: 1,</span></span><br><span class="line"><span class="code">    &quot;limit&quot;: 20,</span></span><br><span class="line"><span class="code">    &quot;total&quot;: 100</span></span><br><span class="line"><span class="code">  &#125;</span></span><br><span class="line"><span class="code">&#125;</span></span><br><span class="line"><span class="code"></span></span><br><span class="line"><span class="section">## HTTP Status Codes</span></span><br><span class="line"></span><br><span class="line"><span class="bullet">-</span> 200: 成功返回数据</span><br><span class="line"><span class="bullet">-</span> 201: 成功创建资源</span><br><span class="line"><span class="bullet">-</span> 400: 请求参数错误</span><br><span class="line"><span class="bullet">-</span> 401: 未认证</span><br><span class="line"><span class="bullet">-</span> 403: 无权限</span><br><span class="line"><span class="bullet">-</span> 404: 资源不存在</span><br><span class="line"><span class="bullet">-</span> 422: 业务逻辑错误</span><br><span class="line"><span class="bullet">-</span> 500: 服务器内部错误</span><br><span class="line"></span><br><span class="line"><span class="section">## Authentication</span></span><br><span class="line"></span><br><span class="line"><span class="bullet">-</span> All endpoints require Bearer token unless explicitly marked as public</span><br><span class="line"><span class="bullet">-</span> Public endpoints must be documented with <span class="code">`@public`</span> annotation</span><br><span class="line"><span class="bullet">-</span> Token format: <span class="code">`Authorization: Bearer &lt;jwt-token&gt;`</span></span><br><span class="line"></span><br><span class="line"><span class="section">## Versioning</span></span><br><span class="line"></span><br><span class="line"><span class="bullet">-</span> API version in URL path: <span class="code">`/api/v1/users`</span></span><br><span class="line"><span class="bullet">-</span> Breaking changes require new version</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>这个文件有三个部分：</p>
+<ol>
+<li>YAML frontmatter，是通过—包裹的元数据</li>
+<li>Markdown 正文，是技能的具体说明</li>
+<li>辅助文件：.claude&#x2F;skills&#x2F;&#x2F;SKILL.md——每个 Skill 在自己的目录中，可以包含辅助文件（此处只有主文件，下一讲中的示例我们将看到辅助文件）。</li>
+</ol>
+<p>注意这个 <code>Skill</code> 的关键特征——它是一个典型的参考型 Skill: </p>
+<ol>
+<li>没有执行步骤：不是先做A再做B，而是“遵循这些规范”。</li>
+<li>没有输出模版：不要求 Claude 输出固定格式的报告。</li>
+<li>没有设disable-model-invocation：Claude可以自动判断何时需要。</li>
+<li>只读工具：allowed-tools 限制为 Read&#x2F;Grep&#x2F;Glob，因为不需要修改代码。</li>
+</ol>
+<blockquote>
+<p>description 是 Skill 的灵魂，因为它不是给人看的文档，而是给 Claude 看的触发器。Claude 选择是否激活一个 Skill，完全依赖于阅读 description。这不是关键词匹配，而是语义理解。</p>
+</blockquote>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">用户输入: &quot;帮我看看这段代码有没有问题&quot;</span><br><span class="line"></span><br><span class="line">Claude 思考过程：</span><br><span class="line"><span class="bullet">1.</span> 扫描所有 Skills 的 description</span><br><span class="line"><span class="bullet">2.</span> 看到 &quot;code-reviewing&quot; 的 description:</span><br><span class="line">   &quot;Review code for quality... Use when the user asks for code review...&quot;</span><br><span class="line"><span class="bullet">3.</span> 语义推理：&quot;看看代码有没有问题&quot; ≈ &quot;code review&quot;</span><br><span class="line"><span class="bullet">4.</span> 决定：激活这个 Skill</span><br></pre></td></tr></table></figure>
+<p>如果你这样写 description，想想看合适么？</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">description: Handles PDFs</span><br></pre></td></tr></table></figure>
+
+<p>很明显，问题在于太模糊，“handles”是什么意思？读取？转换？合并？Claude 不知道什么时候该用它。用户说“帮我处理这个 PDF”时，<code>Claude</code> 可能不确定这个 <code>Skill</code> 是否合适。</p>
+<p>我们再对比一下更好的 <code>description</code> 长什么样:</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">description: Extract text and tables from PDF files, fill forms, merge documents. Use when working with PDF files or when the user mentions PDFs, forms, or document extraction.</span><br></pre></td></tr></table></figure>
+
+<p>为什么这版更好？因为它列出了具体动作（extract, fill, merge）；包含了用户可能说的关键词（PDF, forms, document extraction）；明确说明了触发场景（“Use when…”）</p>
+<p>总结一个 <code>description</code> 写作公式：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">description: &lt;做什么&gt; + &lt;怎么做&gt; + &lt;什么时候用&gt;</span><br></pre></td></tr></table></figure>
+<p>套用公式创作的几个Skill:</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="section"># 代码审查 Skill</span></span><br><span class="line">description: Review code for quality, security, and best practices. Checks for bugs, performance issues, and style violations. Use when the user asks for code review, wants feedback on their code, mentions reviewing changes, or asks about code quality.</span><br><span class="line"></span><br><span class="line"><span class="section"># API 文档 Skill</span></span><br><span class="line">description: Generate API documentation from code. Extracts endpoints, parameters, and response schemas. Use when the user wants to document APIs, create API reference, generate endpoint documentation, or needs help with OpenAPI/Swagger specs.</span><br><span class="line"></span><br><span class="line"><span class="section"># 数据库查询 Skill</span></span><br><span class="line">description: Query databases and analyze results. Supports SQL generation, query optimization, and result interpretation. Use when the user asks about data, wants to run queries, needs database information, or mentions tables/schemas.</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><ol>
+<li>Skills 是由用户或 Claude 触发的能力包，Claude 通过语义推理决定何时激活，但目前已经脱离了 Claude Code 本身，形成了 Agent 通用技能生态。</li>
+<li>Skill 的 description 不是文档，而是触发器，其构建公式为：做什么 + 怎么做 + 什么时候用</li>
+<li>Claude Code 采用渐进式加载来节省token，description常驻上下文，全文仅在触发时加载。</li>
+</ol>
+<p>当我们谈论 Agent 系统的工程化时，我们真正面对的问题，并不是“模型是否足够强大”，而是“模型在何时拥有何种知识”。Skills 给出的答案，是通过语义定义与按需加载，让能力在正确的时刻出现。在有限的上下文窗口里，组织的做事方式第一次获得了结构化存在的形式。</p>
+
+    </div>
+
+    <div>全文完。</div>
+  </article>
+  <div class="toc-container">
     
-
-      <article class="recent-post-item">
-        <a class="title" href="/2026/03/01/Practical_application_of_task-based_Skills/"><h2>任务型 Skills （斜杠命令 /Command）实战</h2></a>
-        <div class="post-meta">
-          
-          <time class="time" datetime="2026-03-01T06:14:23.000Z">
-            2026-03-01
-          </time>
-          
-          <span class="slash">/</span>
-          
-          
-          
-
-        </div>
-        
-        <a class="more" href="/2026/03/01/Practical_application_of_task-based_Skills/"> 阅读全文〉</a>
-      </article>
-    
-
-      <article class="recent-post-item">
-        <a class="title" href="/2026/02/28/Skill-structure-and-triggering-mechanism/"><h2>SKILL.md结构与触发机制</h2></a>
-        <div class="post-meta">
-          
-          <time class="time" datetime="2026-02-28T05:04:07.000Z">
-            2026-02-28
-          </time>
-          
-          <span class="slash">/</span>
-          
-          
-          
-
-        </div>
-        
-        <a class="more" href="/2026/02/28/Skill-structure-and-triggering-mechanism/"> 阅读全文〉</a>
-      </article>
-    
-
-      <article class="recent-post-item">
-        <a class="title" href="/2026/02/27/Agent-Teams-multi-session-collaboration-architecture/"><h2>Agent Teams多会话协作架构</h2></a>
-        <div class="post-meta">
-          
-          <time class="time" datetime="2026-02-27T10:06:08.000Z">
-            2026-02-27
-          </time>
-          
-          <span class="slash">/</span>
-          
-          
-          
-
-        </div>
-        
-        <a class="more" href="/2026/02/27/Agent-Teams-multi-session-collaboration-architecture/"> 阅读全文〉</a>
-      </article>
-    
-
-      <article class="recent-post-item">
-        <a class="title" href="/2026/02/26/Parallel-exploration-and-pipeline-orchestration/"><h2>并行探索与流水线编排</h2></a>
-        <div class="post-meta">
-          
-          <time class="time" datetime="2026-02-26T10:53:40.000Z">
-            2026-02-26
-          </time>
-          
-          <span class="slash">/</span>
-          
-          <ul class="index-tag-list" itemprop="keywords"><li class="index-tag-list-item"><a class="index-tag-list-link" href="/tags/Claude-Code%E5%B7%A5%E7%A8%8B%E5%8C%96%E5%AE%9E%E6%88%98/" rel="tag">Claude Code工程化实战</a></li></ul>
-          
-
-        </div>
-        
-          <div class="post-excerpt">
-            并行探索支持多个子代理同时工作，适合独立任务的同时处理，提供快速 + 清洁的上下文，其核心价值是速度 + 独立性。流水线编排支持多个子代理顺序工作，适合有依赖关系的连续阶段，子代理之间职责清晰 + 权限递进，其核心价值是**清晰度 + 可控性。
-          </div>
-        
-        <a class="more" href="/2026/02/26/Parallel-exploration-and-pipeline-orchestration/"> 阅读全文〉</a>
-      </article>
-    
-
-      <article class="recent-post-item">
-        <a class="title" href="/2026/02/25/Build-a-read-only-security-audit-sub-agent/"><h2>构建只读型安全审计子代理</h2></a>
-        <div class="post-meta">
-          
-          <time class="time" datetime="2026-02-25T03:19:56.000Z">
-            2026-02-25
-          </time>
-          
-          <span class="slash">/</span>
-          
-          <ul class="index-tag-list" itemprop="keywords"><li class="index-tag-list-item"><a class="index-tag-list-link" href="/tags/Claude-Code%E5%B7%A5%E7%A8%8B%E5%8C%96%E5%AE%9E%E6%88%98/" rel="tag">Claude Code工程化实战</a></li></ul>
-          
-
-        </div>
-        
-          <div class="post-excerpt">
-            很多线上事故并非代码 bug，而是影响面被低估：下游链路、SLA 预算、历史事故经验没有被纳入设计判断。因此我们引入 impact-analyzer 子代理： 只读、可审计，专注分析调用链、下游影响与 SLA 风险； 并通过 Skill 把链路拓扑与历史事故提前注入上下文。这再次印证一个核心原则：子代理不是一开始就需要的，而是在工程痛点清晰后反推出来的设计选择。
-          </div>
-        
-        <a class="more" href="/2026/02/25/Build-a-read-only-security-audit-sub-agent/"> 阅读全文〉</a>
-      </article>
-    
-
-      <article class="recent-post-item">
-        <a class="title" href="/2026/02/24/Engineering-guide-from-Sub-Agents-to-Multi-Agent/"><h2>从Sub-Agents到Multi-Agent的工程指南</h2></a>
-        <div class="post-meta">
-          
-          <time class="time" datetime="2026-02-24T08:47:00.000Z">
-            2026-02-24
-          </time>
-          
-          <span class="slash">/</span>
-          
-          <ul class="index-tag-list" itemprop="keywords"><li class="index-tag-list-item"><a class="index-tag-list-link" href="/tags/Claude-Code%E5%B7%A5%E7%A8%8B%E5%8C%96%E5%AE%9E%E6%88%98/" rel="tag">Claude Code工程化实战</a></li></ul>
-          
-
-        </div>
-        
-          <div class="post-excerpt">
-            在个人的项目实践中，我一般上来先做简单 Demo，不用什么设计模式，SubAgent 和 Skills，到了两三个礼拜后，感觉认知过载了，有点吃不消了，我才开始考虑上面的架构决策树。这是我个人习惯，你也可以在项目一开始就开始全局性的考量，根据具体项目性质和任务的复杂度而定，对整体架构进行详细的设计和规划。
-          </div>
-        
-        <a class="more" href="/2026/02/24/Engineering-guide-from-Sub-Agents-to-Multi-Agent/"> 阅读全文〉</a>
-      </article>
-    
-
-      <article class="recent-post-item">
-        <a class="title" href="/2026/02/24/The-core-concept-and-application-value-of-Sub-Agents/"><h2>Sub-Agents的核心概念与应用价值</h2></a>
-        <div class="post-meta">
-          
-          <time class="time" datetime="2026-02-24T07:16:56.000Z">
-            2026-02-24
-          </time>
-          
-          <span class="slash">/</span>
-          
-          <ul class="index-tag-list" itemprop="keywords"><li class="index-tag-list-item"><a class="index-tag-list-link" href="/tags/Claude-Code%E5%B7%A5%E7%A8%8B%E5%8C%96%E5%AE%9E%E6%88%98/" rel="tag">Claude Code工程化实战</a></li></ul>
-          
-
-        </div>
-        
-          <div class="post-excerpt">
-            什么时候该用子代理，可以用一句话判断：当任务存在高噪声输出、需要明确权限边界、可以并行推进或能够拆成清晰阶段时，用子代理；当任务需要频繁来回讨论和即时调整时，就不要用。
-          </div>
-        
-        <a class="more" href="/2026/02/24/The-core-concept-and-application-value-of-Sub-Agents/"> 阅读全文〉</a>
-      </article>
-    
-
-      <article class="recent-post-item">
-        <a class="title" href="/2026/02/16/Claude-Code-memory-system-and-CLAUDE-md/"><h2>Claude Code记忆系统与CLAUDE.md</h2></a>
-        <div class="post-meta">
-          
-          <time class="time" datetime="2026-02-16T02:22:08.000Z">
-            2026-02-16
-          </time>
-          
-          <span class="slash">/</span>
-          
-          <ul class="index-tag-list" itemprop="keywords"><li class="index-tag-list-item"><a class="index-tag-list-link" href="/tags/Claude-Code%E5%B7%A5%E7%A8%8B%E5%8C%96%E5%AE%9E%E6%88%98/" rel="tag">Claude Code工程化实战</a></li></ul>
-          
-
-        </div>
-        
-          <div class="post-excerpt">
-            项目逐渐复杂的时候，如果每次新对话，Claude 都让我从零开始，如果它不记得你的项目用什么技术栈、什么代码风格、什么团队规范——那这种“失忆症”让人抓狂。CLAUDE.md 就是治疗这种失忆症的药。它是一份给 Claude 的“项目入职手册”——Claude 每次开始对话时，都会自动阅读这份手册，了解你的项目背景，明确它在干活时应该遵循的一系列底层规则。
-          </div>
-        
-        <a class="more" href="/2026/02/16/Claude-Code-memory-system-and-CLAUDE-md/"> 阅读全文〉</a>
-      </article>
-    
-
-      <article class="recent-post-item">
-        <a class="title" href="/2026/02/15/Analysis-of-the-underlying-architecture-of--Claude-Code/"><h2>Claude Code底层架构解析</h2></a>
-        <div class="post-meta">
-          
-          <time class="time" datetime="2026-02-15T03:41:56.000Z">
-            2026-02-15
-          </time>
-          
-          <span class="slash">/</span>
-          
-          <ul class="index-tag-list" itemprop="keywords"><li class="index-tag-list-item"><a class="index-tag-list-link" href="/tags/Claude-Code%E5%B7%A5%E7%A8%8B%E5%8C%96%E5%AE%9E%E6%88%98/" rel="tag">Claude Code工程化实战</a></li></ul>
-          
-
-        </div>
-        
-          <div class="post-excerpt">
-            Claude Code是一个可编程、可扩展、可组合的 AI Agent 框架。它不只是工具箱里的一把螺丝刀，而是整间五金铺——你不仅能拧螺丝，还能现场造螺丝刀、改说明书，甚至把隔壁老王家的电钻也拉进来一起嗨。就像没人会把 VS Code 简单叫“记事本++”一样，Claude Code 也绝不是“聊天框里会写代码的小可爱”，它是能让你躺着就把 CI/CD 跑通、把需求变 PR 的“赛博替身”。
-          </div>
-        
-        <a class="more" href="/2026/02/15/Analysis-of-the-underlying-architecture-of--Claude-Code/"> 阅读全文〉</a>
-      </article>
-    
-
-      <article class="recent-post-item">
-        <a class="title" href="/2025/09/20/From-web2-to-web3-a-look-at-the-evolution-of-front-end-frameworks/"><h2>从web2到web3,看前端技术变迁史</h2></a>
-        <div class="post-meta">
-          
-          <time class="time" datetime="2025-09-20T07:04:34.000Z">
-            2025-09-20
-          </time>
-          
-          <span class="slash">/</span>
-          
-          <ul class="index-tag-list" itemprop="keywords"><li class="index-tag-list-item"><a class="index-tag-list-link" href="/tags/React/" rel="tag">React</a></li><li class="index-tag-list-item"><a class="index-tag-list-link" href="/tags/web3/" rel="tag">web3</a></li></ul>
-          
-
-        </div>
-        
-          <div class="post-excerpt">
-            前端技术变迁史：洪荒时代->Ajax诞生前后端分离雏形出现->现代前端框架百家争鸣到React框架横空出世，最后谈谈React与Web3的关系。
-          </div>
-        
-        <a class="more" href="/2025/09/20/From-web2-to-web3-a-look-at-the-evolution-of-front-end-frameworks/"> 阅读全文〉</a>
-      </article>
-    
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%8E%E7%AC%AC%E4%B8%80%E6%80%A7%E5%8E%9F%E7%90%86%E6%9D%A5%E8%A7%A3%E9%87%8A%E4%BB%80%E4%B9%88%E6%98%AF-Skills"><span class="toc-text">从第一性原理来解释什么是 Skills</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Skills-%E7%9A%84%E6%A0%B8%E5%BF%83%E7%94%9F%E6%80%81%E4%BD%8D%E2%80%94%E2%80%94%E5%8F%AF%E6%93%8D%E4%BD%9C%E7%9F%A5%E8%AF%86"><span class="toc-text">Skills 的核心生态位——可操作知识</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%81%E4%B8%9A%E6%9C%AC%E4%BD%93%E8%AE%BA%E8%A7%86%E8%A7%92%EF%BC%9ASkills-%E6%98%AF%E7%BB%84%E7%BB%87%E7%9A%84-SOP-%E4%BD%93%E7%B3%BB"><span class="toc-text">企业本体论视角：Skills 是组织的 SOP 体系</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B7%B1%E5%85%A5%E4%BA%86%E8%A7%A3-Skill-%E8%A7%A6%E5%8F%91%E6%9C%BA%E5%88%B6"><span class="toc-text">深入了解 Skill 触发机制</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%A4%E5%A4%A7%E7%B1%BB%E5%9E%8B%E7%9A%84Skills%EF%BC%9A%E5%8F%82%E8%80%83%E5%9E%8B%E5%92%8C%E4%BB%BB%E5%8A%A1%E5%9E%8B"><span class="toc-text">两大类型的Skills：参考型和任务型</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%8F%82%E8%80%83%E5%9E%8B-Skill"><span class="toc-text">创建一个参考型 Skill</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a></li></ol>
   </div>
+
+
+  </div>
+</div>
+<div class="copyright">
+    <span>转载时请注明原文链接。</span>
+</div>
+<!-- <div class="share" style="width: 100%;">
+  <img src="https://kevinofneu-blog-static.oss-cn-beijing.aliyuncs.com/static/2018-12-10-qrcode_for_gh_ffacf5722095_258.jpg" alt="Running Geek" style="margin: auto; display: block;"/>
+
+  <div style="margin: auto; text-align: center; font-size: 0.8em; color: grey;">老铁们关注走一走，不迷路</div>
+  
+</div>
+ -->
+  
+    <div class="post-nav">
+      <div class="post-nav-item post-nav-next">
+        
+          <span>〈 </span>
+          <a href="/2026/02/27/Agent-Teams-multi-session-collaboration-architecture/" rel="next" title="Agent Teams多会话协作架构">
+          Agent Teams多会话协作架构
+          </a>
+        
+      </div>
+  
+      <div class="post-nav-item post-nav-prev">
+          
+          <a href="/2026/03/01/Practical_application_of_task-based_Skills/" rel="prev" title="任务型 Skills （斜杠命令 /Command）实战">
+            任务型 Skills （斜杠命令 /Command）实战
+          </a>
+          <span>〉</span>
+        
+      </div>
+    </div>
+  
+
+  <script src="https://unpkg.com/octomments/build/ocs.min.js"></script>
+  <div id="octomments"></div>
+  <script>
+  Octomments({
+    github: {
+      owner: 'answer518',
+      repo: 'answer518.github.io',
+    },
+    issueNumber: 1,
+    renderer: [OctommentsRenderer, '#octomments']
+  }).init();
+  </script>
 
 
 
     </div>
 
-    
-      <nav class="page-nav text-center">
-          <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/">〉</a>
-      </nav>
     
 
   </div>

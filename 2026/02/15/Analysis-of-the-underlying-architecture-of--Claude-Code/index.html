@@ -115,11 +115,11 @@
 <center>常用命令速查表</center>
 
 <p><img src="/../assets/images/2025/Claude_Code_Commands.png" alt="Claude Code Commands"></p>
-<p>除了把 Claude 当“纯爷们”命令行使唤，更时髦的玩法是让它“潜伏”进 VS Code、浏览器，甚至隔壁 Cursor 的工位里——把 Coding IDE 和 Claude Code 打包成“黄金搭档”。左手 IDE 的丝滑补全，右手命令行的狂暴输出，一份代码，双倍快乐，堪称程序员界的“左手咖啡右手键盘”。</p>
-<h2 id="从入门到驾驭"><a href="#从入门到驾驭" class="headerlink" title="从入门到驾驭"></a>从入门到驾驭</h2><p>大多数人使用 Claude Code 的方式:</p>
+<p>除了把 <code>Claude</code> 当“纯爷们”命令行使唤，更时髦的玩法是让它“潜伏”进 VS Code、浏览器，甚至隔壁 <code>Cursor</code> 的工位里——把 <code>Coding IDE</code> 和 <code>Claude Code</code> 打包成“黄金搭档”。左手 IDE 的丝滑补全，右手命令行的狂暴输出，一份代码，双倍快乐，堪称程序员界的“左手咖啡右手键盘”。</p>
+<h2 id="从入门到驾驭"><a href="#从入门到驾驭" class="headerlink" title="从入门到驾驭"></a>从入门到驾驭</h2><p>大多数人使用 <code>Claude Code</code> 的方式:</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">用户 → 输入问题 → Claude 回答 → 完成</span><br></pre></td></tr></table></figure>
 <p>然后就止步于此了。</p>
-<p>Claude Code 可以生成代码，从 0 开始做项目，整理文件，甚至优化你的操作系统……虽然能做到这些也已经很强大了，但这仍然只是被动使用！而 Claude Code 还支持另一种模式：</p>
+<p><code>Claude Code</code> 可以生成代码，从 0 开始做项目，整理文件，甚至优化你的操作系统……虽然能做到这些也已经很强大了，但这仍然只是被动使用！而 <code>Claude Code</code> 还支持另一种模式：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">用户 → 配置 Agent → Agent 自主工作 → 自动完成任务</span><br></pre></td></tr></table></figure>
 
 <p>这是<strong>主动驾驭</strong>——你设计，它执行。就像我们编写程序，程序自动运行。</p>
@@ -130,11 +130,11 @@
 <li>使用者：知道怎么提问，怎么让 Claude 帮你写代码。</li>
 <li>驾驭者：理解记忆系统、子代理、技能包、钩子的工作原理，能构建自定义工作流。</li>
 </ul>
-<p>我们现在这一讲就是“驾驭者入门”——让你看到 Claude Code 引擎盖下面的东西。</p>
-<h2 id="Claude-Code-底层技术全景图"><a href="#Claude-Code-底层技术全景图" class="headerlink" title="Claude Code 底层技术全景图"></a>Claude Code 底层技术全景图</h2><p>Claude Code 的底层能力从技术上拆解可以分为四个层次：基础层、扩展层、集成层和编程接口层。</p>
+<p>我们现在这一讲就是“驾驭者入门”——让你看到 <code>Claude Code</code> 引擎盖下面的东西。</p>
+<h2 id="Claude-Code-底层技术全景图"><a href="#Claude-Code-底层技术全景图" class="headerlink" title="Claude Code 底层技术全景图"></a>Claude Code 底层技术全景图</h2><p><code>Claude Code</code> 的底层能力从技术上拆解可以分为四个层次：基础层、扩展层、集成层和编程接口层。</p>
 <p><img src="/../assets/images/2025/Claude_Code_Architecture.png" alt="Claude Code Architecture"></p>
 <p>让我们从上到下，逐层解析：</p>
-<h3 id="基础层：Memory（记忆系统）"><a href="#基础层：Memory（记忆系统）" class="headerlink" title="基础层：Memory（记忆系统）"></a>基础层：Memory（记忆系统）</h3><p>基础层也可以称为是 Claude Code 的长期记忆系统，它的核心文件是 CLAUDE.md。</p>
+<h3 id="基础层：Memory（记忆系统）"><a href="#基础层：Memory（记忆系统）" class="headerlink" title="基础层：Memory（记忆系统）"></a>基础层：Memory（记忆系统）</h3><p>基础层也可以称为是 <code>Claude Code</code> 的长期记忆系统，它的核心文件是 <code>CLAUDE.md</code>。</p>
 <p>比如入职一家新公司，第一天你会收到一份新员工手册，告诉你：</p>
 <ul>
 <li>公司的代码风格是什么。</li>
@@ -142,31 +142,31 @@
 <li>项目的架构是怎样的。</li>
 <li>有哪些不能碰的“禁区”。</li>
 </ul>
-<p>而 CLAUDE.md  就是 Claude 的“新员工手册”。</p>
-<p>因此，我强烈建议每一个人都为你的 Claude 创建 CLAUDE.md，以提供给它一系列最基本的信息。</p>
-<p>例如，当我们要开始一个新的电商项目，我创建了下面的 CLAUDE.md 文件。</p>
+<p>而 <code>CLAUDE.md</code>  就是 <code>Claude</code> 的“新员工手册”。</p>
+<p>因此，我强烈建议每一个人都为你的 <code>Claude</code> 创建 <code>CLAUDE.md</code>，以提供给它一系列最基本的信息。</p>
+<p>例如，当我们要开始一个新的电商项目，我创建了下面的 <code>CLAUDE.md</code> 文件。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Project: E-commerce Platform</span></span><br><span class="line"></span><br><span class="line"><span class="comment">## Tech Stack</span></span><br><span class="line">- Frontend: React + TypeScript</span><br><span class="line">- Backend: Node.js + Express</span><br><span class="line">- Database: PostgreSQL</span><br><span class="line"></span><br><span class="line"><span class="comment">## Code Style</span></span><br><span class="line">- Use functional components</span><br><span class="line">- Prefer async/await over .<span class="keyword">then</span>()</span><br><span class="line">- Maximum line length: 100 characters</span><br><span class="line"></span><br><span class="line"><span class="comment">## Important Rules</span></span><br><span class="line">- NEVER commit to main directly</span><br><span class="line">- Always run tests before pushing</span><br></pre></td></tr></table></figure>
 
 <p>Claude 每次开始对话时，都会读取这个文件。这样它就“记住”了你的项目规范，不需要每次重复说明。</p>
-<p>Claude Code 并不是只有一个CLAUDE.md记忆文件，全局、项目和项目的特定模块都可以拥有属于自己的记忆文件（或者也可以叫配置文件）。</p>
+<p>Claude Code 并不是只有一个 <code>CLAUDE.md</code> 记忆文件，全局、项目和项目的特定模块都可以拥有属于自己的记忆文件（或者也可以叫配置文件）。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">~/.claude/CLAUDE.md         <span class="comment"># 全局（所有项目共用）</span></span><br><span class="line">    ↓</span><br><span class="line">项目根目录/CLAUDE.md          <span class="comment"># 项目级（当前项目）</span></span><br><span class="line">    ↓</span><br><span class="line">项目根目录/.claude/rules/*.md <span class="comment"># 模块级（特定目录）</span></span><br></pre></td></tr></table></figure>
-<p>我们可以把这些文件视为 Claude Code 系统记忆的不同层级。</p>
-<h3 id="扩展层：四大核心组件"><a href="#扩展层：四大核心组件" class="headerlink" title="扩展层：四大核心组件"></a>扩展层：四大核心组件</h3><p>这一层是 Claude Code 的能力中心，包含 Commands（斜杠命令）、Skills（技能）、SubAgents（子代理）、Hooks（钩子）四个核心组件。</p>
-<h4 id="1、Commands（斜杠命令）"><a href="#1、Commands（斜杠命令）" class="headerlink" title="1、Commands（斜杠命令）"></a>1、Commands（斜杠命令）</h4><p>斜杠命令是 Claude Code 内置或用户自定义的一系列核心能力，其触发方式是用户手动输入  &#x2F;command</p>
+<p>我们可以把这些文件视为 <code>Claude Code</code> 系统记忆的不同层级。</p>
+<h3 id="扩展层：四大核心组件"><a href="#扩展层：四大核心组件" class="headerlink" title="扩展层：四大核心组件"></a>扩展层：四大核心组件</h3><p>这一层是 <code>Claude Code</code> 的能力中心，包含 Commands（斜杠命令）、Skills（技能）、SubAgents（子代理）、Hooks（钩子）四个核心组件。</p>
+<h4 id="1、Commands（斜杠命令）"><a href="#1、Commands（斜杠命令）" class="headerlink" title="1、Commands（斜杠命令）"></a>1、Commands（斜杠命令）</h4><p>斜杠命令是 <code>Claude Code</code> 内置或用户自定义的一系列核心能力，其触发方式是用户手动输入 <code>/command</code></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">用户输入: /review</span><br><span class="line"></span><br><span class="line">Claude 执行: 根据 .claude/commands/review.md 的指令审查代码</span><br></pre></td></tr></table></figure>
-<p>Commands 适合标准化操作——团队统一的 commit 格式、固定的部署流程等。</p>
-<h4 id="2、Skills（技能）"><a href="#2、Skills（技能）" class="headerlink" title="2、Skills（技能）"></a>2、Skills（技能）</h4><p>技能就是 Claude 的“隐藏菜单”——它自己瞄一眼上下文，觉得“嗯，这题我会”，啪地一声就把对应外挂给点亮了。这些外挂可以是官方原装，也能由你 DIY，主打一个“懂我者，AI 也”。</p>
+<p>Commands 适合标准化操作——团队统一的 <code>commit</code> 格式、固定的部署流程等。</p>
+<h4 id="2、Skills（技能）"><a href="#2、Skills（技能）" class="headerlink" title="2、Skills（技能）"></a>2、Skills（技能）</h4><p>技能就是 <code>Claude</code> 的“隐藏菜单”——它自己瞄一眼上下文，觉得“嗯，这题我会”，啪地一声就把对应外挂给点亮了。这些外挂可以是官方原装，也能由你 DIY，主打一个“懂我者，AI 也”。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">用户说: <span class="string">&quot;帮我看看这段代码有没有安全问题&quot;</span></span><br><span class="line"></span><br><span class="line">Claude 思考: 这是代码安全审查任务 → 激活 security-review Skill</span><br><span class="line"></span><br><span class="line">Claude 执行: 按照 Skill 中定义的流程审查代码</span><br></pre></td></tr></table></figure>
 
-<p>不少人初听 Skills，第一反应都是：“这不就是升级版的 tool 吗？Agent 直接甩个函数调用不香吗？”</p>
-<p>我摊手：长得像，但身份证不一样。Tool 是对外喊“外卖”，Skills 是大脑里自带“菜谱”——把 if-else、prompt、策略、执行顺序，全塞进一页小抄，打包成“专家套餐”。</p>
-<p>一句话：Tool 管“能不能干”，Skills 管“该不该干、怎么干、干到几分熟”。于是灵魂追问来了——啥时候喊 Skills 上菜，啥时候让 Commands 端盘子？</p>
+<p>不少人初听 <code>Skills</code>，第一反应都是：“这不就是升级版的 tool 吗？Agent 直接甩个函数调用不香吗？”</p>
+<p>我摊手：长得像，但身份证不一样。<code>Tool</code> 是对外喊“外卖”，Skills 是大脑里自带“菜谱”——把 if-else、prompt、策略、执行顺序，全塞进一页小抄，打包成“专家套餐”。</p>
+<p>一句话：Tool 管“能不能干”，<code>Skills</code> 管“该不该干、怎么干、干到几分熟”。于是灵魂追问来了——啥时候喊 <code>Skills</code> 上菜，啥时候让 Commands 端盘子？</p>
 <p>Commands 像公司团建，固定流程、打卡签到、可复盘；Skills 像老炮私厨，看食材下刀、凭火候翻锅，今天想多加一勺辣，全凭心情和锅气。遇到“安全、架构、性能”这种带味儿的老汤，就让 Skills 这位老炮掌勺；要是只想标准快餐，直接 &#x2F;command 点单，干净又卫生。</p>
 <p>拿刚才的例子来说——当用户问“帮我看看这段代码有没有安全问题”。Claude 的隐式判断流程是这样的。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1️⃣ 这是代码吗？——是</span><br><span class="line">2️⃣ 这是哪一类代码？——Node.js 后端</span><br><span class="line">3️⃣ 上下文是否涉及用户输入？——是</span><br><span class="line">4️⃣ 是否存在鉴权逻辑？——是</span><br><span class="line">5️⃣ 是否值得深入做安全审查？——是</span><br></pre></td></tr></table></figure>
 <p>做完这些判断之后，就会自动激活 security-review Skill。</p>
-<p>在 Skill 内部，是“像专家一样”的行为说明，它不会跑固定 checklist，而是根据语言选择重点、根据上下文跳过无关项、在发现高风险点时主动深挖、在安全风险低时明确告诉你“为什么没问题” —— 这不是流程执行，这是专家判断。</p>
-<h4 id="3、SubAgents（子代理）"><a href="#3、SubAgents（子代理）" class="headerlink" title="3、SubAgents（子代理）"></a>3、SubAgents（子代理）</h4><p>子代理是除了 Skills 之外的另一个大杀器，用于独立完成专项任务。其触发方式可以由 Claude 决定或用户指定。</p>
+<p>在 <code>Skill</code> 内部，是“像专家一样”的行为说明，它不会跑固定 <code>checklist</code>，而是根据语言选择重点、根据上下文跳过无关项、在发现高风险点时主动深挖、在安全风险低时明确告诉你“为什么没问题” —— 这不是流程执行，这是专家判断。</p>
+<h4 id="3、SubAgents（子代理）"><a href="#3、SubAgents（子代理）" class="headerlink" title="3、SubAgents（子代理）"></a>3、SubAgents（子代理）</h4><p>子代理是除了 <code>Skills</code> 之外的另一个大杀器，用于独立完成专项任务。其触发方式可以由 <code>Claude</code> 决定或用户指定。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">主 Claude: 这个任务需要跑大量测试，让我创建一个子代理来处理。</span><br><span class="line"></span><br><span class="line">子代理（test-runner）: 执行测试，只把结果汇报给主 Claude</span><br></pre></td></tr></table></figure>
 <p>SubAgents 适合隔离执行——高噪声任务（比如在大量日志中寻找出错信息，在大量文档中检索相关资源）、需要特定权限的任务。</p>
 <h4 id="4、Hooks（钩子）"><a href="#4、Hooks（钩子）" class="headerlink" title="4、Hooks（钩子）"></a>4、Hooks（钩子）</h4><p>钩子是在特定事件触发时自动执行的脚本，其触发方式是事件自动触发。</p>
@@ -179,7 +179,7 @@
 <h4 id="2、MCP（Model-Context-Protocol）"><a href="#2、MCP（Model-Context-Protocol）" class="headerlink" title="2、MCP（Model Context Protocol）"></a>2、MCP（Model Context Protocol）</h4><p>MCP 让 Claude 连接外部工具和服务，适合工具连接——可以把任何外部系统变成 Claude 可调用的工具。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Claude → MCP → 数据库</span><br><span class="line">Claude → MCP → Jira</span><br><span class="line">Claude → MCP → 自定义 API</span><br></pre></td></tr></table></figure>
 
-<h3 id="编程接口层：Agent-SDK"><a href="#编程接口层：Agent-SDK" class="headerlink" title="编程接口层：Agent SDK"></a>编程接口层：Agent SDK</h3><p>当配置式的扩展不够用时，你可以用代码来驱动 Claude。这种方式适合构建自定义 Agent——完全控制执行流程、自定义工具、复杂工作流。</p>
+<h3 id="编程接口层：Agent-SDK"><a href="#编程接口层：Agent-SDK" class="headerlink" title="编程接口层：Agent SDK"></a>编程接口层：Agent SDK</h3><p>当配置式的扩展不够用时，你可以用代码来驱动 <code>Claude</code>。这种方式适合构建自定义 <code>Agent</code>——完全控制执行流程、自定义工具、复杂工作流。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">from claude_sdk import ClaudeSDKClient</span><br><span class="line"></span><br><span class="line">client = ClaudeSDKClient()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 执行任务</span></span><br><span class="line">result = client.query(</span><br><span class="line">    prompt=<span class="string">&quot;Review this code for security issues&quot;</span>,</span><br><span class="line">    tools=[<span class="string">&quot;Read&quot;</span>, <span class="string">&quot;Grep&quot;</span>],</span><br><span class="line">    max_turns=10</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
 
 <h2 id="组件关系和技术选型指南"><a href="#组件关系和技术选型指南" class="headerlink" title="组件关系和技术选型指南"></a>组件关系和技术选型指南</h2><p>在真实的系统中，这些组件不是孤立存在的——它们相互协作，共同完成复杂任务。</p>
@@ -195,9 +195,9 @@
 <h3 id="数据流向"><a href="#数据流向" class="headerlink" title="数据流向"></a>数据流向</h3><p>理解了触发方式，我们来看数据是怎么在系统中流动的。这张图展示了一个典型请求的生命周期：</p>
 <p><img src="/../assets/images/2025/Claude_Code_Dataflow.png" alt="数据流向"></p>
 <p>让我结合一个具体场景来解释这个流程——当用户输入“帮我修复 src&#x2F;api.js 中的安全漏洞”之后，Claude 可能的处理流程如下。</p>
-<p>1.Memory 层：Claude 首先加载  CLAUDE.md，了解到这是一个 Node.js 项目，团队要求所有安全修复必须附带测试。</p>
+<p>1.Memory 层：Claude 首先加载 <code>CLAUDE.md</code>，了解到这是一个 <code>Node.js</code> 项目，团队要求所有安全修复必须附带测试。</p>
 <p>2.扩展层分发：</p>
-<p>用户没有输入斜杠命令，所以 Commands 不参与。</p>
+<p>用户没有输入斜杠命令，所以 <code>Commands</code> 不参与。</p>
 <p>Claude 识别出“安全漏洞”关键词，激活  security-review Skill</p>
 <p>Skill 指示 Claude 创建一个子代理来执行测试。</p>
 <p>3.Hooks 监控：Claude 准备执行  Edit  工具修改代码时，Hooks 自动运行预检查脚本，确保没有引入新的安全问题。</p>
